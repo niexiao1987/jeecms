@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jeecms.cms.statistic.rankview">
+	<class name="RankView" table="jc_rankview" >
+		<id name="id" type="java.lang.Integer" column="rankview_id"><generator class="sequence"><param name="sequence">seq_id</param></generator></id>
+		<property name="title" column="title" type="string" not-null="true" length="200"/>
+		<property name="viewCount" column="view_count" type="java.lang.Integer" />
+		<property name="beginDate" column="begin_date" type="timestamp"/>
+		<property name="endDate" column="end_date" type="timestamp" />
+		<property name="createTime" column="create_time" type="timestamp" not-null="true"/>
+		<property name="updateTime" column="update_time" type="timestamp" />
+		<property name="status" column="status" type="java.lang.Boolean" not-null="true" />
+		<many-to-one name="site" column="site_id" class="com.jeecms.core.entity.CmsSite" not-null="true"></many-to-one>
+		<many-to-one name="user" column="user_id" class="com.jeecms.core.entity.CmsUser" not-null="true"></many-to-one>
+		<many-to-one name="channel" column="channel_id" class="com.jeecms.cms.entity.main.Channel" ></many-to-one>
+	
+		
+	</class>
+</hibernate-mapping>

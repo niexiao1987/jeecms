@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#rejectDialog").dialog({
+		autoOpen: false,
+		modal: true,
+		width: 380,
+		height: 200,
+		position: ["center",50],
+		buttons: {
+			"OK": function() {
+				rejectSubmit();
+			}
+		}
+	});
+	//审核提交对话框
+	$("#checkDialog").dialog({
+		autoOpen: false,
+		modal: true,
+		width: 280,
+		height: 160,
+		position: ["center",50],
+		buttons: {
+			"OK": function() {
+				checkSubmit();
+			}
+		}
+	});
+});
+function optReject() {
+	$("#rejectDialog").dialog("open");
+}
+
+function rejectSubmit() {
+	$("input[name=rejectOpinion]").val($("#rejectOpinion").val());
+	$("input[name=rejectStep]").val($("#rejectStep").val());
+	$("#rejectDialog").dialog("close");
+	var f = getTableForm();
+	f.action="o_reject.do";
+	f.submit();
+}
+function getTableForm() {
+	return document.getElementById('jvForm');
+}
+
+//审核操作 by聂箫 20160114
+function optCheck() {
+	var currStep= ${currStep}//获得当前用户的审核级别
+	//如果审核级别为2或3  说明是用户是部系编辑或者部系审核，需要输入编辑或审核者姓名
+	if(currStep==2 ||currStep==3){
+		$("#checkDialog").dialog("open");	
+	}else{
+		checkSubmit();
+	}
+}
+//提交审核 by聂箫 20160114
+function checkSubmit() {
+	$("input[name=editor]").val($("#editor").val());
+	$("input[name=approver]").val($("#approver").val());
+	$("#checkDialog").dialog("close");
+	var f = getTableForm();
+	f.action="o_check.do";
+	f.submit();
+}
+
+</script>
+<style type="text/css">
+h1{text-align:center;font-size:18px;}
+.info{text-align:center;}
+</style>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "content.function"/> - <@s.m "content.opt.view"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+		<input type="hidden" name="pageNo" value="${pageNo!}"/>
+		<input type="hidden" name="cid" value="${cid!}"/>
+		<#list .data_model?keys as pkey>
+		<#if pkey?starts_with('query')><input type="hidden" name="${pkey}" value="${(.data_model[pkey])!?string}"/></#if><#t/>
+		</#list>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<form id="jvForm" method="post" style="padding-top:5px">
+	<@p.hidden name="id" value=content.id/>
+	<@p.hidden name="ids" value=content.id/>
+	<input type="hidden" name="pageNo" value="${pageNo!}"/>
+	<input type="hidden" name="cid" value="${cid!}"/>
+	<#list .data_model?keys as pkey>
+	<#if pkey?starts_with('query')><input type="hidden" name="${pkey}" value="${(.data_model[pkey])!?string}"/></#if><#t/>
+	</#list>	
+	<input type="hidden" name="rejectStep"/>
+	<input type="hidden" name="rejectOpinion"/>
+	<input type="hidden" name="editor"/>
+	<input type="hidden" name="approver"/>
+	<#if content.siteId==site.id>
+		<input class="check" type="button" value="<@s.m "content.opt.check"/>" onclick="optCheck();"/>
+		<input class="reject" type="button" value="<@s.m "content.opt.reject"/>" onclick="$('#rejectDialog').dialog('open');"/>
+		<input class="edit" type="submit" value="<@s.m "global.edit"/>" onclick="this.form.action='v_edit.do'"/>
+	</#if>
+	<input class="front-view" type="button" value="<@s.m "content.opt.viewInFront"/>" onclick="$('#viewInFront').submit();"/>
+</form>
+<form id="viewInFront" action="${content.urlDynamic}" target="_blank" method="get"></form>
+<div style="border:1px solid #ccc;">
+	<h1>${content.title?html}</h1>
+	<p class="info">
+		<@s.m "content.user"/>: ${content.user.username}
+		<#if content.author??>&nbsp; <@s.m "content.author"/>: ${content.author}</#if>
+		<#if content.origin??>&nbsp; <@s.m "content.origin"/>: ${content.origin}</#if>
+		&nbsp; <@s.m "content.views"/>: ${content.views}
+		&nbsp; <@s.m "content.releaseDate"/>: ${content.releaseDate?string("yyyy-MM-dd HH:mm:ss")}		
+	</p>
+	<div>
+	${content.txt!}
+	</div>
+</div>
+</div>
+<div id="rejectDialog" style="display:none" title="<@s.m "content.rejectOpinion"/>">
+<p><@s.m "content.rejectOpinion"/>: <input type="text" id="rejectOpinion" style="width:260px" onkeypress="if(event.keyCode==13){rejectSubmit();return false;}"/></p>
+</div>
+
+<!-- 审核时提示输入编辑人和审核人 -->
+<div id="checkDialog" style="display:none" title="<@s.m "content.editor"/>">
+<#if currStep == 2><!-- 审核级别=2 说明是部系编辑，需要输入编辑者姓名 -->
+<p><@s.m "content.editor"/>: <input type="text" id="editor" style="width:160px"/></p>
+</#if>
+<#if currStep == 3><!-- 审核级别=3 说明是部系审批，需要输入审批者姓名 -->
+<p><@s.m "content.approver"/>: <input type="text" id="approver" style="width:160px"/></p>
+</#if>
+</div>
+</body>
+</html>

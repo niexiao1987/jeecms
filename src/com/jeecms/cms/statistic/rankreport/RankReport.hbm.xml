@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jeecms.cms.statistic.rankreport">
+	<class name="RankReport" table="jc_rank_every_month" >
+		<composite-id>
+			<key-property name="year" column="year_" type="string"/>
+			<key-property name="departmentId" column="DEPARTMENT_ID" type="java.lang.Integer"/>
+		</composite-id>
+		
+		<property name="departmentName" column="DEPARTMENT_NAME" type="string"/>
+		<property name="departmentPattern" column="DEPARTMENT_PATTERN" type="string"/>
+		<property name="januaryTotal" column="JANUARY_TOTAL" type="java.lang.Long"/>
+		<property name="januaryPer" column="JANUARY_PER" type="java.lang.Float"/>
+		<property name="februaryTotal" column="FEBRUARY_TOTAL" type="java.lang.Long"/>
+		<property name="februaryPer" column="FEBRUARY_PER" type="java.lang.Float"/>
+		<property name="marchTotal" column="MARCH_TOTAL" type="java.lang.Long"/>
+		<property name="marchPper" column="MARCH_PER" type="java.lang.Float"/>
+		<property name="aprilTotal" column="APRIL_TOTAL" type="java.lang.Long"/>
+		<property name="aprilPer" column="APRIL_PER" type="java.lang.Float"/>
+		<property name="mayTotal" column="MAY_TOTAL" type="java.lang.Long"/>
+		<property name="mayPer" column="MAY_PER" type="java.lang.Float"/>
+		<property name="juneTotal" column="JUNE_TOTAL" type="java.lang.Long"/>
+		<property name="junePer" column="JUNE_PER" type="java.lang.Float"/>
+		<property name="julyTotal" column="JULY_TOTAL" type="java.lang.Long"/>
+		<property name="julyPer" column="JULY_PER" type="java.lang.Float"/>
+		<property name="augustTotal" column="AUGUST_TOTAL" type="java.lang.Long"/>
+		<property name="augustPer" column="AUGUST_PER" type="java.lang.Float"/>
+		<property name="septemberTotal" column="SEPTEMBER_TOTAL" type="java.lang.Long"/>
+		<property name="septemberPer" column="SEPTEMBER_PER" type="java.lang.Float"/>
+		<property name="octoberTotal" column="OCTOBER_TOTAL" type="java.lang.Long"/>
+		<property name="octoberPer" column="OCTOBER_PER" type="java.lang.Float"/>
+		<property name="novemberTotal" column="NOVEMBER_TOTAL" type="java.lang.Long"/>
+		<property name="novemberPer" column="NOVEMBER_PER" type="java.lang.Float"/>
+		<property name="decemberTotal" column="DECEMBER_TOTAL" type="java.lang.Long"/>
+		<property name="decemberPer" column="DECEMBER_PER" type="java.lang.Float"/>
+		<property name="yearTotal" column="YEAR_TOTAL" type="java.lang.Long"/>
+		<property name="yearPer" column="YEAR_PER" type="java.lang.Float"/>
+
+	</class>
+</hibernate-mapping>

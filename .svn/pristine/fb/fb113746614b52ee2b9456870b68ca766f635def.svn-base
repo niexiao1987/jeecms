@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "cmsDepartment.function"/> - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+
+<div class="body-box">
+<@p.form id="jvForm" action="o_save.do" labelWidth="10">
+<input type="hidden" name="root" value="${root!}"/>
+<@p.td colspan="1" width="50" label="cmsDepartment.parent"><#if parent??>${parent.name}<#else><@s.m "cmsDepartment.top"/></#if></@p.td><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsDepartment.name" id="departmentName" name="name" required="true" class="required" maxlength="5" style="width:140px"/><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsDepartment.personCount" id="personCount" name="personCount" value="" required="true" class="required digits"  style="width:140px"/><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsDepartment.priority" name="priority" value="10" required="true" class="required digits" maxlength="5" style="width:140px"/><@p.tr/>
+<@p.select label="cmsDepartment.departmentExt.category" required="true" class="required digits" name="category" id="category"  list=dictionaryList listKey="value" listValue="name"  headerKey="" headerValue="select.department.category"/>
+<@p.td colspan="2"><@p.submit code="global.submit" onclick="return submitNodes()"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+<script type="text/javascript">
+function submitNodes(){
+	 var name = $('#departmentName').val();
+	 if(!name){
+		 alert("请输入部门名称");
+		 return false;
+	 }
+	 var category = $('#category').val();
+	 if(!category){
+		 alert("请选择部门类型");
+		 return false;
+	 }
+	 
+	 var maxPersonCount = 2000;
+	 var personCount = $("#personCount").val();
+	 if(!personCount){
+		 alert("请输入部门人数");
+		 return false;
+	 }
+	 if(isNaN(personCount)){
+		 alert("请输入正确数字");
+		 return false;
+	 }
+	 if(personCount>2000){
+		 alert("请确认部门人数是否过大");
+		 return false;
+	 }
+	 
+	 
+}
+</script>
+</body>
+</html>

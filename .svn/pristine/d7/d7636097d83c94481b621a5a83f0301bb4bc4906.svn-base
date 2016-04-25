@@ -1,0 +1,32 @@
+package com.jeecms.extend.dao;
+
+import java.util.List;
+
+import com.jeecms.common.hibernate3.Updater;
+import com.jeecms.core.entity.CmsUser;
+import com.jeecms.extend.entity.CmsDepartment;
+
+public interface CmsDepartmentDao {
+
+	public List<CmsDepartment> getTopList();
+	
+	public List<CmsDepartment> getChildList(Integer parentId);
+
+	public CmsDepartment findById(Integer id);
+
+	public CmsDepartment save(CmsDepartment bean);
+
+	public com.jeecms.extend.entity.CmsDepartment updateByUpdater(
+			Updater<com.jeecms.extend.entity.CmsDepartment> updater);
+
+	public CmsDepartment deleteById(Integer id);
+
+	public List<CmsDepartment> getChushiList();
+
+	public List<CmsDepartment> getXuyuanduiList();
+
+	public List<CmsDepartment> getListByCategory(String[] patternArr);
+
+	long getListByCategorySum(String[] pattern);
+
+}

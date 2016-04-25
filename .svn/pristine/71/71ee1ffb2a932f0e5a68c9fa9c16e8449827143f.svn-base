@@ -1,0 +1,30 @@
+<#if isRoot>
+[{
+	"text":"<a href='v_list.do' target='channelRightFrame'><@s.m "cmsDepartment.root"/></a>",
+	"classes":"folder"
+	<#if list?size gt 0>,
+	"expanded": true,
+	"children":[
+	<#list list as department>
+		{
+		"id":"${department.id}",
+		"text":"<a href='<#if department.child?size gt 0>v_list.do?root=${department.id}<#else>v_edit.do?id=${department.id}</#if>' target='channelRightFrame'>${department.name}</a>",
+		"classes":"<#if department.child?size gt 0>folder<#else>file</#if>",
+		"hasChildren": <#if department.child?size gt 0>true<#else>false</#if>
+		}<#if department_has_next>,</#if>
+	</#list>
+	]
+	</#if>
+}]
+<#else>
+	[
+	<#list list as department>
+		{
+		"id":"${department.id}",
+		"text":"<a href='<#if department.child?size gt 0>v_list.do?root=${department.id}<#else>v_edit.do?id=${department.id}</#if>' target='channelRightFrame'>${department.name}</a>",
+		"classes":"<#if department.child?size gt 0>folder<#else>file</#if>",
+		"hasChildren": <#if department.child?size gt 0>true<#else>false</#if>
+		}<#if department_has_next>,</#if>
+	</#list>
+	]
+</#if>

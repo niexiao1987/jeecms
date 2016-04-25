@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+</head>
+<script type="">
+
+$(function(){
+	$("#beginDateInput").bind('click', function() {
+		WdatePicker({dateFmt:'yyyy-MM-dd'});
+	});
+	$("#endDateInput").bind('click', function() {
+		WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'beginDateInput\')}'});
+	});
+
+});
+
+var submitQuery = function(){
+	var beginDateInput = $('#beginDate');
+	var endDateInput = $('#endDate');
+	if(beginDateInput.val()&&endDateInput.val()&&endDateInput.val()<beginDateInput.val()){
+		alert("结束日期不能小于开始日期！");
+		endDateInput.val("");
+		return false;
+	}
+	var viewCount = $("#viewCount").val();
+	if(!viewCount){
+		alert("请选择展示数量");
+		return false;
+	}
+
+}
+</script>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "cms.function.statistic"/> - <@s.m "statistic.function.content"/> - 添加投稿排名:<span style="color:red"></span></div>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_create.do">
+<@p.text label="标题" id="title"  name="title"  required="true" class="required digits"/>
+<@p.select label="cmsLucene.channelId" value="channelId"  id="channelId" name="channelId" list=channelList listKey="id" listValue="name" listDeep="deep" headerKey="" headerValue="cmsLucene.allChannel"/>
+<@p.text label="cmsLucene.startDate" id="beginDate"  name="beginDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/>
+<@p.text label="cmsLucene.endDate" id="endDate"  name="endDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/>
+<@p.select value="viewCount" label="展示数量" value="viewCount" required="true" class="required digits" id="viewCount" name="viewCount" list=viewCountList listKey="id" listValue="title"  headerKey="" headerValue="--请选择展示数量--"/>
+
+<@p.td>
+
+	<input class="generate-index" type="submit" id="submitButton" onclick="return submitQuery();" value="生成排名"/>
+&nbsp; <input class="cancel" type="reset" id="cancelButton" value="<@s.m "global.cancel"/>" disabled="disabled" onclick="$('#stop').val('1')"/>
+</@p.td>
+</@p.form>
+
+
+
+</div>
+</body>
+</html>
