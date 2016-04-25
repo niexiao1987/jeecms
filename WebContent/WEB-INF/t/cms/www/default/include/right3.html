@@ -1,4 +1,4 @@
-
+[#assign newdays=2]
  <div class="main_right">
 	    	
 	    
@@ -53,22 +53,15 @@
 	    		<div class="main_right_content_list">
 					<ul class="mylink">
 					
-					 		  <li><a href="#"><span class=""><img src="/${res}/img/index/mylink_01.jpg" ></span>
-					            <p>网址之家</p>
+					 		  [@cms_content_list count='6' orderBy='4' titLen='24' channelId='4680'  channelOption='1']
+                            [#list tag_list as a]
+					 		  <li><a href="${a.contentExt.link!}" target="_blank"><span class=""><img src="${a.titleImg!site.defImg}" ></span>
+					            <p>[@text_cut s=a.title len=10 /]</p>
 					          </a></li>
-					 		  <li><a href="#"><span class=""><img src="/${res}/img/index/mylink_02.jpg"  ></span>
-					            <p>万年历</p>
-					          </a></li>
-					           <li><a href="#"><span class=""><img src="/${res}/img/index/mylink_03.jpg" ></span>
-					            <p>电子地图</p>
-					          </a></li>
-					           <li><a href="#"><span class=""><img src="/${res}/img/index/mylink_04.jpg" ></span>
-					            <p>电子书籍</p>
-					          </a></li>
-					           <li><a href="#"><span class=""><img src="/${res}/img/index/mylink_05.jpg" ></span>
-					            <p>新华社消息</p>
-					          </a></li>
-					           <li><a href="#"><span class=""><img src="/${res}/img/index/mylink_06.jpg" ></span>
+					          [/#list]
+					     [/@cms_content_list]
+					 		
+					           <li>[@cms_channel id='9']<a href="${tag_bean.url}">[/@cms_channel]<span class=""><img src="/${res}/img/index/mylink_06.jpg" ></span>
 					            <p>下载中心</p>
 					          </a></li>
 					          <li class="clear"></li>
