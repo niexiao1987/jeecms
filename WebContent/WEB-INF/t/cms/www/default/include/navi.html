@@ -33,10 +33,10 @@
 	$(function(){
 		$("#topmenu li a").each(function(){
 			$(this).mouseover(function(){
-				$(this).siblings().show();
+				$(this).siblings().stop().slideToggle()();
 			});
 			$(this).siblings().mouseover(function(){
-				$(this).show();
+				$(this).stop().slideToggle()();
 			});
 			
 		});
@@ -44,10 +44,10 @@
 		$("#topmenu li a").each(function(){
 			
 			$(this).mouseout(function(){
-				$(this).siblings().hide();
+				$(this).siblings().stop().slideToggle()();
 			});
 			$(this).siblings().mouseout(function(){
-				$(this).hide();
+				$(this).stop().slideToggle()();
 			});
 		});
 		

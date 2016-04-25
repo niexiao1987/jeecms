@@ -31,7 +31,7 @@ img{ border:0; -ms-interpolation-mode:bicubic;}
 
 .searchCon{ padding-top:40px; float:right; width:222px;height:42px;}
 .searchBg{  height:22px; line-height:22px; float:left; width:70%; border:1px solid #155fa5; font-size: 12px;}
-.searchBg input{height:19px; width:100%;padding-left: 5px;}
+.searchBg input{height:17px; width:100%;padding-left: 5px;}
 .searchChange/*选择下拉框*/{ float:left; border:0; width:98px; height:35px; background-image:url(../img/index/5-searchBg1.gif); margin:auto; text-align:center;}
 
 .searchMenu{ border:0; float:left; cursor:pointer; background-image:url(../img/index/searchMenu.jpg); width:22px; height:24px;}
