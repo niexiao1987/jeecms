@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "content.function"/> - <@s.m "content.checkRecord"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+		<input type="hidden" name="pageNo" value="${pageNo!}"/>
+		<input type="hidden" name="cid" value="${cid!}"/>
+		<#list .data_model?keys as pkey>
+		<#if pkey?starts_with('query')><input type="hidden" name="${pkey}" value="${(.data_model[pkey])!?string}"/></#if><#t/>
+		</#list>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.table value=list;contentCheckRecord,i,has_next><#rt/>
+	<@p.column title="ID" align="center">${contentCheckRecord.id}</@p.column><#t/>
+	<@p.column code="contentCheckRecord.checkStep" align="center">${contentCheckRecord.checkStep}</@p.column><#t/>
+	<@p.column code="contentCheckRecord.checkOpinion" align="center">${contentCheckRecord.checkOpinion!}</@p.column><#t/>
+	<@p.column code="contentCheckRecord.reviewer" align="center">${contentCheckRecord.reviewer.username}</@p.column><#t/>
+	<@p.column code="contentCheckRecord.checkDate" align="center">${contentCheckRecord.checkDate}</@p.column><#t/>
+</@p.table>
+</body>
+</html>

@@ -1,0 +1,165 @@
+package com.jeecms.cms.statistic.rankview;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import org.hibernate.SessionFactory;
+import org.hibernate.hql.ast.util.SessionFactoryHelper;
+import org.springframework.orm.hibernate3.SessionFactoryUtils;
+
+import com.jeecms.common.hibernate3.Finder;
+import com.jeecms.extend.entity.CmsDepartment;
+
+/**
+ * 
+ * @className:RankView
+ * @Description:投稿排名展示实体类
+ * @author zhengpp
+ * @date 2015年12月25日
+ */
+public class RankView implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	public RankView() {
+	}
+
+	public RankView(Integer id) {
+		this.setId(id);
+	}
+	private Integer id;
+	private String title;
+	private Integer viewCount;// 展示数量，top10
+	private Date beginDate;
+	private Date endDate;
+	private Date createTime;
+	private Date updateTime;
+	private String pattern;//排名方式，按照部门还是投稿人
+	
+	private Boolean status;
+
+	private com.jeecms.core.entity.CmsSite site;
+	private com.jeecms.core.entity.CmsUser user;
+
+	private com.jeecms.cms.entity.main.Channel channel;
+	
+	private CmsDepartment department;
+	public String getPattern() {
+		return pattern;
+	}
+
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+	public CmsDepartment getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(CmsDepartment department) {
+		this.department = department;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public Integer getViewCount() {
+		return viewCount;
+	}
+
+	public void setViewCount(Integer viewCount) {
+		this.viewCount = viewCount;
+	}
+
+	public Date getBeginDate() {
+		return beginDate;
+	}
+
+	public void setBeginDate(Date beginDate) {
+		this.beginDate = beginDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+
+	public com.jeecms.core.entity.CmsSite getSite() {
+		return site;
+	}
+
+	public void setSite(com.jeecms.core.entity.CmsSite site) {
+		this.site = site;
+	}
+
+	public com.jeecms.core.entity.CmsUser getUser() {
+		return user;
+	}
+
+	public void setUser(com.jeecms.core.entity.CmsUser user) {
+		this.user = user;
+	}
+
+	public com.jeecms.cms.entity.main.Channel getChannel() {
+		return channel;
+	}
+
+	public void setChannel(com.jeecms.cms.entity.main.Channel channel) {
+		this.channel = channel;
+	}
+
+	@Override
+	public String toString() {
+		return "RankView [id=" + id + ", title=" + title + ", viewCount="
+				+ viewCount + ", beginDate=" + beginDate + ", endDate="
+				+ endDate + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", pattern=" + pattern + ", status=" + status
+				+ ", site=" + site + ", user=" + user + ", channel=" + channel
+				+ ", department=" + department + "]";
+	}
+
+
+
+
+
+
+
+}

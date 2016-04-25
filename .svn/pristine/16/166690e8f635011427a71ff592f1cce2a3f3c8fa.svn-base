@@ -1,0 +1,32 @@
+
+<link rel="stylesheet" href="/${res}/css/owl.carousel.css" type="text/css"/>
+
+
+<script type="text/javascript">
+$(function(){
+	$('#owl-demo').owlCarousel({
+		items: 1,
+		navigation: true,
+		navigationText: ["上一个","下一个"],
+		autoPlay: true,
+		stopOnHover: true
+	}).hover(function(){
+		$('.owl-buttons').show();
+	}, function(){
+		$('.owl-buttons').hide();
+	});
+	
+});
+</script>
+
+
+<div id="owl-demo" class="owl-carousel">
+	 [@cms_content_list count='5' orderBy='4' typeId='5' titLen='18' channelOption='1' channelId='43']
+     [#list tag_list as a]
+	<a class="item" href="${a.url}" onclick="return false;" target="_blank"><img src="${a.typeImg!site.defImg}" alt="${a.title}"><b></b><span></span></a>
+	[/#list]
+    [/@cms_content_list]
+	
+</div>
+
+

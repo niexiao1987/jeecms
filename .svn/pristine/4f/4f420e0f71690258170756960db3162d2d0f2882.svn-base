@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+</head>
+<script type="">
+
+$(function(){
+	$("#beginDateInput").bind('click', function() {
+		WdatePicker({dateFmt:'yyyy-MM-dd'});
+	});
+	$("#endDateInput").bind('click', function() {
+		WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'beginDateInput\')}'});
+	});
+});
+
+var submitQuery = function(){
+	var beginDateInput = $('#beginDateInput');
+	var endDateInput = $('#endDateInput');
+	if(beginDateInput.val()&&endDateInput.val()&&endDateInput.val()<beginDateInput.val()){
+		alert("结束日期不能小于开始日期！");
+		endDateInput.val("");
+		return false;
+	}
+
+}
+</script>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "cms.function.statistic"/> - <@s.m "statistic.function.content"/> - <@s.m "cms.rank.paiming"/>:<span style="color:red"></span></div>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+
+<form id="queryForm" action="v_list.do" method="post">
+
+
+
+<@p.table value=rankList;rank,i,has_next><#rt/>
+	<#if !pattern??||pattern=="user">
+	<@p.column code="cms.rank.paiming.userid" align="center"><#if rank.userId??>${rank.userId}</#if></@p.column><#t/>
+	<@p.column code="cms.rank.paiming.username" align="center"><#if rank.userName??>${rank.userName}</#if></@p.column><#t/>
+	</#if>
+	<#if pattern?? && pattern=="department">
+	<@p.column code="cms.rank.paiming.departmentid" align="center"><#if rank.departmentId??>${rank.departmentId}</#if></@p.column><#t/>
+	<@p.column code="cms.rank.paiming.departmentname" align="center"><#if rank.departmentName??>${rank.departmentName}</#if></@p.column><#t/>
+	</#if>
+	<@p.column code="cms.rank.paiming.gaojiansl" align="center"><#if rank.count??>${rank.count}</#if></@p.column><#t/>
+	<@p.column code="statistic.percent"><img src="${base}/res/jeecms/img/admin/vote_bar.gif" width="${rank.barWidth}" height="10px" border="0"/>${rank.percent}</@p.column>
+</@p.table>
+</div>
+</body>
+</html>

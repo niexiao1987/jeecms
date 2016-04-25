@@ -1,0 +1,179 @@
+package com.jeecms.cms.action.directive;
+
+import static com.jeecms.common.web.freemarker.DirectiveUtils.OUT_LIST;
+import static com.jeecms.common.web.freemarker.DirectiveUtils.OUT_BEAN;
+import static freemarker.template.ObjectWrapper.DEFAULT_WRAPPER;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.jeecms.cms.statistic.CmsStatisticSvc;
+import com.jeecms.cms.statistic.Rank;
+import com.jeecms.cms.statistic.rankview.RankView;
+import com.jeecms.cms.statistic.rankview.RankViewSvc;
+import com.jeecms.common.web.freemarker.DirectiveUtils;
+import com.jeecms.common.web.freemarker.ParamsRequiredException;
+import com.jeecms.core.entity.CmsUser;
+import com.jeecms.core.manager.CmsUserMng;
+import com.jeecms.extend.entity.CmsDepartment;
+import com.jeecms.extend.manager.CmsDepartmentMng;
+
+import freemarker.core.Environment;
+import freemarker.template.TemplateDirectiveBody;
+import freemarker.template.TemplateDirectiveModel;
+import freemarker.template.TemplateException;
+import freemarker.template.TemplateModel;
+
+public class RankViewDirective implements TemplateDirectiveModel {
+	//输入参数，rankview 的id
+	private static final String PRARM_id = "id";
+	
+	//输入参数，只根据rankview的id来获取，不选择后台设置为启用的
+	private static final String PRARM_CLOSE_START = "close";
+	
+	public void execute(Environment env, Map params, TemplateModel[] loopVars,
+			TemplateDirectiveBody body) throws TemplateException, IOException {
+		RankView rankView;
+		//获取close参数
+		Boolean close = DirectiveUtils.getBool(PRARM_CLOSE_START, params);
+		//获取id参数
+		Integer id = DirectiveUtils.getInt(PRARM_id, params);
+		//如果为true，则根据rankview的id来查询
+		List<Rank> rankList = new ArrayList<Rank>();
+		if(id!=null&&close!=null&&close){
+			rankView = rankViewSvc.findById(id);
+			if(rankView!=null){
+				rankList = getDisplayData(rankView);
+			}else{
+				//返回id错误
+				throw new ParamsRequiredException(PRARM_id);
+			}
+		}else{
+			rankView = rankViewSvc.getStart();
+			//如果没有设置，获取模板中的id
+			if(rankView==null){
+				//返回错误，未设置启用
+				throw new ParamsRequiredException("未设置启用的展示列表");
+			}else{
+				rankList = getDisplayData(rankView);
+			}
+			
+		}
+		
+		//把数据返回标签
+		Map<String, TemplateModel> paramWrap = new HashMap<String, TemplateModel>(
+				params);
+		paramWrap.put(OUT_LIST, DEFAULT_WRAPPER.wrap(rankList));
+		if(rankView!=null){
+			paramWrap.put(OUT_BEAN, DEFAULT_WRAPPER.wrap(rankView));
+			
+		}
+		Map<String, TemplateModel> origMap = DirectiveUtils
+				.addParamsToVariable(env, paramWrap);
+		body.render(env.getOut());
+		DirectiveUtils.removeParamsFromVariable(env, paramWrap, origMap);
+		
+	}
+	
+	private List<Rank> getDisplayData(RankView rankView){
+		List<Rank> rankList = new ArrayList<Rank>();
+		List<Object[]> list = new ArrayList<Object[]>();
+		list = cmsStatisticSvc.statisticRank(rankView.getViewCount(), rankView.getBeginDate(), rankView.getEndDate(), rankView.getChannel()==null? null:rankView.getChannel().getId(), rankView.getSite().getId(),rankView.getDepartment()==null?null:rankView.getDepartment().getId(),rankView.getPattern(),"checked");
+		Map<Integer, Long> listMap = new HashMap<Integer, Long>();
+		for (int i = 0; i < list.size(); i++) {
+			listMap.put((Integer)list.get(i)[0], (Long)list.get(i)[1]);
+		}
+		long total = cmsStatisticSvc.statisticRankTotal(rankView.getBeginDate(), rankView.getEndDate(),rankView.getChannel()==null? null:rankView.getChannel().getId(), rankView.getSite().getId(),rankView.getDepartment()==null?null:rankView.getDepartment().getId(),rankView.getPattern(),"checked");
+		if("user".equals(rankView.getPattern())||StringUtils.isBlank(rankView.getPattern())){
+			List<CmsUser> userList = cmsUserMng.getListByDepartment(rankView.getDepartment()!=null?rankView.getDepartment().getId():null);
+			CmsUser user = null;
+			for (int i = 0; i < userList.size(); i++) {
+				Rank rank = new Rank();
+				rank.setTotal(total);
+				user = userList.get(i);
+				rank.setUserId(user.getId());
+				rank.setUserName(user.getRealname()==null?user.getUsername():user.getRealname());
+				if(listMap.get(user.getId()) != null){
+					rank.setCount(listMap.get(user.getId()));
+				}else{
+					rank.setCount(0L);
+				}
+				rankList.add(i, rank);
+			}
+		}
+		if("department".equals(rankView.getPattern())){
+			CmsDepartment department = null;
+			List<CmsDepartment> dList = new ArrayList<CmsDepartment>();
+			if(rankView.getDepartment()!=null&&rankView.getDepartment().getId()!=null){
+				//部门选择不为空时，取得下级部门
+				dList = cmsDepartmentMng.getChildList(rankView.getDepartment().getId());
+				//获得本级列表和数量
+				List<Object[]> listThis = cmsStatisticSvc.getThisDepartmentCount(rankView.getBeginDate(), rankView.getEndDate(),rankView.getChannel()==null? null:rankView.getChannel().getId(), rankView.getSite().getId(),rankView.getDepartment()==null?null:rankView.getDepartment().getId(),"checked");
+				long totalThis =cmsStatisticSvc.getThisDepartmentCountTotal(rankView.getBeginDate(), rankView.getEndDate(),rankView.getChannel()==null? null:rankView.getChannel().getId(), rankView.getSite().getId(),rankView.getDepartment()==null?null:rankView.getDepartment().getId(),"checked");
+				total = total + totalThis;
+				if(listThis.size()>0){
+					department = cmsDepartmentMng.findById((Integer) listThis.get(0)[0]);
+					Rank rank = new Rank();
+					rank.setDepartmentId(department.getId());
+					rank.setDepartmentName(department.getName()+"(本级)");
+					rank.setTotal(total);
+					rank.setCount(totalThis);
+					rankList.add( rank);
+				}else{
+					department = cmsDepartmentMng.findById(rankView.getDepartment().getId());
+					Rank rank = new Rank();
+					rank.setDepartmentId(department.getId());
+					rank.setDepartmentName(department.getName()+"(本级)");
+					rank.setTotal(total);
+					rank.setCount(totalThis);
+					rankList.add( rank);
+				}
+			}else{
+				//部门选择为空时，获取顶级部门
+				dList = cmsDepartmentMng.getTopList();
+			}
+			for (int i = 0; i < dList.size(); i++) {
+				if(dList.get(i)!=null){
+					Rank rank = new Rank();
+					rank.setTotal(total);
+					CmsDepartment d = dList.get(i);
+					if(listMap.get(d.getId())!=null){
+						rank.setCount(listMap.get(d.getId()));
+					}else{
+						rank.setCount(0L);
+					}
+					rank.setDepartmentId(d.getId());
+					rank.setDepartmentName(d.getDepartmentExt().getName());
+					rankList.add( rank);
+				}
+			}
+		}
+		//对列表进行排序
+		Collections.sort(rankList, new Comparator() {
+			public int compare(Object a,Object b){
+				return (int) (((Rank)b).getCount() - ((Rank)a).getCount());
+			}
+		});
+		if(rankView.getViewCount()<rankList.size()){
+			rankList = rankList.subList(0, rankView.getViewCount());
+		}
+		return rankList;
+	}
+	@Autowired
+	private CmsDepartmentMng cmsDepartmentMng;
+	@Autowired
+	private CmsUserMng cmsUserMng;
+	@Autowired
+	private RankViewSvc rankViewSvc;
+	@Autowired
+	private CmsStatisticSvc cmsStatisticSvc;
+
+}
