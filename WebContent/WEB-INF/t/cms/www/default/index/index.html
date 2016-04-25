@@ -104,13 +104,9 @@ $(function() {
 	    		</div>
 	    		<div class="content_list">
 	    				<ul>
-                            [@cms_content_list count='9' orderBy='4' titLen='24' channelId='11'  channelOption='1']
+                            [@cms_content_list count='9' orderBy='4' titLen='23' channelId='11'  channelOption='1']
                             [#list tag_list as a]
-                            [#if a.id==448]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank" style="color:#e66100;">[@text_cut s=a.title len=20 /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>${a.contentExt.releaseDate}</span></li>
-                            [#else]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=20 /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
-                            [/#if]
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
                             [/#list]
                             [/@cms_content_list]
                         </ul>	
@@ -130,13 +126,9 @@ $(function() {
 	    		</div>
 	    		<div class="content_list">
 	    				<ul>
-                            [@cms_content_list count='9' orderBy='4' titLen='24' channelId='12'  channelOption='1']
+                            [@cms_content_list count='9' orderBy='4' titLen='23' channelId='12'  channelOption='1']
                             [#list tag_list as a]
-                            [#if a.id==448]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank" style="color:#e66100;">[@text_cut s=a.title len=23 /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>${a.contentExt.releaseDate}</span></li>
-                            [#else]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
-                            [/#if]
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
                             [/#list]
                             [/@cms_content_list]
                         </ul>	
@@ -156,11 +148,7 @@ $(function() {
 	    				<ul>
                             [@cms_content_list count='9' orderBy='4' titLen='24' channelId='13'  channelOption='1']
                             [#list tag_list as a]
-                            [#if a.id==448]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank" style="color:#e66100;">[@text_cut s=a.title len=23 /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>${a.contentExt.releaseDate}</span></li>
-                            [#else]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
-                            [/#if]
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
                             [/#list]
                             [/@cms_content_list]
                         </ul>	
@@ -207,44 +195,13 @@ $(function() {
 	    				<ul>
                             [@cms_content_list count='9' orderBy='4' titLen='24' channelId='14'  channelOption='1']
                             [#list tag_list as a]
-                            [#if a.id==448]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank" style="color:#e66100;">[@text_cut s=a.title len=23 /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>${a.contentExt.releaseDate}</span></li>
-                            [#else]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
-                            [/#if]
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
                             [/#list]
                             [/@cms_content_list]
                         </ul>	
 	    		</div>
 	    	</div>
-	    	 
-	   		<div class="main_left_right">
-	    		<div class="content_bar">
-	    			<div class="content_bar_01"></div>
-	    			<div class="content_bar_02">
-	    				<span>学习&nbsp;园地</span>
-	    			</div>
-	    			<div class="content_bar_03"></div>
-	    			<div class="content_bar_04">[@cms_channel id='69']<a href="${tag_bean.url}">更多>></a>[/@cms_channel]</div>
-	    			<div class="content_bar_05"></div>
-	    		</div>
-	    		<div class="content_list">
-	    				<ul>
-                            [@cms_content_list count='6' orderBy='4' titLen='24' channelId='69'  channelOption='1']
-                            [#list tag_list as a]
-                            [#if a.id==448]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank" style="color:#e66100;">[@text_cut s=a.title len=23 /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>${a.contentExt.releaseDate}</span></li>
-                            [#else]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
-                            [/#if]
-                            [/#list]
-                            [/@cms_content_list]
-                        </ul>	
-	    		</div>
-	    	</div>
-	    
-	    <!-- 第五行 -->
-	    <div class="main_left_left">
+	    	 <div class="main_left_right">
 	    		<div class="content_bar">
 	    			<div class="content_bar_01"></div>
 	    			<div class="content_bar_02">
@@ -258,11 +215,28 @@ $(function() {
 	    				<ul>
                             [@cms_content_list count='9' orderBy='4' titLen='24' channelId='40'  channelOption='1']
                             [#list tag_list as a]
-                            [#if a.id==448]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank" style="color:#e66100;">[@text_cut s=a.title len=23 /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>${a.contentExt.releaseDate}</span></li>
-                            [#else]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
-                            [/#if]
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
+                            [/#list]
+                            [/@cms_content_list]
+                        </ul>	
+	    		</div>
+	    	</div>
+	    <!-- 第五行 -->
+	    <div class="main_left_left">
+	    		<div class="content_bar">
+	    			<div class="content_bar_01"></div>
+	    			<div class="content_bar_02">
+	    				<span>学习&nbsp;园地</span>
+	    			</div>
+	    			<div class="content_bar_03"></div>
+	    			<div class="content_bar_04">[@cms_channel id='69']<a href="${tag_bean.url}">更多>></a>[/@cms_channel]</div>
+	    			<div class="content_bar_05"></div>
+	    		</div>
+	    		<div class="content_list">
+	    				<ul>
+                            [@cms_content_list count='6' orderBy='4' titLen='24' channelId='69'  channelOption='1']
+                            [#list tag_list as a]
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
                             [/#list]
                             [/@cms_content_list]
                         </ul>	
@@ -282,88 +256,18 @@ $(function() {
 	    				<ul>
                             [@cms_content_list count='6' orderBy='4' titLen='24' channelId='41'  channelOption='1']
                             [#list tag_list as a]
-                            [#if a.id==448]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank" style="color:#e66100;">[@text_cut s=a.title len=23 /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>${a.contentExt.releaseDate}</span></li>
-                            [#else]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
-                            [/#if]
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
                             [/#list]
                             [/@cms_content_list]
                         </ul>	
 	    		</div>
 	    	</div>
 	
-	  
-	    	
-	    	<div class="clear"></div>
+	    <div class="clear"></div>
 	  	</div>
 	    
-	    <div class="main_right">
-	    	
-	    	<div class="main_right_content">
-	    		<div class="main_right_content_bar">
-	    			<div class="notification_icon main_right_content_bar_icon"><span>通知公告</span></div>
-	    		</div>
-	    		<div class="main_right_content_list content_list">
-	    				<ul>
-                            [@cms_content_list count='6' orderBy='4' titLen='15' channelId='4422'  channelOption='1']
-                            [#list tag_list as a]
-                            [#if a.id==448]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank" style="color:#e66100;">[@text_cut s=a.title len=23 /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]</li>
-                            [#else]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]</li>
-                            [/#if]
-                            [/#list]
-                            [/@cms_content_list]
-                        </ul>	
-	    		</div>
-	    	</div>
-	   
-	    	
-	    	<div class="main_right_content">
-	    		<div class="main_right_content_bar">
-	    			<div class="subject_icon main_right_content_bar_icon"><span>网址导航</span></div>
-	    		</div>
-	    		<div class="main_right_content_list">
-	    			<div id="plcon">
-                [@cms_friendlink_ctg_list]
-                	[#list tag_list as c]
-                		<select class="frindlink_ctg" style="width:200px; display:block; margin:10px auto;">
-                				<option value="">--------${c.name}</option>
-                			[@cms_friendlink_list ctgId=c.id]
-                				[#list tag_list as link]
-                				<option value="${link.domain}">${link.name}</option>
-                				[/#list]
-                			[/@cms_friendlink_list]
-                		</select>
-                	[/#list]
-                [/@cms_friendlink_ctg_list]
-                </div>
-	    		</div>
-	    	</div>
-	    	
-	    	<div class="main_right_content">
-	    		<div class="main_right_content_bar">
-	    			<div class="subject_icon main_right_content_bar_icon"><span>公共服务</span></div>
-	    		</div>
-	    		<div class="main_right_content_list">
-					<ul class="mylink">
-						[@cms_content_list count='6' orderBy='4' titLen='24' channelId='4680'  channelOption='1']
-                            [#list tag_list as a]
-					 		  <li><a href="${a.contentExt.link!}" target="_blank"><span class=""><img src="${a.titleImg!site.defImg}" ></span>
-					            <p>[@text_cut s=a.title len=10 /]</p>
-					          </a></li>
-					          [/#list]
-					     [/@cms_content_list]
-					 		
-					           <li>[@cms_channel id='9']<a href="${tag_bean.url}">[/@cms_channel]<span class=""><img src="/${res}/img/index/mylink_06.jpg" ></span>
-					            <p>下载中心</p>
-					          </a></li>
-					
-					</ul>
-	    		</div>
-	    	</div>
-	    </div>
+	    <!-- 左栏_end -->
+	    [#include "../include/right3.html"/]
 	    <div class="clear"></div>
     </div>
   
