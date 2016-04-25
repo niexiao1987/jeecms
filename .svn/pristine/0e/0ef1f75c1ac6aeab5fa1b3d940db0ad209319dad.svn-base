@@ -1,0 +1,93 @@
+
+ <div class="main_right">
+	    	
+	    
+	    	<div class="main_right_content">
+	    		<div class="main_right_content_bar">
+	    			<div class="notification_icon main_right_content_bar_icon"><span>通知公告</span></div>
+	    		</div>
+	    		<div class="main_right_content_list content_list">
+	    				<ul>
+                            [@cms_content_list count='6' orderBy='4' titLen='24' channelId='4422'  channelOption='1']
+                            [#list tag_list as a]
+                            [#if a.id==448]
+                            <li><a href="${a.url}" title="${a.title}" target="_blank" style="color:#e66100;">[@text_cut s=a.title len=23 /]</a></li>
+                            [#else]
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /]</a></li>
+                            [/#if]
+                            [/#list]
+                            [/@cms_content_list]
+                        </ul>	
+	    		</div>
+	    	</div>
+	    	
+	    	<div class="main_right_content">
+	    		<div class="main_right_content_bar">
+	    			<div class="subject_icon main_right_content_bar_icon"><span>专题专栏</span></div>
+	    		</div>
+	    		<div class="main_right_content_list">
+	    			<ul>
+	    			[@cms_topic_list count='3' recommend='1' descLen='35' append='...']
+               		[#list tag_list as t]
+               			<li><a href="${base}/topic/${t.id}.jspx"><img width="220px" height="56px" src="${t.titleImg!site.defImg}"></a></li>
+               		[/#list]
+                	[/@cms_topic_list]
+					</ul>
+	    		</div>
+	    	</div>
+	    	
+	    	
+	    	
+	    	<div class="main_right_content">
+	    		<div class="main_right_content_bar">
+	    			<div class="subject_icon main_right_content_bar_icon"><span>网址导航</span></div>
+	    		</div>
+	    		<div class="main_right_content_list">
+	    			<div id="plcon">
+                [@cms_friendlink_ctg_list]
+                	[#list tag_list as c]
+                		<select class="frindlink_ctg" style="width:200px; display:block; margin:10px auto;">
+                				<option value="">--------${c.name}</option>
+                			[@cms_friendlink_list ctgId=c.id]
+                				[#list tag_list as link]
+                				<option value="${link.domain}">${link.name}</option>
+                				[/#list]
+                			[/@cms_friendlink_list]
+                		</select>
+                	[/#list]
+                [/@cms_friendlink_ctg_list]
+                </div>
+	    		</div>
+	    	</div>
+	    	
+	    	<div class="main_right_content">
+	    		<div class="main_right_content_bar">
+	    			<div class="subject_icon main_right_content_bar_icon"><span>公共服务</span></div>
+	    		</div>
+	    		<div class="main_right_content_list">
+					<ul class="mylink">
+					
+					 		  <li><a href="#"><span class=""><img src="/${res}/img/index/mylink_01.jpg" ></span>
+					            <p>网址之家</p>
+					          </a></li>
+					 		  <li><a href="#"><span class=""><img src="/${res}/img/index/mylink_02.jpg"  ></span>
+					            <p>万年历</p>
+					          </a></li>
+					           <li><a href="#"><span class=""><img src="/${res}/img/index/mylink_03.jpg" ></span>
+					            <p>电子地图</p>
+					          </a></li>
+					           <li><a href="#"><span class=""><img src="/${res}/img/index/mylink_04.jpg" ></span>
+					            <p>电子书籍</p>
+					          </a></li>
+					           <li><a href="#"><span class=""><img src="/${res}/img/index/mylink_05.jpg" ></span>
+					            <p>新华社消息</p>
+					          </a></li>
+					           <li><a href="#"><span class=""><img src="/${res}/img/index/mylink_06.jpg" ></span>
+					            <p>下载中心</p>
+					          </a></li>
+					          <li class="clear"></li>
+					
+					</ul>
+	    		</div>
+	    	</div>
+	    </div>

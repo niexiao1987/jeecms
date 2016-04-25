@@ -1,0 +1,29 @@
+package com.jeecms.cms.statistic.rankview;
+
+import java.util.List;
+
+import com.jeecms.common.page.Pagination;
+import com.jeecms.core.entity.CmsUser;
+
+public interface RankViewSvc {
+
+	public RankView create(RankView rankView);
+
+	public Pagination getPageByQuery(Integer siteId, CmsUser user,
+			 int cpn, int pageSize, String inputTitle, String inputStatus,String inputPattern);
+
+	public RankView findById(Integer id);
+
+	public void update(RankView rankView);
+
+	public void deleteById(Integer id);
+
+	public void delete(RankView rankView);
+
+	public Long getCountByStart(Integer id);
+	
+	public RankView getStart(String pattern);
+	
+	public List<RankView> getStartList();
+
+}
