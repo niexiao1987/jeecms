@@ -201,30 +201,7 @@ $(function() {
                         </ul>	
 	    		</div>
 	    	</div>
-	    	 
-	   		<div class="main_left_right">
-	    		<div class="content_bar">
-	    			<div class="content_bar_01"></div>
-	    			<div class="content_bar_02">
-	    				<span>学习&nbsp;园地</span>
-	    			</div>
-	    			<div class="content_bar_03"></div>
-	    			<div class="content_bar_04">[@cms_channel id='69']<a href="${tag_bean.url}">更多>></a>[/@cms_channel]</div>
-	    			<div class="content_bar_05"></div>
-	    		</div>
-	    		<div class="content_list">
-	    				<ul>
-                            [@cms_content_list count='6' orderBy='4' titLen='24' channelId='69'  channelOption='1']
-                            [#list tag_list as a]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
-                            [/#list]
-                            [/@cms_content_list]
-                        </ul>	
-	    		</div>
-	    	</div>
-	    
-	    <!-- 第五行 -->
-	    <div class="main_left_left">
+	    	 <div class="main_left_right">
 	    		<div class="content_bar">
 	    			<div class="content_bar_01"></div>
 	    			<div class="content_bar_02">
@@ -237,6 +214,27 @@ $(function() {
 	    		<div class="content_list">
 	    				<ul>
                             [@cms_content_list count='9' orderBy='4' titLen='24' channelId='40'  channelOption='1']
+                            [#list tag_list as a]
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
+                            [/#list]
+                            [/@cms_content_list]
+                        </ul>	
+	    		</div>
+	    	</div>
+	    <!-- 第五行 -->
+	    <div class="main_left_left">
+	    		<div class="content_bar">
+	    			<div class="content_bar_01"></div>
+	    			<div class="content_bar_02">
+	    				<span>学习&nbsp;园地</span>
+	    			</div>
+	    			<div class="content_bar_03"></div>
+	    			<div class="content_bar_04">[@cms_channel id='69']<a href="${tag_bean.url}">更多>></a>[/@cms_channel]</div>
+	    			<div class="content_bar_05"></div>
+	    		</div>
+	    		<div class="content_list">
+	    				<ul>
+                            [@cms_content_list count='6' orderBy='4' titLen='24' channelId='69'  channelOption='1']
                             [#list tag_list as a]
                             <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
                             [/#list]
@@ -265,9 +263,7 @@ $(function() {
 	    		</div>
 	    	</div>
 	
-	  
-	    	
-	    	<div class="clear"></div>
+	    <div class="clear"></div>
 	  	</div>
 	    
 	    <!-- 左栏_end -->
