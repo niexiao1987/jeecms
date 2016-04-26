@@ -8,4 +8,7 @@ public interface RankReportDao {
 
 	List<String> getYearList();
 
+	List<RankReport> getYearRank(String thisYear, String[] pattern,
+			boolean isPersonCount);
+
 }

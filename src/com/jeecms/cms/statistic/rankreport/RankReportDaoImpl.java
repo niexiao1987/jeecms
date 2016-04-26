@@ -47,4 +47,31 @@ public class RankReportDaoImpl extends HibernateBaseDao<RankReport, Integer> imp
 		return find(f);
 	}
 
+	@Override
+	public List<RankReport> getYearRank(String thisYear, String[] patterns,
+			boolean isPersonCount) {
+		Finder f = Finder.create(" FROM RankReport bean ");
+		f.append(" where bean.year =:year");
+		f.setParam("year", thisYear);
+		if(patterns!=null&&patterns.length>0){
+			f.append(" and (");
+			for (int i = 0; i < patterns.length; i++) {
+				if(i==0){
+					f.append(" bean.departmentPattern =:pattern"+i);	
+					f.setParam("pattern"+i, patterns[i]);
+				}else{
+					f.append(" or bean.departmentPattern =:pattern"+i);
+					f.setParam("pattern"+i, patterns[i]);
+				}
+			}
+			f.append(" )");
+		}
+		if(isPersonCount){
+			f.append(" order by bean.yearPer desc ");
+		}else{
+			f.append(" order by bean.yearTotal desc ");
+		}
+		return find(f);
+	}
+
 }

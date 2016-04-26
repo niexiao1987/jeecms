@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jeecms.cms.statistic.CmsStatisticSvc;
 import com.jeecms.cms.statistic.Rank;
+import com.jeecms.cms.statistic.rankreport.RankReportSvc;
 import com.jeecms.cms.statistic.rankview.RankView;
 import com.jeecms.cms.statistic.rankview.RankViewPattern;
 import com.jeecms.cms.statistic.rankview.RankViewSvc;
@@ -73,7 +74,7 @@ public class RankViewDirective implements TemplateDirectiveModel {
 				//返回错误，未设置启用
 				throw new ParamsRequiredException("未设置启用的展示列表");
 			}else{
-				rankList = getDisplayData(rankView);
+				rankList = getDisplayDataThisYear(rankView);
 			}
 			
 		}
@@ -151,6 +152,20 @@ public class RankViewDirective implements TemplateDirectiveModel {
 		}
 		return rankList;
 	}
+	
+	private List<Rank> getDisplayDataThisYear(RankView rankView){
+		List<Rank> rankList = new ArrayList<Rank>();
+		boolean isPersonCount = RankViewPattern.PERSONCOUNT.equals(rankView.getCategory());
+		//boolean isRankCount = RankViewPattern.RANKCOUNT.equals(rankView.getCategory());
+		if(!StringUtils.isBlank(rankView.getPattern())){
+			rankList = rankReportSvc.getYearRank(rankView.getPattern(),isPersonCount);
+		}
+		if(rankView.getViewCount()<rankList.size()){
+			rankList = rankList.subList(0, rankView.getViewCount());
+		}
+		return rankList;
+		
+	}
 	@Autowired
 	private CmsDepartmentMng cmsDepartmentMng;
 	@Autowired
@@ -159,5 +174,7 @@ public class RankViewDirective implements TemplateDirectiveModel {
 	private RankViewSvc rankViewSvc;
 	@Autowired
 	private CmsStatisticSvc cmsStatisticSvc;
+	@Autowired
+	private RankReportSvc rankReportSvc;
 
 }
