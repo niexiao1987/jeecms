@@ -21,6 +21,7 @@
 <script type="text/javascript" src="${resSys}/owl.carousel.js"></script>
 <style type="text/css">
 .rank_content{display:none; }
+<<<<<<< HEAD
 .rank_content table tr td{border:none;}
 </style>
 <script type="text/javascript">
@@ -523,6 +524,258 @@ $(".rank_content").eq(0).show();
 	<div class="clear"></div>
   </div>
 
+=======
+</style>
+<script type="text/javascript">
+$(function() {
+	Cms.siteFlow("${base}", location.href, document.referrer);
+	$.cookie("_site_id_cookie","${site.id!}",{path: '${base}' });
+	
+	
+	$(".frindlink_ctg").change(function(){
+			var domain = $(this).val();
+			if(domain!=null&&domain!=""){
+				location.href=domain;
+			}
+	});
+	
+
+	
+});
+
+
+</script>
+
+</head>
+<body>
+<div class="container">
+	[#include "../include/header.html"/]
+    [#include "../include/search_csi.html"/]
+    [#include "../include/navi.html"/]
+    [#include "../include/carousel.html"/]
+    
+    [#assign newdays=2]
+    <div class="main">
+	    <div class="main_left">
+	    	<div class="main_left_left">
+	    		 <!-- 焦点图代码宽310_begin -->
+	                    <div class="comiis_wrapad" id="slideContainer">
+	                        <div id="frameHlicAe" class="frame cl">
+	                            <div class="temp"></div>
+	                            <div class="block">
+	                                <div class="cl">
+	                                    <ul class="slideshow" id="slidesImgs">
+	                                    [@cms_content_list count='5' orderBy='4' typeId='3' titLen='30' channelOption='1' channelId='11']
+	                                    [#list tag_list as a]
+	                                    <li>
+	                                        <a href="${a.url}" target="_blank">
+	                                        <img src="${a.titleImg!site.defImg}" alt="${a.title}" width="100%" />
+	                                        </a>
+	                                        <span class="title">
+	                                        [@text_cut s=a.title len=titLen /]
+	                                        </span>
+	                                    </li>
+	                                    [/#list]
+	                                    [/@cms_content_list]
+	                                    </ul>
+	                                </div>
+	                                <div class="slidebar" id="slideBar">
+	                                    <ul>
+	                                        <li class="on">1</li>
+	                                        <li>2</li>
+	                                        <li>3</li>
+	                                        <li>4</li>
+	                                        <li>5</li>
+	                                    </ul>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <script type="text/javascript">
+	                        SlideShow(3000);
+	                    </script>
+	                    <!-- 焦点图代码宽310_end -->
+	    	</div>
+	    	<div class="main_left_right">
+	    		<div class="content_bar">
+	    			<div class="content_bar_01"></div>
+	    			<div class="content_bar_02">
+	    				<span>学院&nbsp;要闻</span>
+	    			</div>
+	    			<div class="content_bar_03"></div>
+	    			<div class="content_bar_04">[@cms_channel id='11']<a href="${tag_bean.url}">更多>></a>[/@cms_channel]</div>
+	    			<div class="content_bar_05"></div>
+	    		</div>
+	    		<div class="content_list">
+	    				<ul>
+                            [@cms_content_list count='9' orderBy='4' titLen='23' channelId='11'  channelOption='1']
+                            [#list tag_list as a]
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
+                            [/#list]
+                            [/@cms_content_list]
+                        </ul>	
+	    		</div>
+	    	</div>
+	    	<div class="clear"></div>
+	    	<!-- 左侧第二行 -->
+	    	<div class="main_left_left">
+	    		<div class="content_bar">
+	    			<div class="content_bar_01"></div>
+	    			<div class="content_bar_02">
+	    				<span>教学&nbsp;科研</span>
+	    			</div>
+	    			<div class="content_bar_03"></div>
+	    			<div class="content_bar_04">[@cms_channel id='12']<a href="${tag_bean.url}">更多>></a>[/@cms_channel]</div>
+	    			<div class="content_bar_05"></div>
+	    		</div>
+	    		<div class="content_list">
+	    				<ul>
+                            [@cms_content_list count='9' orderBy='4' titLen='23' channelId='12'  channelOption='1']
+                            [#list tag_list as a]
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
+                            [/#list]
+                            [/@cms_content_list]
+                        </ul>	
+	    		</div>
+	    	</div>
+	    	<div class="main_left_right">
+	    		<div class="content_bar">
+	    			<div class="content_bar_01"></div>
+	    			<div class="content_bar_02">
+	    				<span>政治&nbsp;工作</span>
+	    			</div>
+	    			<div class="content_bar_03"></div>
+	    			<div class="content_bar_04">[@cms_channel id='13']<a href="${tag_bean.url}">更多>></a>[/@cms_channel]</div>
+	    			<div class="content_bar_05"></div>
+	    		</div>
+	    		<div class="content_list">
+	    				<ul>
+                            [@cms_content_list count='9' orderBy='4' titLen='24' channelId='13'  channelOption='1']
+                            [#list tag_list as a]
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
+                            [/#list]
+                            [/@cms_content_list]
+                        </ul>	
+	    		</div>
+	    	</div>
+
+	    <!-- 第三行，图文报道 -->
+	    <div class="imgAndword">
+	    	<div class="imgAndword_bar">
+	    		<div class="imgAndword_bar_icon"  style="float: left;"><span>图文报道</span></div>
+	    		<div style="float: right;height: 35px;line-height: 35px;padding-right: 10px;"></div>
+	    		</div>
+	    	<div class="imgAndword_list">
+	    			<ul class="box imgAndword_list_box">
+                        [@cms_content_list typeId='1,2,3' count='6' titLen='20' image='1' channelOption='1' channelId='11,12,13,69,14,40,41,42' orderBy='4']
+                        [#list tag_list as a]
+                        <li>
+                        <a href="${a.url}" title="${a.title}" target="_blank">
+                        	<div class="toll_img">
+                        		<img src="${a.titleImg!site.defImg}" alt="${a.title}" width="140" height="110" />
+                        	</div>
+                            <div class="toll_info">
+                            <p>[@text_cut s=a.stit len=titLen append=append/]</p>
+                            </div>
+                        </a>
+                        </li>
+                        [/#list]
+                        [/@cms_content_list]
+                    </ul>
+	    	</div>
+	    </div>
+	    <!-- 第四行，行管后勤 -->
+	    <div class="main_left_left">
+	    		<div class="content_bar">
+	    			<div class="content_bar_01"></div>
+	    			<div class="content_bar_02">
+	    				<span>行管&nbsp;后勤</span>
+	    			</div>
+	    			<div class="content_bar_03"></div>
+	    			<div class="content_bar_04">[@cms_channel id='14']<a href="${tag_bean.url}">更多>></a>[/@cms_channel]</div>
+	    			<div class="content_bar_05"></div>
+	    		</div>
+	    		<div class="content_list">
+	    				<ul>
+                            [@cms_content_list count='9' orderBy='4' titLen='24' channelId='14'  channelOption='1']
+                            [#list tag_list as a]
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
+                            [/#list]
+                            [/@cms_content_list]
+                        </ul>	
+	    		</div>
+	    	</div>
+	    	 <div class="main_left_right">
+	    		<div class="content_bar">
+	    			<div class="content_bar_01"></div>
+	    			<div class="content_bar_02">
+	    				<span>基层&nbsp;天地</span>
+	    			</div>
+	    			<div class="content_bar_03"></div>
+	    			<div class="content_bar_04">[@cms_channel id='40']<a href="${tag_bean.url}">更多>></a>[/@cms_channel]</div>
+	    			<div class="content_bar_05"></div>
+	    		</div>
+	    		<div class="content_list">
+	    				<ul>
+                            [@cms_content_list count='9' orderBy='4' titLen='24' channelId='40'  channelOption='1']
+                            [#list tag_list as a]
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
+                            [/#list]
+                            [/@cms_content_list]
+                        </ul>	
+	    		</div>
+	    	</div>
+	    <!-- 第五行 -->
+	    <div class="main_left_left">
+	    		<div class="content_bar">
+	    			<div class="content_bar_01"></div>
+	    			<div class="content_bar_02">
+	    				<span>学习&nbsp;园地</span>
+	    			</div>
+	    			<div class="content_bar_03"></div>
+	    			<div class="content_bar_04">[@cms_channel id='69']<a href="${tag_bean.url}">更多>></a>[/@cms_channel]</div>
+	    			<div class="content_bar_05"></div>
+	    		</div>
+	    		<div class="content_list">
+	    				<ul>
+                            [@cms_content_list count='6' orderBy='4' titLen='24' channelId='69'  channelOption='1']
+                            [#list tag_list as a]
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
+                            [/#list]
+                            [/@cms_content_list]
+                        </ul>	
+	    		</div>
+	    	</div>
+	    	<div class="main_left_right">
+	    		<div class="content_bar">
+	    			<div class="content_bar_01"></div>
+	    			<div class="content_bar_02">
+	    				<span>校园&nbsp;文化</span>
+	    			</div>
+	    			<div class="content_bar_03"></div>
+	    			<div class="content_bar_04">[@cms_channel id='41']<a href="${tag_bean.url}">更多>></a>[/@cms_channel]</div>
+	    			<div class="content_bar_05"></div>
+	    		</div>
+	    		<div class="content_list">
+	    				<ul>
+                            [@cms_content_list count='6' orderBy='4' titLen='24' channelId='41'  channelOption='1']
+                            [#list tag_list as a]
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
+                            [/#list]
+                            [/@cms_content_list]
+                        </ul>	
+	    		</div>
+	    	</div>
+	
+	    <div class="clear"></div>
+	  	</div>
+	    
+	    <!-- 左栏_end -->
+	    [#include "../include/right3.html"/]
+	    <div class="clear"></div>
+    </div>
+  
+>>>>>>> branch 'develop' of https://github.com/niexiao1987/jeecms.git
     [#include "../include/footer.html"/]
 </div>
 </body>

@@ -11,6 +11,7 @@
 <style type="text/css">
 .report_title{width: 1200px;margin: 0 auto;text-align: center;font-size: 24px; margin-top: 10px; font-weight: bold;}
 .year_select{width: 1200px; margin: 0 auto; text-align: center;}
+<<<<<<< HEAD
 .report_table{border: 1px  solid; width: 1200px; margin: 10px auto; border-collapse:collapse;}
 .report_table tr{height: 30px; line-height: 30px; border:1px  solid;} 
 .report_table tr td{width: 100px; text-align: center;border:1px  solid;}
@@ -35,6 +36,32 @@
     </div>
     
     <table  border="0" cellpadding="0" cellspacing="0" class="report_table">
+=======
+.report_table{border: 1px solid; width: 1200px; margin: 10px auto;}
+.report_table tr{height: 30px; line-height: 30px;} 
+.report_table tr td{width: 100px; text-align: center;border:1px solid;}
+</style>
+</head>
+
+<body>
+<div class="container">
+ 	[#include "../include/header.html"/]
+    [#include "../include/search_csi.html"/]
+    [#include "../include/navi.html"/]
+    <h1 class="report_title">
+    	[#if pattern='bu,xi']部系[/#if][#if pattern='chu,shi']处室[/#if][#if pattern='dui']学员队[/#if]投稿排名报表
+    </h1>
+    <div class="year_select">
+    	<select id="year_select" name="yearSelect">
+    		<option value="">--请选择年份--</option>
+    		[#list yearList as year]
+    			<option [#if thisYear==year]selected[/#if] value="${year!}">${year!}年</option>
+    		[/#list]
+    	</select>
+    </div>
+    
+    <table  border="1" class="report_table">
+>>>>>>> branch 'develop' of https://github.com/niexiao1987/jeecms.git
     	<tr>
     		<td width="80px;" align="center">部门名称</td>
     		<td width="80px;" align="center">1月总投稿</td>
