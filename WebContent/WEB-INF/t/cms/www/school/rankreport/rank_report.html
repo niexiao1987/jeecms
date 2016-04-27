@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>投稿统计报表</title>
+<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/front.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="/${res}/css/regist.css" />
+<link href="/${res}/css/html5.css" rel="stylesheet" type="text/css"/>
+<style type="text/css">
+.report_title{width: 1200px;margin: 0 auto;text-align: center;font-size: 24px; margin-top: 10px; font-weight: bold;}
+.year_select{width: 1200px; margin: 0 auto; text-align: center;}
+.report_table{border: 1px  solid; width: 1200px; margin: 10px auto; border-collapse:collapse;}
+.report_table tr{height: 30px; line-height: 30px; border:1px  solid;} 
+.report_table tr td{width: 100px; text-align: center;border:1px  solid;}
+</style>
+</head>
+
+<body>
+<div class="container">
+ 	[#include "../include/header.html"/]
+    [#include "../include/search_csi.html"/]
+    [#include "../include/navi.html"/]
+    <h1 class="report_title">
+    	[#if pattern='bu,xi']部系[/#if][#if pattern='chu,shi']处室[/#if][#if pattern='dui']学员队[/#if]投稿排名报表
+    </h1>
+    <div class="year_select">
+    	<select id="year_select" name="yearSelect">
+    		<option value="">--请选择年份--</option>
+    		[#list yearList as year]
+    			<option [#if thisYear==year]selected[/#if] value="${year!}">${year!}年</option>
+    		[/#list]
+    	</select>
+    </div>
+    
+    <table  border="0" cellpadding="0" cellspacing="0" class="report_table">
+    	<tr>
+    		<td width="80px;" align="center">部门名称</td>
+    		<td width="80px;" align="center">1月总投稿</td>
+    		<td>1月人均投稿</td>
+    		<td>2月总投稿</td>
+    		<td>2月人均投稿</td>
+    		<td>3月总投稿</td>
+    		<td>3月人均投稿</td>
+    		<td>4月总投稿</td>
+    		<td>4月人均投稿</td>
+    		<td>5月总投稿</td>
+    		<td>5月人均投稿</td>
+    		<td>6月总投稿</td>
+    		<td>6月人均投稿</td>
+    		<td>7月总投稿</td>
+    		<td>7月人均投稿</td>
+    		<td>8月总投稿</td>
+    		<td>8月人均投稿</td>
+    		<td>9月总投稿</td>
+    		<td>9月人均投稿</td>
+    		<td>10月总投稿</td>
+    		<td>10月人均投稿</td>
+    		<td>11月总投稿</td>
+    		<td>11月人均投稿</td>
+    		<td>12月总投稿</td>
+    		<td>12月人均投稿</td>
+    		<td>年总投稿</td>
+    		<td>年人均投稿</td>
+    	</tr>
+    	[#list reportList as list]
+    	<tr>
+    		<td>${list.departmentName!}</td>
+    		<td>${list.januaryTotal !}</td>
+			<td>${list.januaryPer   !}</td>
+			<td>${list.februaryTotal!}</td>
+			<td>${list.februaryPer  !}</td>
+			<td>${list.marchTotal   !}</td>
+			<td>${list.marchPper    !}</td>
+			<td>${list.aprilTotal   !}</td>
+			<td>${list.aprilPer     !}</td>
+			<td>${list.mayTotal     !}</td>
+			<td>${list.mayPer       !}</td>
+			<td>${list.juneTotal    !}</td>
+			<td>${list.junePer      !}</td>
+			<td>${list.julyTotal    !}</td>
+			<td>${list.julyPer      !}</td>
+			<td>${list.augustTotal  !}</td>
+			<td>${list.augustPer    !}</td>
+			<td>${list.septemberTotal!}</td>
+			<td>${list.septemberPer !}</td>
+			<td>${list.octoberTotal !}</td>
+			<td>${list.octoberPer   !}</td>
+			<td>${list.novemberTotal!}</td>
+			<td>${list.novemberPer  !}</td>
+			<td>${list.decemberTotal!}</td>
+			<td>${list.decemberPer  !}</td>
+			<td>${list.yearTotal    !}</td>
+			<td>${list.yearPer      !}</td>
+	
+    	</tr>
+    	[/#list]
+    </table>
+</div>
+<script type="text/javascript">
+	$("#year_select").change(function(){
+		var year = $(this).val();
+		if(year!=null&&year!=""){
+			location.href = '../rankReport/toReport.jspx?pattern=${pattern}&year='+year;
+		}
+	});
+
+	
+</script>
+</body>
+</html>

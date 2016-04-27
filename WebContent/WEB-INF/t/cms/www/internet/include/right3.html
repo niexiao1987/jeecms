@@ -1,0 +1,72 @@
+[#assign newdays=2]
+ <div class="main_right">
+	    	
+	    
+	    	<div class="main_right_content">
+	    		<div class="main_right_content_bar">
+	    			<div class="notification_icon main_right_content_bar_icon"><span>通知公告</span></div>
+	    		</div>
+	    		<div class="main_right_content_list content_list">
+	    				<ul>
+                            [@cms_content_list count='6' orderBy='4' titLen='15' channelId='4422'  channelOption='1']
+                            [#list tag_list as a]
+                            [#if a.id==448]
+                            <li><a href="${a.url}" title="${a.title}" target="_blank" style="color:#e66100;">[@text_cut s=a.title len=titLen /]</a></li>
+                            [#else]
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /]</a></li>
+                            [/#if]
+                            [/#list]
+                            [/@cms_content_list]
+                        </ul>	
+	    		</div>
+	    	</div>
+	    	
+	   
+	    	
+	    	
+	    	<div class="main_right_content">
+	    		<div class="main_right_content_bar">
+	    			<div class="subject_icon main_right_content_bar_icon"><span>网址导航</span></div>
+	    		</div>
+	    		<div class="main_right_content_list">
+	    			<div id="plcon">
+                [@cms_friendlink_ctg_list]
+                	[#list tag_list as c]
+                		<select class="frindlink_ctg" style="width:200px; display:block; margin:10px auto;">
+                				<option value="">--------${c.name}</option>
+                			[@cms_friendlink_list ctgId=c.id]
+                				[#list tag_list as link]
+                				<option value="${link.domain}">${link.name}</option>
+                				[/#list]
+                			[/@cms_friendlink_list]
+                		</select>
+                	[/#list]
+                [/@cms_friendlink_ctg_list]
+                </div>
+	    		</div>
+	    	</div>
+	    	
+	    	<div class="main_right_content">
+	    		<div class="main_right_content_bar">
+	    			<div class="subject_icon main_right_content_bar_icon"><span>公共服务</span></div>
+	    		</div>
+	    		<div class="main_right_content_list">
+					<ul class="mylink">
+					
+					 		  [@cms_content_list count='6' orderBy='4' titLen='24' channelId='4680'  channelOption='1']
+                            [#list tag_list as a]
+					 		  <li><a href="${a.contentExt.link!}" target="_blank"><span class=""><img src="${a.titleImg!site.defImg}" ></span>
+					            <p>[@text_cut s=a.title len=10 /]</p>
+					          </a></li>
+					          [/#list]
+					     [/@cms_content_list]
+					 		
+					           <li>[@cms_channel id='9']<a href="${tag_bean.url}">[/@cms_channel]<span class=""><img src="/${res}/img/index/mylink_06.jpg" ></span>
+					            <p>下载中心</p>
+					          </a></li>
+					          <li class="clear"></li>
+					
+					</ul>
+	    		</div>
+	    	</div>
+	    </div>
