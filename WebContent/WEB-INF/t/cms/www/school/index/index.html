@@ -469,12 +469,10 @@ $(".rank_content").eq(0).show();
                 </div>
             		[/#list]
             	[/@cms_rankview_list]
-            
-            
-            <!-- 投稿排名_end -->
 	    		</div>
-	    	</div>
+	    	</div> <!-- 投稿排名_end -->
 	    	
+	    	<!--  
 	    	<div class="main_right_content">
 	    		<div class="main_right_content_bar">
 	    			<div class="subject_icon main_right_content_bar_icon"><span>网址导航</span></div>
@@ -493,10 +491,10 @@ $(".rank_content").eq(0).show();
                 		</select>
                 	[/#list]
                 [/@cms_friendlink_ctg_list]
-                </div>
+                	</div>
 	    		</div>
 	    	</div>
-	    	
+	    	-->
 	    	<div class="main_right_content">
 	    		<div class="main_right_content_bar">
 	    			<div class="subject_icon main_right_content_bar_icon"><span>公共服务</span></div>
@@ -504,18 +502,13 @@ $(".rank_content").eq(0).show();
 	    		<div class="main_right_content_list">
 					<ul class="mylink">
 					
-					 	[@cms_content_list count='6' orderBy='4' titLen='24' channelId='4680'  channelOption='1']
+					 	[@cms_content_list count='6' orderBy='4' titLen='24' channelId='8867'  channelOption='1']
                         [#list tag_list as a]
 					 	   <li><a href="${a.contentExt.link!}" target="_blank"><span class=""><img src="${a.titleImg!site.defImg}" ></span>
 					          <p>[@text_cut s=a.title len=10 /]</p>
 					       </a></li>
 					     [/#list]
 					     [/@cms_content_list]
-					       <li>[@cms_channel id='9']<a href="${tag_bean.url}">[/@cms_channel]<span class=""><img src="/${res}/img/index/mylink_06.jpg" ></span>
-					          <p>下载中心</p>
-					         </a></li>
-					       <li class="clear"></li>
-					
 					</ul>
 	    		</div>
 	    	</div>
