@@ -41,11 +41,13 @@ var submitQuery = function(){
 <div class="body-box">
 <@p.form id="jvForm" action="o_create.do">
 <@p.text label="cms.rankview.add.title" id="title"  name="title"  required="true" class="required digits"/>
-<@p.select label="cmsLucene.channelId" value="channelId"  id="channelId" name="channelId" list=channelList listKey="id" listValue="name" listDeep="deep" headerKey="" headerValue="cmsLucene.allChannel"/>
+
+<!-- <@p.select label="cmsLucene.channelId" value="channelId"  id="channelId" name="channelId" list=channelList listKey="id" listValue="name" listDeep="deep" headerKey="" headerValue="cmsLucene.allChannel"/> -->
 <@p.select label="cms.rankview.add.category" value="" name="category" list=categoryList listKey="value" listValue="name"   headerKey="" headerValue="select.rankview.category" required="true"/>
 
-<@p.text label="cmsLucene.startDate" id="beginDate"  name="beginDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/>
-<@p.text label="cmsLucene.endDate" id="endDate"  name="endDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/>
+<!-- <@p.text label="cmsLucene.startDate" id="beginDate"  name="beginDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/> -->
+<!-- <@p.text label="cmsLucene.endDate" id="endDate"  name="endDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/> -->
+
 <@p.select value="viewCount" label="cms.rankview.add.viewcount" value="viewCount" required="true" class="required digits" id="viewCount" name="viewCount" list=viewCountList listKey="id" listValue="title"  headerKey="" headerValue="cms.rankview.add.viewcountselect"/>
 <@p.select label="cms.rankview.add.pattern" value="" name="pattern" list=patternList listKey="value" listValue="name"   headerKey="" headerValue="select.rankview.pattern" required="true"/>
 <@p.td>

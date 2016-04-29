@@ -1,0 +1,149 @@
+<script type="text/javascript">
+		
+	var ssoforportalURL = "http://10.10.14.74:7080/ssoforportal";
+	var ssoURL = "http://10.10.2.8:8001/sso";
+	var uumsURL = "http://10.10.2.7"
+	var jeecmsURL = "http://10.10.14.74:7080";
+
+	var loaginAction = ssoforportalURL + "/clientLogin";
+	var getUsers = ssoforportalURL + "/getLoginUser";
+	var changePassword = ssoforportalURL + "/changePassword";
+	var loginOut = ssoURL + "/logout?service=" + jeecmsURL;
+	var getApps = uumsURL
+			+ "/app/uumgr/appsys!getSSOAppsysByLoginIdAndAppsysCode.action";
+	
+	
+
+
+	var loginId = '';
+	function login() {
+		var username = $("#username").val();
+		var pwdVal = $("#password").val();
+		if (username == null || username == '') {
+			alert("用户名不能为空");
+			return;
+		}
+		if (pwdVal == null || pwdVal == '') {
+			alert("密码不能为空");
+			return;
+		}
+		targetForm = document.forms['myLoginForm'];
+		targetForm.action = loaginAction;
+		targetForm.submit();
+	}
+	function changePasswd() {
+		document.getElementById('myIFrame').contentWindow.name = 'myIFrame';
+		var passwordForm = document.forms['changePasswordForm'];
+		passwordForm.action = changePassword;
+		passwordForm.submit();
+	}
+	function loginIdHandler(data) {
+		loginId = data.loginId;
+	}
+	function getAppsys() {
+		$('#hidden_form').attr('action', getApps);
+		$('#hidden_loginId').val(loginId);
+		$('#hidden_appsysCode').val('portal');
+		$('#hidden_form').submit();
+	}
+	function logout() {
+		location.href = loginOut;
+	}
+<<<<<<< HEAD
+// 	document.write("<script src=" + getUsers + "?random=" + Math.random()
+// 			+ "'><\/script>");
+=======
+	document.write("<script src=" + getUsers + "?random=" + Math.random()
+			+ "'><\/script>");
+>>>>>>> branch 'develop' of https://github.com/niexiao1987/jeecms.git
+	jQuery(document).ready(
+			function() {
+				if (loginId != null && loginId != '') {
+					$('#loginForm').hide();
+					$('#loginUsername').html(
+							'欢迎登录：<label style="color:red;">' + loginId
+									+ '</label>');
+					$('#welcomediv').show();
+				} else {
+					$('#loginForm').show();
+					$('#welcomediv').hide();
+				}
+				var url = window.location.search;
+				var str = url.substring(1, url.length);
+				if (str != null && str.length > 0) {
+					var items = str.split("&&");
+					for (var m = 0; m < items.length; m++) {
+						var param = items[m].split("=");
+						if (param[0] == "authError" && param[1] != '') {
+							if (param[1] == 'usernameOrPasswordEmpty') {
+								alert('用户名或密码为空。');
+							}
+							if (param[1] == 'userNotExistsOrInvalid') {
+								alert('用户或密码错误或用户不存在或用户无效。');
+							}
+							if (param[1] == 'serviceInvalidate') {
+								alert('单点登录服务器不可用,请联系管理员。')
+							}
+							if (param[1] == 'appsysPermInvalidate') {
+								alert('您没有访问该系统的权限。')
+							}
+						}
+					}
+				}
+			});
+</script>
+        
+               
+               <div id="loginForm" style="width:210px; margin:0 auto;">
+					<form id="myLoginForm" name="myLoginForm" method="post">
+						<table style="font-size: 13px; font-weight: normal; font-style: normal;">
+					         <tr>
+					           	<td width="60" align="left"><span>用户名：&nbsp;</span></td>
+					           	<td width="150" align="left" ><input name="username" id="username" type="text" size="30" maxlength="20" style="width:150px" /></td>
+					         </tr>
+					         <tr>
+					           	<td width="60" align="left"><span>密码：&nbsp;</span></td>
+					           	<td width="150"><input name="password"  id="password" type="password"  size="30" maxlength="20" style="width:150px" onkeydown="if (event.keyCode==13) return false;" /></td>
+					         </tr>
+					         <tr align="left">
+					         	<td width="60"><input type="button" value="登录" onclick="login();" /></td>
+					         	<td width="150"><input type="reset" value="重置"  /></td>
+					         </tr>
+				       	</table>
+					</form>
+				</div>
+				<div id="welcomediv" style="padding:10px 10px;">
+					<table style="font-size: 13px; font-weight: normal; font-style: normal; ">
+					         <tr>
+					           	<td><span id="loginUsername"></span></td>
+					         </tr>
+					         <tr>
+					         <td><span id="appList"><a href="#" onclick="getAppsys();">查看可访问系统</a></span></td>
+					         	<td width="40"><input type="button" value="退出" onclick="logout();" /></td>
+					         </tr>
+				    </table>
+				    <form id ="changePasswordForm" name="changePasswordForm"  target = "myIFrame" action="" method="post">
+				    <table>
+				    <tr>
+				    <td>旧密码：</td><td><input id="oldPasswd" name="oldPasswd" type="password" /></td>
+				    </tr>
+				    <tr>
+				    <td>新密码：</td><td><input id="newPasswd" name="newPasswd" type="password" /></td>
+				    </tr>
+				    <tr>
+				    <td width="40"><input type="button" value="修改密码" onclick="changePasswd();" /></td>
+				    </tr>
+				    </table>
+				    </form>
+				</div>
+				<div style="display: none;">
+					<form id="hidden_form" method="post" target="_blank">
+						<input name="loginId" id="hidden_loginId" type="text"/>
+						<input name="appsysCode" id="hidden_appsysCode" type="text"/>
+					</form>
+				</div>
+				<div >
+				<iframe id="myIFrame" style="display: none;">
+		  		</iframe>
+				</div>
+            
