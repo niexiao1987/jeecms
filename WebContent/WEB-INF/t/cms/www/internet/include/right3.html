@@ -6,7 +6,7 @@
 	    		<div class="main_right_content_bar">
 	    			<div class="notification_icon main_right_content_bar_icon"><span>通知公告</span></div>
 	    		</div>
-	    		<div class="main_right_content_list content_list">
+	    		<div class="main_right_content_list content_list content_list_notif">
 	    				<ul>
                             [@cms_content_list count='6' orderBy='4' titLen='15' channelId='4422'  channelOption='1']
                             [#list tag_list as a]
@@ -21,6 +21,18 @@
 	    		</div>
 	    	</div>
 	    	
+	    	<div class="main_right_content">
+	    		<div class="main_right_content_bar">
+	    			<div class="notification_icon main_right_content_bar_icon"><span>常用服务</span></div>
+	    		</div>
+	    		<div class="main_right_content_list content_list content_list_cyfw">
+                            [@cms_content_list count='3' orderBy='4' titLen='15' channelId='44'  channelOption='1']
+                            [#list tag_list as a]
+                            <a href="${a.url}" title="${a.title}" target="_blank" style=""><img width="216px" height="50px" alt="${a.title}" src="${a.titleImg!site.defImg}"/></a>
+                            [/#list]
+                            [/@cms_content_list]
+	    		</div>
+	    	</div>
 	    	
 	    	<div class="main_right_content">
 	    		<div class="main_right_content_bar">

@@ -67,6 +67,12 @@ $(".rank_content").eq(0).show();
 		});
 	});
 	
+	//通知公告高度
+	var liSize = $(".content_list_notif ul").children().size();
+	if(liSize==0){
+		$(".content_list_notif").width(20).height(100);
+	}
+	
 });
 </script>
 </head>
@@ -344,175 +350,7 @@ $(".rank_content").eq(0).show();
 	    	<div class="clear"></div>
 	  	</div>
 	    <!-- 左栏_end -->
-	    <div class="main_right">
-<!-- 	    	<div class="main_right_content"> -->
-<!-- 	    		<div class="main_right_content_bar"> -->
-<!-- 	    			<div class="subject_icon main_right_content_bar_icon"><span>门户登录</span></div> -->
-<!-- 	    		</div> -->
-<!-- 	    		<div class="main_right_content_list content_list"> -->
-<!-- 	    			[#include "sso.html"/] -->
-<!-- 	    		</div> -->
-<!-- 	    	</div> -->
-	    
-	    	<div class="main_right_content">
-	    		<div class="main_right_content_bar">
-	    			<div class="notification_icon main_right_content_bar_icon"><span>通知公告</span></div>
-	    		</div>
-	    		<div class="main_right_content_list content_list">
-	    				<ul>
-                            [@cms_content_list count='6' orderBy='4' titLen='24' channelId='4422'  channelOption='1']
-                            [#list tag_list as a]
-                            [#if a.id==448]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank" style="color:#e66100;">[@text_cut s=a.title len=23 /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]</li>
-                            [#else]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]</li>
-                            [/#if]
-                            [/#list]
-                            [/@cms_content_list]
-                        </ul>	
-	    		</div>
-	    	</div>
-	    	
-	    	<div class="main_right_content">
-	    		<div class="main_right_content_bar">
-	    			<div class="subject_icon main_right_content_bar_icon"><span>专题专栏</span></div>
-	    		</div>
-	    		<div class="main_right_content_list">
-	    			<ul>
-	    			[@cms_topic_list count='3' recommend='1' descLen='35' append='...']
-               		[#list tag_list as t]
-               			<li><a href="${base}/topic/${t.id}.jspx"><img width="220px" height="56px" src="${t.titleImg!site.defImg}"></a></li>
-               		[/#list]
-                	[/@cms_topic_list]
-					</ul>
-	    		</div>
-	    	</div>
-	    	
-	    	<div class="main_right_content">
-	    		<div class="main_right_content_bar">
-	    			<div class="rankview_icon main_right_content_bar_icon"><span>投稿排名</span></div>
-	    		</div>
-	    		<div class="main_right_content_list">
-	    			 <!-- 投稿排名 -->
-            	
-            	<div class="LanMu02b">
-            		[@cms_rankview_list]
-            			[#list tag_list as c]
-            				[#if c_index==0]
-            				<div class="LanMu02a rank_list" style="width:72px; cursor: pointer;">
-								[#if c.pattern=="bu,xi"]
-								部系统计
-								[/#if]
-								[#if c.pattern=="chu,shi"]
-								处室统计
-								[/#if]
-								[#if c.pattern=="dui"]
-								学员队统计
-								[/#if]
-							</div>
-            				[#else]
-            				<div class="LanMu02a rank_list" style="width:72px;cursor: pointer;background: #f2f2f2;">
-            					[#if c.pattern=="bu,xi"]
-								部系统计
-								[/#if]
-								[#if c.pattern=="chu,shi"]
-								处室统计
-								[/#if]
-								[#if c.pattern=="dui"]
-								学员队统计
-								[/#if]
-            				</div>
-            				[/#if]
-            			[/#list]
-            		[/@cms_rankview_list]
-                </div>
-                [@cms_rankview_list]
-            		[#list tag_list as c]
-                <!-- 部系排名 -->
-                <div id="plcon" class="rank_content" style="display: none;">
-                    <ul>
-                    [@cms_rankview pattern=c.pattern]
-                    	[#if tag_bean??]
-<!--                     		<h1 style="font-size:14px; text-align: center; font-weight: bold; padding-top: 10px;">${tag_bean.title}</h1><br/> -->
-                    	[/#if]
-                    <table >	
-                    	<tr height="20px;">
-                    		<td width="80px" align="left">名次</td>
-                    		<td width="80px" align="left">部门名称</td>
-                    		<td width="80px" align="left">[#if c.category=='personcount']人均投稿[/#if][#if c.category=='rankcount']投稿数量[/#if]</td>
-                    	</tr>
-                    [#list tag_list as c]
-                    		<tr height="30px; " style="border-bottom: 1px dashed #d6d6d6;">
-                    		<td >	
-                    		[#if c_index+1 lt 4]
-                    		<div class="v-rank1-order1 v-rank1-top1">${c_index+1}</div>
-                    		[#else]
-                    		<div class="v-rank1-order1 v-rank1-top1" style="background-color:rgb(173, 173, 64);">${c_index+1}</div>
-                    		[/#if]
-                    		</td>
-                    		<td >
-                    		${c.departmentName}
-                    		</td>
-                    		<td >
-                    		${c.count}
-                    		</td>
-                    		</tr>
-                    [/#list]
-                    		<tr height="30px; " style="border-bottom: 1px dashed #d6d6d6;">
-                    			<td ></td>
-                    			<td ></td>
-                    			<td><a  href="rankReport/toReport.jspx?pattern=${c.pattern}">查看月统计</a></td>
-                    		</tr>
-                    </table>
-                    [/@cms_rankview]   
-                    </ul>
-                </div>
-            		[/#list]
-            	[/@cms_rankview_list]
-	    		</div>
-	    	</div> <!-- 投稿排名_end -->
-	    	
-	    	<!--  
-	    	<div class="main_right_content">
-	    		<div class="main_right_content_bar">
-	    			<div class="subject_icon main_right_content_bar_icon"><span>网址导航</span></div>
-	    		</div>
-	    		<div class="main_right_content_list">
-	    			<div id="plcon">
-                [@cms_friendlink_ctg_list]
-                	[#list tag_list as c]
-                		<select class="frindlink_ctg" style="width:200px; display:block; margin:10px auto;">
-                				<option value="">--------${c.name}</option>
-                			[@cms_friendlink_list ctgId=c.id]
-                				[#list tag_list as link]
-                				<option value="${link.domain}">${link.name}</option>
-                				[/#list]
-                			[/@cms_friendlink_list]
-                		</select>
-                	[/#list]
-                [/@cms_friendlink_ctg_list]
-                	</div>
-	    		</div>
-	    	</div>
-	    	-->
-	    	<div class="main_right_content">
-	    		<div class="main_right_content_bar">
-	    			<div class="subject_icon main_right_content_bar_icon"><span>公共服务</span></div>
-	    		</div>
-	    		<div class="main_right_content_list">
-					<ul class="mylink">
-					
-					 	[@cms_content_list count='6' orderBy='4' titLen='24' channelId='8867'  channelOption='1']
-                        [#list tag_list as a]
-					 	   <li><a href="${a.contentExt.link!}" target="_blank"><span class=""><img src="${a.titleImg!site.defImg}" ></span>
-					          <p>[@text_cut s=a.title len=10 /]</p>
-					       </a></li>
-					     [/#list]
-					     [/@cms_content_list]
-					</ul>
-	    		</div>
-	    	</div>
-    </div>
+	    [#include "../include/right3.html"/]
 	<div class="clear"></div>
   </div>
 

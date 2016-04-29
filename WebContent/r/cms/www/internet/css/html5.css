@@ -1,6 +1,6 @@
 /*--------------------1.首页CSS--------------------*/
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,label,legend{ margin:0;padding:0;border:0;outline:0;font-size:100%;background:transparent; }
-body { color:#000; background-color:#f2f2f2; font-size:14px; line-height:1.5em; font-family: Arial,Tahoma,"hiragino sans gb",Helvetica;}
+body { color:#000; background-color:#f2f2f2; font-size:14px; line-height:1.5em; font-family: "仿宋",Arial,Tahoma,"hiragino sans gb",Helvetica;}
 
 a{ text-decoration:none; color:#122e67; font-size:14px; cursor:pointer;}
 a:hover{ text-decoration:none; color:#c50b0e; font-size:14px;}
@@ -95,16 +95,13 @@ img{ border:0; -ms-interpolation-mode:bicubic;}
 .rankview_icon{background: url(../img/index/rankview_icon.png) no-repeat 10px 10px;}
 .main_right_content_bar_icon{width: 200px;height: 35px;}
 .main_right_content_bar_icon span{padding-left: 30px;line-height: 35px;}
+.content_list_cyfw  img{display: block;width: 216px;height: 50px;margin: 10px auto;}
 /*警院之星*/
-<<<<<<< HEAD
+
 .star_content{overflow: hidden;width:100%;height:215px;}
 .star_content img{margin:0 auto;display:block;}
 .star_content  a{display: block;width: 100%;text-align: center;}
-=======
-.star_content{overflow: hidden;width:100%;height:190px;}
-.star_content img{margin:0 auto;}
-.star_content  span{display: block;width: 100%;text-align: center;}
->>>>>>> branch 'develop' of https://github.com/niexiao1987/jeecms.git
+
 /*公共服务*/
 .mylink{margin-left: 12px;}
 .mylink li {width: 80px;float: left;margin: 0;margin-top: 18px;margin-left: 8px;margin-right: 10px;display: block;}
@@ -353,7 +350,7 @@ img{ border:0; -ms-interpolation-mode:bicubic;}
 /*--------------------2.1.新闻内容CSS--------------------*/
 .website/*所在位置*/{ line-height:30px; height:30px; border-bottom:1px solid #dddddd;}
 .pagesite/*第几页*/{ text-align:center; line-height:24px; height:24px; margin:10px auto;}
-.newsTex/*内容标题*/{ width:97%; margin:auto;}
+.newsTex/*内容标题*/{ width:97%; margin:auto;font-size: 20px; font-family: "仿宋";}
 .newsTex h1{ font-size:28px; padding:20px 0; font-family:"微软雅黑","黑体"; text-align:center; line-height:30px;}
 .msgbar{ line-height:30px; text-align:center; color:#999; font-size:12px;}
 .summary/*摘要*/{ border:1px solid #dddddd; background:#f8fbff; padding:8px 2px; width:98%; margin:10px auto; line-height:20px; font-size:12px; color:#727272;}

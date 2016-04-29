@@ -35,7 +35,11 @@ $(function() {
 			}
 	});
 	
-
+	//通知公告高度
+	var liSize = $(".content_list_notif ul").children().size();
+	if(liSize==0){
+		$(".content_list_notif").width(20).height(100);
+	}
 	
 });
 
