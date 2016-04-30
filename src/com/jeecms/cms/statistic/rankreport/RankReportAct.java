@@ -24,6 +24,7 @@ public class RankReportAct {
 	
 	@RequestMapping("/rankReport/toReport.jspx")
 	public String toReport(String pattern,String year,HttpServletRequest request,ModelMap model){
+		
 		CmsSite site = CmsUtils.getSite(request);
 		FrontUtils.frontData(request, model, site);
 		if(StringUtils.isBlank(year)){

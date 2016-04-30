@@ -9,31 +9,215 @@ public class RankReport implements Serializable{
 	private String   departmentName;
 	private	String   departmentPattern;
 	private	Long     januaryTotal;     
-	private	Float    januaryPer ;      
+	private	Float    januaryPer ;  
+	private Integer  januaryTotalRank;
+	private Integer  januaryPerRank;
 	private	Long     februaryTotal;    
-	private	Float    februaryPer;      
+	private	Float    februaryPer;
+	private Integer  februaryTotalRank; 
+	private Integer  februaryPerRank;
 	private	Long     marchTotal ;      
-	private	Float    marchPper ;        
+	private	Float    marchPer ; 
+	private Integer  marchTotalRank;
+	private Integer  marchPerRank;
 	private	Long     aprilTotal   ;    
-	private	Float    aprilPer;         
+	private	Float    aprilPer;  
+	private Integer  aprilTotalRank;
+	private Integer  aprilPerRank;
 	private	Long     mayTotal;         
-	private	Float    mayPer ;          
+	private	Float    mayPer ;  
+	private Integer  mayTotalRank;
+	private Integer  mayPerRank;
 	private	Long     juneTotal;        
-	private	Float    junePer;          
+	private	Float    junePer;   
+	private Integer  juneTotalRank;
+	private Integer  junePerRank;
 	private	Long     julyTotal;        
-	private	Float    julyPer;          
+	private	Float    julyPer;   
+	private Integer  julyTotalRank;
+	private Integer  julyPerRank;
 	private	Long     augustTotal ;     
-	private	Float    augustPer;        
+	private	Float    augustPer;  
+	private Integer  augustTotalRank;
+	private Integer  augustPerRank;
 	private	Long     septemberTotal;   
-	private	Float    septemberPer ;    
+	private	Float    septemberPer ;  
+	private Integer  septemberTotalRank;
+	private Integer  septemberPerRank;
 	private	Long     octoberTotal;     
-	private	Float    octoberPer ;      
+	private	Float    octoberPer ;  
+	private Integer  octoberTotalRank;
+	private Integer  octoberPerRank;
 	private	Long     novemberTotal;    
-	private	Float    novemberPer ;     
+	private	Float    novemberPer ; 
+	private Integer  novemberTotalRank;
+	private Integer  novemberPerRank;
 	private	Long     decemberTotal ;   
-	private	Float    decemberPer ;     
+	private	Float    decemberPer ;
+	private Integer  decemberTotalRank;
+	private Integer  decemberPerRank;
 	private	Long     yearTotal ;       
 	private	Float    yearPer ;
+	private Integer  yearTotalRank;
+	private Integer  yearPerRank;
+	
+	
+	public Integer getJanuaryTotalRank() {
+		return januaryTotalRank;
+	}
+	public void setJanuaryTotalRank(Integer januaryTotalRank) {
+		this.januaryTotalRank = januaryTotalRank;
+	}
+	public Integer getJanuaryPerRank() {
+		return januaryPerRank;
+	}
+	public void setJanuaryPerRank(Integer januaryPerRank) {
+		this.januaryPerRank = januaryPerRank;
+	}
+	public Integer getFebruaryTotalRank() {
+		return februaryTotalRank;
+	}
+	public void setFebruaryTotalRank(Integer februaryTotalRank) {
+		this.februaryTotalRank = februaryTotalRank;
+	}
+	public Integer getFebruaryPerRank() {
+		return februaryPerRank;
+	}
+	public void setFebruaryPerRank(Integer februaryPerRank) {
+		this.februaryPerRank = februaryPerRank;
+	}
+	public Integer getMarchTotalRank() {
+		return marchTotalRank;
+	}
+	public void setMarchTotalRank(Integer marchTotalRank) {
+		this.marchTotalRank = marchTotalRank;
+	}
+	public Integer getMarchPerRank() {
+		return marchPerRank;
+	}
+	public void setMarchPerRank(Integer marchPerRank) {
+		this.marchPerRank = marchPerRank;
+	}
+	public Integer getAprilTotalRank() {
+		return aprilTotalRank;
+	}
+	public void setAprilTotalRank(Integer aprilTotalRank) {
+		this.aprilTotalRank = aprilTotalRank;
+	}
+	public Integer getAprilPerRank() {
+		return aprilPerRank;
+	}
+	public void setAprilPerRank(Integer aprilPerRank) {
+		this.aprilPerRank = aprilPerRank;
+	}
+	public Integer getMayTotalRank() {
+		return mayTotalRank;
+	}
+	public void setMayTotalRank(Integer mayTotalRank) {
+		this.mayTotalRank = mayTotalRank;
+	}
+	public Integer getMayPerRank() {
+		return mayPerRank;
+	}
+	public void setMayPerRank(Integer mayPerRank) {
+		this.mayPerRank = mayPerRank;
+	}
+	public Integer getJuneTotalRank() {
+		return juneTotalRank;
+	}
+	public void setJuneTotalRank(Integer juneTotalRank) {
+		this.juneTotalRank = juneTotalRank;
+	}
+	public Integer getJunePerRank() {
+		return junePerRank;
+	}
+	public void setJunePerRank(Integer junePerRank) {
+		this.junePerRank = junePerRank;
+	}
+	public Integer getJulyTotalRank() {
+		return julyTotalRank;
+	}
+	public void setJulyTotalRank(Integer julyTotalRank) {
+		this.julyTotalRank = julyTotalRank;
+	}
+	public Integer getJulyPerRank() {
+		return julyPerRank;
+	}
+	public void setJulyPerRank(Integer julyPerRank) {
+		this.julyPerRank = julyPerRank;
+	}
+	public Integer getAugustTotalRank() {
+		return augustTotalRank;
+	}
+	public void setAugustTotalRank(Integer augustTotalRank) {
+		this.augustTotalRank = augustTotalRank;
+	}
+	public Integer getAugustPerRank() {
+		return augustPerRank;
+	}
+	public void setAugustPerRank(Integer augustPerRank) {
+		this.augustPerRank = augustPerRank;
+	}
+	public Integer getSeptemberTotalRank() {
+		return septemberTotalRank;
+	}
+	public void setSeptemberTotalRank(Integer septemberTotalRank) {
+		this.septemberTotalRank = septemberTotalRank;
+	}
+	public Integer getSeptemberPerRank() {
+		return septemberPerRank;
+	}
+	public void setSeptemberPerRank(Integer septemberPerRank) {
+		this.septemberPerRank = septemberPerRank;
+	}
+	public Integer getOctoberTotalRank() {
+		return octoberTotalRank;
+	}
+	public void setOctoberTotalRank(Integer octoberTotalRank) {
+		this.octoberTotalRank = octoberTotalRank;
+	}
+	public Integer getOctoberPerRank() {
+		return octoberPerRank;
+	}
+	public void setOctoberPerRank(Integer octoberPerRank) {
+		this.octoberPerRank = octoberPerRank;
+	}
+	public Integer getNovemberTotalRank() {
+		return novemberTotalRank;
+	}
+	public void setNovemberTotalRank(Integer novemberTotalRank) {
+		this.novemberTotalRank = novemberTotalRank;
+	}
+	public Integer getNovemberPerRank() {
+		return novemberPerRank;
+	}
+	public void setNovemberPerRank(Integer novemberPerRank) {
+		this.novemberPerRank = novemberPerRank;
+	}
+	public Integer getDecemberTotalRank() {
+		return decemberTotalRank;
+	}
+	public void setDecemberTotalRank(Integer decemberTotalRank) {
+		this.decemberTotalRank = decemberTotalRank;
+	}
+	public Integer getDecemberPerRank() {
+		return decemberPerRank;
+	}
+	public void setDecemberPerRank(Integer decemberPerRank) {
+		this.decemberPerRank = decemberPerRank;
+	}
+	public Integer getYearTotalRank() {
+		return yearTotalRank;
+	}
+	public void setYearTotalRank(Integer yearTotalRank) {
+		this.yearTotalRank = yearTotalRank;
+	}
+	public Integer getYearPerRank() {
+		return yearPerRank;
+	}
+	public void setYearPerRank(Integer yearPerRank) {
+		this.yearPerRank = yearPerRank;
+	}
 	public String getYear() {
 		return year;
 	}
@@ -88,11 +272,11 @@ public class RankReport implements Serializable{
 	public void setMarchTotal(Long marchTotal) {
 		this.marchTotal = marchTotal;
 	}
-	public Float getMarchPper() {
-		return marchPper;
+	public Float getMarchPer() {
+		return marchPer;
 	}
-	public void setMarchPper(Float marchPper) {
-		this.marchPper = marchPper;
+	public void setMarchPer(Float marchPer) {
+		this.marchPer = marchPer;
 	}
 	public Long getAprilTotal() {
 		return aprilTotal;
@@ -221,7 +405,7 @@ public class RankReport implements Serializable{
 				+ departmentPattern + ", januaryTotal=" + januaryTotal
 				+ ", januaryPer=" + januaryPer + ", februaryTotal="
 				+ februaryTotal + ", februaryPer=" + februaryPer
-				+ ", marchTotal=" + marchTotal + ", marchPper=" + marchPper
+				+ ", marchTotal=" + marchTotal + ", marchPper=" + marchPer
 				+ ", aprilTotal=" + aprilTotal + ", aprilPer=" + aprilPer
 				+ ", mayTotal=" + mayTotal + ", mayPer=" + mayPer
 				+ ", juneTotal=" + juneTotal + ", junePer=" + junePer

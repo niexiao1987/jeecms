@@ -53,4 +53,6 @@ public class RankReportSvcImpl implements RankReportSvc {
 		}
 		return rankList;
 	}
+
+
 }

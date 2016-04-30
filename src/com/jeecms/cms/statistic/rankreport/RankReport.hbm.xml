@@ -11,30 +11,68 @@
 		<property name="departmentPattern" column="DEPARTMENT_PATTERN" type="string"/>
 		<property name="januaryTotal" column="JANUARY_TOTAL" type="java.lang.Long"/>
 		<property name="januaryPer" column="JANUARY_PER" type="java.lang.Float"/>
+		<property name="januaryTotalRank" column="JANUARY_TOTAL_RANK" type="java.lang.Integer"/>
+		<property name="januaryPerRank" column="JANUARY_PER_RANK" type="java.lang.Integer"/>
+		
 		<property name="februaryTotal" column="FEBRUARY_TOTAL" type="java.lang.Long"/>
 		<property name="februaryPer" column="FEBRUARY_PER" type="java.lang.Float"/>
+		<property name="februaryTotalRank" column="FEBRUARY_TOTAL_RANK" type="java.lang.Integer"/>
+		<property name="februaryPerRank" column="FEBRUARY_PER_RANK" type="java.lang.Integer"/>
+		
 		<property name="marchTotal" column="MARCH_TOTAL" type="java.lang.Long"/>
-		<property name="marchPper" column="MARCH_PER" type="java.lang.Float"/>
+		<property name="marchPer" column="MARCH_PER" type="java.lang.Float"/>
+		<property name="marchTotalRank" column="MARCH_TOTAL_RANK" type="java.lang.Integer"/>
+		<property name="marchPerRank" column="MARCH_PER_RANK" type="java.lang.Integer"/>
+		
 		<property name="aprilTotal" column="APRIL_TOTAL" type="java.lang.Long"/>
 		<property name="aprilPer" column="APRIL_PER" type="java.lang.Float"/>
+		<property name="aprilTotalRank" column="APRIL_TOTAL_RANK" type="java.lang.Integer"/>
+		<property name="aprilPerRank" column="APRIL_PER_RANK" type="java.lang.Integer"/>
+		
 		<property name="mayTotal" column="MAY_TOTAL" type="java.lang.Long"/>
 		<property name="mayPer" column="MAY_PER" type="java.lang.Float"/>
+		<property name="mayTotalRank" column="MAY_TOTAL_RANK" type="java.lang.Integer"/>
+		<property name="mayPerRank" column="MAY_PER_RANK" type="java.lang.Integer"/>
+		
 		<property name="juneTotal" column="JUNE_TOTAL" type="java.lang.Long"/>
 		<property name="junePer" column="JUNE_PER" type="java.lang.Float"/>
+		<property name="juneTotalRank" column="JUNE_TOTAL_RANK" type="java.lang.Integer"/>
+		<property name="junePerRank" column="JUNE_PER_RANK" type="java.lang.Integer"/>
+		
 		<property name="julyTotal" column="JULY_TOTAL" type="java.lang.Long"/>
 		<property name="julyPer" column="JULY_PER" type="java.lang.Float"/>
+		<property name="julyTotalRank" column="JULY_TOTAL_RANK" type="java.lang.Integer"/>
+		<property name="julyPerRank" column="JULY_PER_RANK" type="java.lang.Integer"/>
+		
 		<property name="augustTotal" column="AUGUST_TOTAL" type="java.lang.Long"/>
 		<property name="augustPer" column="AUGUST_PER" type="java.lang.Float"/>
+		<property name="augustTotalRank" column="AUGUST_TOTAL_RANK" type="java.lang.Integer"/>
+		<property name="augustPerRank" column="AUGUST_PER_RANK" type="java.lang.Integer"/>
+		
 		<property name="septemberTotal" column="SEPTEMBER_TOTAL" type="java.lang.Long"/>
 		<property name="septemberPer" column="SEPTEMBER_PER" type="java.lang.Float"/>
+		<property name="septemberTotalRank" column="SEPTEMBER_TOTAL_RANK" type="java.lang.Integer"/>
+		<property name="septemberPerRank" column="SEPTEMBER_PER_RANK" type="java.lang.Integer"/>
+		
 		<property name="octoberTotal" column="OCTOBER_TOTAL" type="java.lang.Long"/>
 		<property name="octoberPer" column="OCTOBER_PER" type="java.lang.Float"/>
+		<property name="octoberTotalRank" column="OCTOBER_TOTAL_RANK" type="java.lang.Integer"/>
+		<property name="octoberPerRank" column="OCTOBER_PER_RANK" type="java.lang.Integer"/>
+		
 		<property name="novemberTotal" column="NOVEMBER_TOTAL" type="java.lang.Long"/>
 		<property name="novemberPer" column="NOVEMBER_PER" type="java.lang.Float"/>
+		<property name="novemberTotalRank" column="NOVEMBER_TOTAL_RANK" type="java.lang.Integer"/>
+		<property name="novemberPerRank" column="NOVEMBER_PER_RANK" type="java.lang.Integer"/>
+		
 		<property name="decemberTotal" column="DECEMBER_TOTAL" type="java.lang.Long"/>
 		<property name="decemberPer" column="DECEMBER_PER" type="java.lang.Float"/>
+		<property name="decemberTotalRank" column="DECEMBER_TOTAL_RANK" type="java.lang.Integer"/>
+		<property name="decemberPerRank" column="DECEMBER_PER_RANK" type="java.lang.Integer"/>
+		
 		<property name="yearTotal" column="YEAR_TOTAL" type="java.lang.Long"/>
 		<property name="yearPer" column="YEAR_PER" type="java.lang.Float"/>
+		<property name="yearTotalRank" column="YEAR_TOTAL_RANK" type="java.lang.Integer"/>
+		<property name="yearPerRank" column="YEAR_PER_RANK" type="java.lang.Integer"/>
 
 	</class>
 </hibernate-mapping>
