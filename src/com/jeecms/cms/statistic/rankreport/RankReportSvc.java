@@ -12,4 +12,6 @@ public interface RankReportSvc {
 
 	List<Rank> getYearRank(String pattern, boolean isPersonCount);
 
+
+
 }

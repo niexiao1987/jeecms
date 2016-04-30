@@ -37,62 +37,62 @@
     <table  border="0" cellpadding="0" cellspacing="0" class="report_table">
     	<tr>
     		<td width="80px;" align="center">部门名称</td>
-    		<td width="80px;" align="center">1月总投稿</td>
-    		<td>1月人均投稿</td>
-    		<td>2月总投稿</td>
-    		<td>2月人均投稿</td>
-    		<td>3月总投稿</td>
-    		<td>3月人均投稿</td>
-    		<td>4月总投稿</td>
-    		<td>4月人均投稿</td>
-    		<td>5月总投稿</td>
-    		<td>5月人均投稿</td>
-    		<td>6月总投稿</td>
-    		<td>6月人均投稿</td>
-    		<td>7月总投稿</td>
-    		<td>7月人均投稿</td>
-    		<td>8月总投稿</td>
-    		<td>8月人均投稿</td>
-    		<td>9月总投稿</td>
-    		<td>9月人均投稿</td>
-    		<td>10月总投稿</td>
-    		<td>10月人均投稿</td>
-    		<td>11月总投稿</td>
-    		<td>11月人均投稿</td>
-    		<td>12月总投稿</td>
-    		<td>12月人均投稿</td>
-    		<td>年总投稿</td>
-    		<td>年人均投稿</td>
+    		<td width="80px;" align="center">1月投稿</td>
+    		<td>人均排名</td>
+    		<td>2月投稿</td>
+    		<td>人均排名</td>
+    		<td>3月投稿</td>
+    		<td>人均排名</td>
+    		<td>4月投稿</td>
+    		<td>人均排名</td>
+    		<td>5月投稿</td>
+    		<td>人均排名</td>
+    		<td>6月投稿</td>
+    		<td>人均排名</td>
+    		<td>7月投稿</td>
+    		<td>人均排名</td>
+    		<td>8月投稿</td>
+    		<td>人均排名</td>
+    		<td>9月投稿</td>
+    		<td>人均排名</td>
+    		<td>10月投稿</td>
+    		<td>人均排名</td>
+    		<td>11月投稿</td>
+    		<td>人均排名</td>
+    		<td>12月投稿</td>
+    		<td>人均排名</td>
+    		<td>年投稿</td>
+    		<td>年人均排名</td>
     	</tr>
     	[#list reportList as list]
     	<tr>
     		<td>${list.departmentName!}</td>
     		<td>${list.januaryTotal !}</td>
-			<td>${list.januaryPer   !}</td>
+			<td>${list.januaryPerRank   !}</td>
 			<td>${list.februaryTotal!}</td>
-			<td>${list.februaryPer  !}</td>
+			<td>${list.februaryPerRank  !}</td>
 			<td>${list.marchTotal   !}</td>
-			<td>${list.marchPper    !}</td>
+			<td>${list.marchPerRank     !}</td>
 			<td>${list.aprilTotal   !}</td>
-			<td>${list.aprilPer     !}</td>
+			<td>${list.aprilPerRank     !}</td>
 			<td>${list.mayTotal     !}</td>
-			<td>${list.mayPer       !}</td>
+			<td>${list.mayPerRank       !}</td>
 			<td>${list.juneTotal    !}</td>
-			<td>${list.junePer      !}</td>
+			<td>${list.junePerRank      !}</td>
 			<td>${list.julyTotal    !}</td>
-			<td>${list.julyPer      !}</td>
+			<td>${list.julyPerRank      !}</td>
 			<td>${list.augustTotal  !}</td>
-			<td>${list.augustPer    !}</td>
+			<td>${list.augustPerRank    !}</td>
 			<td>${list.septemberTotal!}</td>
-			<td>${list.septemberPer !}</td>
+			<td>${list.septemberPerRank !}</td>
 			<td>${list.octoberTotal !}</td>
-			<td>${list.octoberPer   !}</td>
+			<td>${list.octoberPerRank   !}</td>
 			<td>${list.novemberTotal!}</td>
-			<td>${list.novemberPer  !}</td>
+			<td>${list.novemberPerRank  !}</td>
 			<td>${list.decemberTotal!}</td>
-			<td>${list.decemberPer  !}</td>
+			<td>${list.decemberPerRank  !}</td>
 			<td>${list.yearTotal    !}</td>
-			<td>${list.yearPer      !}</td>
+			<td>${list.yearPerRank      !}</td>
 	
     	</tr>
     	[/#list]
