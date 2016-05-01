@@ -1,7 +1,7 @@
 package com.jeecms.cms.action.directive;
 
-import static com.jeecms.common.web.freemarker.DirectiveUtils.OUT_BEAN;
 import static com.jeecms.common.web.freemarker.DirectiveUtils.OUT_LIST;
+import static com.jeecms.common.web.freemarker.DirectiveUtils.OUT_BEAN;
 import static freemarker.template.ObjectWrapper.DEFAULT_WRAPPER;
 
 import java.io.IOException;
@@ -18,58 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jeecms.cms.statistic.CmsStatisticSvc;
 import com.jeecms.cms.statistic.Rank;
-import com.jeecms.cms.statistic.rankview.RankView;
-import com.jeecms.cms.statistic.rankview.RankViewPattern;
-import com.jeecms.cms.statistic.rankview.RankViewSvc;
-import com.jeecms.common.web.freemarker.DirectiveUtils;
-import com.jeecms.common.web.freemarker.ParamsRequiredException;
-import com.jeecms.core.manager.CmsUserMng;
-import com.jeecms.extend.entity.CmsDepartment;
-import com.jeecms.extend.manager.CmsDepartmentMng;
-
-import freemarker.core.Environment;
-import freemarker.template.TemplateDirectiveBody;
-import freemarker.template.TemplateDirectiveModel;
-import freemarker.template.TemplateException;
-import freemarker.template.TemplateModel;
-//输入参数，rankview 的id
-//输入参数，只根据rankview的id来获取，不选择后台设置为启用的
-//排名分类
-//获取close参数
-//获取id参数
-//获取pattern参数
-//必须参数。没有则抛出异常
-//如果为true，则根据rankview的id来查询
-//返回id错误
-//如果没有设置，获取模板中的id
-//返回错误，未设置启用
-//把数据返回标签
-//对列表进行排序
-import com.jeecms.cms.statistic.rankreport.RankReportSvc;
-
-		Collections.sort(rankList, new Comparator() {
-			public int compare(Object a,Object b){
-				if(a!=null&&b!=null&&(((Rank)b).getCount() - ((Rank)a).getCount())>0){
-					return 1;
-				}else{
-					return -1;
-				}
-			}
-		});
-		if(rankView.getViewCount()<rankList.size()){
-			rankList = rankList.subList(0, rankView.getViewCount());
-		}
-		return rankList;
-	}
-	@Autowired
-	private CmsDepartmentMng cmsDepartmentMng;
-	@Autowired
-	private CmsUserMng cmsUserMng;
-	@Autowired
-	private RankViewSvc rankViewSvc;
-	@Autowired
-	private CmsStatisticSvc cmsStatisticSvc;
-=======
 import com.jeecms.cms.statistic.rankreport.RankReportSvc;
 import com.jeecms.cms.statistic.rankview.RankView;
 import com.jeecms.cms.statistic.rankview.RankViewPattern;
@@ -228,6 +176,5 @@ public class RankViewDirective implements TemplateDirectiveModel {
 	private CmsStatisticSvc cmsStatisticSvc;
 	@Autowired
 	private RankReportSvc rankReportSvc;
->>>>>>> refs/remotes/origin/develop
 
 }
