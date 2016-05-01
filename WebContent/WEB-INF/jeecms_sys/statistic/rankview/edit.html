@@ -48,11 +48,13 @@ var submitQuery = function(){
 <input type="hidden" name="id" value="${rankview.id}"/>
 
 <@p.text label="cms.rankview.add.title" id="title"  value=rankview.title name="title"  required="true" class="required digits"/>
+
 <!-- <@p.select label="cmsLucene.channelId" value=channelId  id="channelId" name="channelId" list=channelList listKey="id" listValue="name" listDeep="deep" headerKey="" headerValue="cmsLucene.allChannel"/> -->
 <@p.select label="cms.rankview.add.category" value=(rankview.category)! name="category" list=categoryList listKey="value" listValue="name"   headerKey="" headerValue="select.rankview.category" required="true"/>
 
 <!-- <@p.text label="cmsLucene.startDate" id="beginDate" value=(rankview.beginDate?string('yyyy-MM-dd'))!""  name="beginDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/> -->
 <!-- <@p.text label="cmsLucene.endDate" id="endDate" value=(rankview.endDate ?string('yyyy-MM-dd'))!"" name="endDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/> -->
+
 <@p.select  label="cms.rankview.add.viewcount" value=rankview.viewCount required="true" class="required digits" id="viewCount" name="viewCount" list=viewCountList listKey="id" listValue="title"  headerKey="" headerValue="cms.rankview.add.viewcountselect"/>
 <@p.select label="cms.rankview.add.pattern" value=rankview.pattern name="pattern" list=patternList listKey="value" listValue="name"   headerKey="" headerValue="select.rankview.pattern" required="true"/>
 

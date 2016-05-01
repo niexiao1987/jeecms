@@ -47,6 +47,7 @@ public class RankReportDaoImpl extends HibernateBaseDao<RankReport, Integer> imp
 		return find(f);
 	}
 
+
 	@Override
 	public List<RankReport> getYearRank(String thisYear, String[] patterns,
 			boolean isPersonCount) {
@@ -73,5 +74,6 @@ public class RankReportDaoImpl extends HibernateBaseDao<RankReport, Integer> imp
 		}
 		return find(f);
 	}
+
 
 }

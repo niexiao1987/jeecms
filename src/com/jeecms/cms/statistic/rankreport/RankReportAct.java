@@ -33,7 +33,7 @@ public class RankReportAct {
 			
 		}
 		List<RankReport> rList = rankReportSvc.getThisYearReport(year,pattern);
-	
+
 		model.addAttribute("reportList", rList);
 		//获取所有年份，以供选择
 		List<String> yearList = rankReportSvc.getYearList();
