@@ -1,0 +1,224 @@
+create or replace procedure pro_rank_every_month as
+       /**
+       *每月投稿统计报表，每个月最后一天自动执行
+       */
+        beginDate varchar2(100);
+        endDate varchar2(100);
+        thisMonth varchar2(5);
+        monthField varchar2(100);
+        insertsql varchar2(3000);
+        updatesql varchar2(1000);
+        updateranksql varchar2(1000);--更新排名sql
+        --创建游标
+         cursor cur_rank_month
+         is select to_char(sysdate,'yyyy') as year_,cmsdepartm2_.department_id as department_id,
+               count(content0_.content_id) as content_count
+          from jc_content content0_
+         inner join jc_department cmsdepartm1_
+            on content0_.department_id = cmsdepartm1_.department_id
+         cross join jc_department cmsdepartm2_
+         cross join jc_department_ext cmsdepartm3_
+         cross join jc_channel channel5_
+         cross join jc_content_ext contentExt
+         where cmsdepartm2_.department_id = cmsdepartm3_.department_id
+           and content0_.channel_id = channel5_.channel_id
+           and contentExt.content_id = content0_.content_id
+           and (cmsdepartm1_.lft between cmsdepartm2_.lft and
+               cmsdepartm2_.rgt)
+           and content0_.status = 2
+           and channel5_.can_rank = 1
+           and to_char(contentExt.Release_Date,'YYYY-MM-DD HH24:MM:SS') >= beginDate
+           and to_char(contentExt.Release_Date,'YYYY-MM-DD HH24:MM:SS') < endDate
+         group by cmsdepartm2_.department_id;
+         --创建所有部门游标
+         cursor cur_department_all
+         is select t.department_id,ext.department_name,ext.category_ from jc_department t,jc_department_ext ext
+         where t.department_id = ext.department_id
+         and t.department_id not in(select t.department_id from jc_rank_every_month t
+         where to_char(t.year_)=to_char(sysdate,'yyyy'));
+     
+         --声明记录类型
+         type record_rank is record
+         (
+            var_year jc_rank_every_month.year_%type,
+            var_department_id jc_rank_every_month.department_id%type,
+            var_month_field jc_rank_every_month.january_total%type
+         );
+
+          --创建记录类型
+         rank_row record_rank;
+         department_count number(10);
+         --声明所有部门记录类型
+         department_all_row cur_department_all%rowtype;
+         
+
+        
+       begin
+          beginDate:= to_char(trunc(add_months(last_day(sysdate),-1)+1),'YYYY-MM-DD')||' 00:00:00';
+          endDate:= to_char(last_day(sysdate),'YYYY-MM-DD')||' 23:59:59';
+          thisMonth:=to_char(sysdate,'mm');
+
+          case thisMonth
+            when 01 then
+              monthField:='january';
+            when 02 then
+              monthField:='february';
+            when 03 then
+              monthField:='march';
+            when 04 then
+              monthField:='april';
+            when 05 then
+              monthField:='may';
+            when 06 then
+              monthField:='june';
+            when 07 then
+              monthField:='july';
+            when 08 then
+              monthField:='august';
+            when 09 then
+              monthField:='september';
+            when 10 then
+              monthField:='october';
+            when 11 then
+              monthField:='november';
+            when 12 then
+              monthField:='december';
+            else
+              dbms_output.put_line('本月月份数字异常！');
+         end case;
+
+
+         --打开游标
+
+         --for循环不用显示的打开关闭游标
+         --每次执行，检测报表中是否存在系统中没有的部门，没有就插入
+         
+         for department_all_row in cur_department_all
+           loop
+            
+                 insertsql:='insert into jc_rank_every_month(year_,department_id,department_name,department_pattern,january_total,january_per,february_total,february_per,march_total,march_per, april_total,
+                          april_per  ,
+                          may_total ,
+                          may_per   ,
+                          june_total ,
+                          june_per,
+                          july_total,
+                          july_per,
+                          august_total ,
+                          august_per,
+                          september_total,
+                          september_per ,
+                          october_total ,
+                          october_per,
+                          november_total  ,
+                          november_per ,
+                          december_total ,
+                          december_per,
+                          year_total,
+                          year_per ,
+                          january_total_rank,january_per_rank,february_total_rank,february_per_rank,march_total_rank,march_per_rank, april_total_rank,
+                          april_per_rank  ,
+                          may_total_rank ,
+                          may_per_rank   ,
+                          june_total_rank ,
+                          june_per_rank,
+                          july_total_rank,
+                          july_per_rank,
+                          august_total_rank ,
+                          august_per_rank,
+                          september_total_rank,
+                          september_per_rank ,
+                          october_total_rank ,
+                          october_per_rank,
+                          november_total_rank  ,
+                          november_per_rank ,
+                          december_total_rank ,
+                          december_per_rank,
+                          year_total_rank,
+                          year_per_rank    ) values (:d1,:d2,:d3,:d4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)';
+                   execute immediate insertsql  using to_char(sysdate,'yyyy'),department_all_row.department_id,department_all_row.department_name,department_all_row.category_;
+                
+           end loop;
+
+           commit;
+
+
+         open cur_rank_month;
+         updatesql:= 'update jc_rank_every_month set
+         '||monthField||'_total=:d4,'||monthField||'_per=:d5 where year_='||to_char(sysdate,'yyyy')||' and department_id=:d6';
+         
+        fetch cur_rank_month into rank_row;
+         while cur_rank_month%found loop
+            select t.person_count into department_count from jc_department  t where t.department_id =  rank_row.var_department_id;
+               execute immediate updatesql  using rank_row.var_month_field,rank_row.var_month_field/department_count,rank_row.var_department_id;
+               update jc_rank_every_month t set
+                      t.year_total =(t.january_total+t.february_total+t.march_total+t.april_total+t.may_total+t.june_total+t.july_total+t.august_total+t.october_total+t.september_total+t.november_total+t.december_total),
+                      t.year_per =  (t.january_per+t.february_per+t.march_per+t.april_per+t.may_per+t.june_per+t.july_per+t.august_per+t.october_per+t.september_per+t.november_per+t.december_per);
+            commit;
+            fetch cur_rank_month into rank_row;
+         end loop;
+
+         close cur_rank_month;
+         --更新本月排名和年排名（上面已经跟新过本月total，per和年total，per的数据，排序后去rownum插入到排名列）
+          updateranksql:='merge into jc_rank_every_month r
+                          using (select  t.*,rownum ranknum from 
+                          (select t.year_, t.department_id,t.department_name,t.'||monthField||'_total from jc_rank_every_month t
+                          where t.year_ = 2016
+                          and (t.department_pattern =:d1 or t.department_pattern=:d2)
+                          order by t.'||monthField||'_total desc) t) t
+                          on (r.year_ = t.year_ and r.department_id = t.department_id)
+                          when matched then
+                            update set
+                            r.'||monthField||'_total_rank = t.ranknum';
+           execute immediate updateranksql  using  'bu','xi';
+           execute immediate updateranksql  using  'chu','shi';
+           execute immediate updateranksql  using  'dui','dui';
+           commit;
+           
+            updateranksql:='merge into jc_rank_every_month r
+                          using (select  t.*,rownum ranknum from 
+                          (select t.year_, t.department_id,t.department_name,t.'||monthField||'_per from jc_rank_every_month t
+                          where t.year_ = 2016
+                          and (t.department_pattern =:d1 or t.department_pattern=:d2)
+                          order by t.'||monthField||'_per desc) t) t
+                          on (r.year_ = t.year_ and r.department_id = t.department_id)
+                          when matched then
+                            update set
+                            r.'||monthField||'_per_rank = t.ranknum';
+           execute immediate updateranksql  using  'bu','xi';
+           execute immediate updateranksql  using  'chu','shi';
+           execute immediate updateranksql  using  'dui','dui';
+           commit;
+           --年排名
+           updateranksql:='merge into jc_rank_every_month r
+                          using (select  t.*,rownum ranknum from 
+                          (select t.year_, t.department_id,t.department_name,t.year_total from jc_rank_every_month t
+                          where t.year_ = 2016
+                          and (t.department_pattern =:d1 or t.department_pattern=:d2)
+                          order by t.year_total desc) t) t
+                          on (r.year_ = t.year_ and r.department_id = t.department_id)
+                          when matched then
+                            update set
+                            r.year_total_rank = t.ranknum';
+           execute immediate updateranksql  using  'bu','xi';
+           execute immediate updateranksql  using  'chu','shi';
+           execute immediate updateranksql  using  'dui','dui';
+           commit;
+           
+           updateranksql:='merge into jc_rank_every_month r
+                          using (select  t.*,rownum ranknum from 
+                          (select t.year_, t.department_id,t.department_name,t.year_per from jc_rank_every_month t
+                          where t.year_ = 2016
+                          and (t.department_pattern =:d1 or t.department_pattern=:d2)
+                          order by t.year_per desc) t) t
+                          on (r.year_ = t.year_ and r.department_id = t.department_id)
+                          when matched then
+                            update set
+                            r.year_per_rank = t.ranknum';
+           execute immediate updateranksql  using  'bu','xi';
+           execute immediate updateranksql  using  'chu','shi';
+           execute immediate updateranksql  using  'dui','dui';
+           commit;
+         
+
+       end pro_rank_every_month;
