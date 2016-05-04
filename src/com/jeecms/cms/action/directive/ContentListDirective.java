@@ -53,22 +53,10 @@ public class ContentListDirective extends AbstractContentDirective {
 		Date date = new Date();
 
 		for (Content c : list) {
-			Set<com.jeecms.cms.entity.main.ContentCheck> checkSet = c
-					.getContentCheckSet();
-			Date checkDate = null;
-			for (com.jeecms.cms.entity.main.ContentCheck contentCheck : checkSet) {
-
-				if (checkDate != null
-						&& checkDate.after(contentCheck.getCheckDate())) {
-
-				} else {
-					checkDate = contentCheck.getCheckDate();
-				}
-			}
-			if(checkDate==null){
-				checkDate =c.getReleaseDate();
-			}
-			long timeSpan = date.getTime() - checkDate.getTime();
+			
+			Date releaseDate = c.getReleaseDate();;
+			
+			long timeSpan = date.getTime() - releaseDate.getTime();
 			Long haveCheckedTime = (timeSpan / (1000 * 60 * 60 * 24));
 			c.setHaveCheckedTime(haveCheckedTime);
 		}

@@ -37,8 +37,9 @@
             您搜索的<span class="red">“${input!}”</span>， 共有 <span class="red">${tag_pagination.totalCount!} 条</span> 查询结果，[@process_time/]
             </div>
             [#list tag_list as s]
+            [#if s??]
             <dl class="sslist">
-                <dt><span>[<a href="${s.ctgUrl!}" target="_blank">${s.ctgName!'未知栏目'}</a>]</span>  <a href="${s.url}" title="${s.title!'未知标题'}" target="_blank">
+                <dt><span>[<a href="${s.ctgUrl!}" target="_blank">${s.ctgName!'未知栏目'}</a>]</span>  <a href="${s.url!}" title="${s.title!'未知标题'}" target="_blank">
              	${s.title?replace('${q!}', "<span style='color: red;'>${q!}</span>")}  
                 </a></dt>
                 <dd class="zy">
@@ -48,6 +49,7 @@
                 </dd>
                 <dd>来源： <a href="${s.originUrl!}" target="_blank">${s.origin!'本站原创'}</a> &nbsp;&nbsp; 浏览次数：${s.views!0}次 &nbsp;&nbsp; 发布时间： ${s.releaseDate!"未知"} </dd>
             </dl>
+            [/#if]
             [/#list]
             <div class="pagesite">[@cms_pagination sysPage='1'/]</div>
             [/@cms_lucene_page]	  

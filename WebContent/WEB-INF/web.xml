@@ -212,6 +212,7 @@
     <welcome-file>index.shtml</welcome-file>
     <welcome-file>index.jhtml</welcome-file>
   </welcome-file-list>
+
   <mime-mapping>
     <extension>rar</extension>
     <mime-type>application/zip</mime-type>

@@ -83,7 +83,7 @@ $(".rank_content").eq(0).show();
     [#include "../include/navi.html"/]
     [#include "../include/carousel.html"/]
     
-    [#assign newdays=2]
+    [#assign newdays=3]
     <div class="main">
 	    <div class="main_left">
 	    	<div class="main_left_left">
@@ -139,7 +139,7 @@ $(".rank_content").eq(0).show();
 	    				<ul>
                             [@cms_content_list count='9' orderBy='4' titLen='23' channelId='11'  channelOption='1']
                             [#list tag_list as a]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]&nbsp;&nbsp;</a>[#if a.haveCheckedTime lt newdays]<div class="news_new${a.haveCheckedTime}"></div>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
                             [/#list]
                             [/@cms_content_list]
                         </ul>	
@@ -161,7 +161,7 @@ $(".rank_content").eq(0).show();
 	    				<ul>
                             [@cms_content_list count='9' orderBy='4' titLen='23' channelId='12'  channelOption='1']
                             [#list tag_list as a]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]&nbsp;&nbsp;</a>[#if a.haveCheckedTime lt newdays]<div class="news_new${a.haveCheckedTime}"></div>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
                             [/#list]
                             [/@cms_content_list]
                         </ul>	
@@ -179,9 +179,9 @@ $(".rank_content").eq(0).show();
 	    		</div>
 	    		<div class="content_list">
 	    				<ul>
-                            [@cms_content_list count='9' orderBy='4' titLen='24' channelId='13'  channelOption='1']
+                            [@cms_content_list count='9' orderBy='4' titLen='20' channelId='13'  channelOption='1']
                             [#list tag_list as a]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]&nbsp;&nbsp;</a>[#if a.haveCheckedTime lt newdays]<div class="news_new${a.haveCheckedTime}"></div>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
                             [/#list]
                             [/@cms_content_list]
                         </ul>	
@@ -226,9 +226,9 @@ $(".rank_content").eq(0).show();
 	    		</div>
 	    		<div class="content_list">
 	    				<ul>
-                            [@cms_content_list count='9' orderBy='4' titLen='24' channelId='14'  channelOption='1']
+                            [@cms_content_list count='9' orderBy='4' titLen='20' channelId='14'  channelOption='1']
                             [#list tag_list as a]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]&nbsp;&nbsp;</a>[#if a.haveCheckedTime lt newdays]<div class="news_new${a.haveCheckedTime}"></div>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
                             [/#list]
                             [/@cms_content_list]
                         </ul>	
@@ -246,7 +246,7 @@ $(".rank_content").eq(0).show();
 	    		</div>
 	    		<div class="content_list star_content_list">
 	    				<ul>
-                            [@cms_content_list count='1' orderBy='4' titLen='24' channelId='15'  channelOption='1']
+                            [@cms_content_list count='1' orderBy='4' titLen='20' channelId='15'  channelOption='1']
                             [#list tag_list as a]
                             <li style="border-bottom: none; background: none;">
                             	<div class="star_content">
@@ -273,9 +273,9 @@ $(".rank_content").eq(0).show();
 	    		</div>
 	    		<div class="content_list">
 	    				<ul>
-                            [@cms_content_list count='9' orderBy='4' titLen='24' channelId='40'  channelOption='1']
+                            [@cms_content_list count='9' orderBy='4' titLen='20' channelId='40'  channelOption='1']
                             [#list tag_list as a]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]&nbsp;&nbsp;</a>[#if a.haveCheckedTime lt newdays]<div class="news_new${a.haveCheckedTime}"></div>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
                             [/#list]
                             [/@cms_content_list]
                         </ul>	
@@ -294,13 +294,9 @@ $(".rank_content").eq(0).show();
 	    		</div>
 	    		<div class="content_list">
 	    				<ul>
-                            [@cms_content_list count='9' orderBy='4' titLen='24' channelId='41'  channelOption='1']
+                            [@cms_content_list count='9' orderBy='4' titLen='20' channelId='41'  channelOption='1']
                             [#list tag_list as a]
-                            [#if a.id==448]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank" style="color:#e66100;">[@text_cut s=a.title len=23 /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>${a.contentExt.releaseDate}</span></li>
-                            [#else]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
-                            [/#if]
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]&nbsp;&nbsp;</a>[#if a.haveCheckedTime lt newdays]<div class="news_new${a.haveCheckedTime}"></div>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
                             [/#list]
                             [/@cms_content_list]
                         </ul>	
@@ -319,9 +315,9 @@ $(".rank_content").eq(0).show();
 	    		</div>
 	    		<div class="content_list">
 	    				<ul>
-                            [@cms_content_list count='6' orderBy='4' titLen='24' channelId='69'  channelOption='1']
+                            [@cms_content_list count='6' orderBy='4' titLen='20' channelId='69'  channelOption='1']
                             [#list tag_list as a]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]&nbsp;&nbsp;</a>[#if a.haveCheckedTime lt newdays]<div class="news_new${a.haveCheckedTime}"></div>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
                             [/#list]
                             [/@cms_content_list]
                         </ul>	
@@ -339,9 +335,9 @@ $(".rank_content").eq(0).show();
 	    		</div>
 	    		<div class="content_list">
 	    				<ul>
-                            [@cms_content_list count='6' orderBy='4' titLen='24' channelId='49'  channelOption='1']
+                            [@cms_content_list count='6' orderBy='4' titLen='20' channelId='49'  channelOption='1']
                             [#list tag_list as a]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
+                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]&nbsp;&nbsp;</a>[#if a.haveCheckedTime lt newdays]<div class="news_new${a.haveCheckedTime}"></div>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
                             [/#list]
                             [/@cms_content_list]
                         </ul>	
