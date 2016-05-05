@@ -358,7 +358,7 @@ img{ border:0; -ms-interpolation-mode:bicubic;}
 .newsTex h1{ font-size:28px; padding:20px 0; font-family:"微软雅黑","黑体"; text-align:center; line-height:30px;}
 .msgbar{ line-height:30px; text-align:center; color:#999; font-size:12px;}
 .summary/*摘要*/{ border:1px solid #dddddd; background:#f8fbff; padding:8px 2px; width:98%; margin:10px auto; line-height:20px; font-size:12px; color:#727272;}
-.newsCon{ width:100%; line-height:2.5em;min-height: 320px;}
+.newsCon{ width:100%; line-height:2.5em;min-height: 320px;overflow: hidden;}
 .pagebar{height:30px;line-height:30px; text-align:center;}
 .other{height:60px; text-align:center;  padding-top:10px;}
 .other ul{float:left; margin-left:10px;}

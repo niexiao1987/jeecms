@@ -201,4 +201,18 @@ public class HtmlParseUtil {
 		}
 		return "";
 	}
+	
+    //获取所有图片
+	public static List<String> getAllImg(String txt){
+		List<String> imgList = new ArrayList<String>();
+		if(!StringUtil.isBlank(txt)){
+			Document document = Jsoup.parse(txt);
+			Elements elements = document.getElementsByTag("img");
+			for (int i = 0; i < elements.size(); i++) {
+				imgList.add(elements.get(i).attr("src"));
+			}
+			
+		}
+		return imgList;
+	}
 }

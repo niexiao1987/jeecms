@@ -2,6 +2,8 @@ package com.jeecms.cms.action.admin.main;
 
 import static com.jeecms.common.page.SimplePage.cpn;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,8 +13,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
@@ -62,6 +67,7 @@ import com.jeecms.common.web.CookieUtils;
 import com.jeecms.common.web.RequestUtils;
 import com.jeecms.common.web.ResponseUtils;
 import com.jeecms.common.web.springmvc.MessageResolver;
+import com.jeecms.common.web.springmvc.RealPathResolver;
 import com.jeecms.common.xml.XMLUtil;
 import com.jeecms.core.entity.CmsGroup;
 import com.jeecms.core.entity.CmsSite;
@@ -84,7 +90,7 @@ import com.jeecms.extend.manager.ContentCheckRecordMng;
 @Controller
 public class ContentAct {
 	private static final Logger log = LoggerFactory.getLogger(ContentAct.class);
-
+	private static final int CONTENT_IMG_WIDTH = 600;
 	@RequiresPermissions("content:v_left")
 	@RequestMapping("/content/v_left.do")
 	public String left(String source, ModelMap model) {
@@ -542,6 +548,9 @@ public class ContentAct {
 		if(StringUtils.isBlank(ext.getTitleImg())){
 			ext.setTitleImg(HtmlParseUtil.getFirstImg(txt.getTxt()));
 		}
+		//默认修改图片宽度为600px
+		createThumImage(txt.getTxt(),request);
+		
 		// 加上模板前缀
 		CmsSite site = CmsUtils.getSite(request);
 		CmsUser user = CmsUtils.getUser(request);
@@ -549,9 +558,7 @@ public class ContentAct {
 		if(user.isSuper()){
 			if(departmentId!=null){
 				bean.setDepartment(cmsDepartmentMng.findById(departmentId));
-				
 			}
-			
 		}else{
 			bean.setDepartment(user.getDepartment());
 		}
@@ -632,6 +639,8 @@ public class ContentAct {
 		if(StringUtils.isBlank(ext.getTitleImg())){
 			ext.setTitleImg(HtmlParseUtil.getFirstImg(txt.getTxt()));
 		}
+		//默认修改图片宽度为600px
+		createThumImage(txt.getTxt(),request);
 		bean = manager.update(bean, ext, txt, tagArr, channelIds, topicIds,
 				viewGroupIds, attachmentPaths, attachmentNames,
 				attachmentFilenames, picPaths, picDescs, attr, channelId,
@@ -1188,6 +1197,23 @@ public class ContentAct {
 		System.out.println(contentsXml);
 	}
 
+	//生成缩略图（把图片宽度大于600的变成600）
+	private void createThumImage(String txt,HttpServletRequest request){
+		List<String> imgList = HtmlParseUtil.getAllImg(txt);
+		for(int i=0;i<imgList.size();i++){
+			String imgPath = realPathResolver.get(imgList.get(i).substring(request.getContextPath().length()));
+			try {
+				BufferedImage buffImage = ImageIO.read(new File(imgPath));
+				int orWidth = buffImage.getWidth();
+				System.out.println("orWidth:"+orWidth);
+				if(orWidth>CONTENT_IMG_WIDTH){
+					Thumbnails.of(imgPath).width(CONTENT_IMG_WIDTH).toFile(imgPath);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			};
+		}
+	}
 	private WebErrors validateExit(String[] contentIds,
 			HttpServletRequest request) {
 		WebErrors errors = WebErrors.create(request);
@@ -1485,7 +1511,8 @@ public class ContentAct {
 		}
 		return txtHtml;
 	}
-
+	@Autowired
+	protected RealPathResolver realPathResolver;
 	@Autowired
 	private ChannelMng channelMng;
 	@Autowired
