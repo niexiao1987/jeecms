@@ -39,7 +39,7 @@
             [#list tag_list as s]
             [#if s??]
             <dl class="sslist">
-                <dt><span>[<a href="${s.ctgUrl!}" target="_blank">${s.ctgName!'未知栏目'}</a>]</span>  <a href="${s.url!}" title="${s.title!'未知标题'}" target="_blank">
+                <dt><span>[<a href="${s.ctgUrl!}" target="_blank">${s.ctgName!'未知栏目'}</a>]</span>  <a href="${s.url}" title="${s.title!'未知标题'}" target="_blank">
              	${s.title?replace('${q!}', "<span style='color: red;'>${q!}</span>")}  
                 </a></dt>
                 <dd class="zy">
