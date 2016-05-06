@@ -196,7 +196,7 @@ $(".rank_content").eq(0).show();
 	    		</div>
 	    	<div class="imgAndword_list">
 	    			<ul class="box imgAndword_list_box">
-                        [@cms_content_list typeId='1,2,3' count='6' titLen='20' image='1' channelOption='1' channelId='11,12,13,69,14,40,41,42' orderBy='4']
+                        [@cms_content_list typeId='1,2,3' count='6' titLen='20' image='1' channelOption='1' channelId='11,12,13,69,14,40,41,42' orderBy='4' ]
                         [#list tag_list as a]
                         <li>
                         <a href="${a.url}" title="${a.title}" target="_blank">
@@ -226,7 +226,7 @@ $(".rank_content").eq(0).show();
 	    		</div>
 	    		<div class="content_list">
 	    				<ul>
-                            [@cms_content_list count='9' orderBy='4' titLen='20' channelId='14'  channelOption='1']
+                            [@cms_content_list count='9' orderBy='4' titLen='20' channelId='14'  channelOption='1' ]
                             [#list tag_list as a]
                             <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 23]...[/#if]&nbsp;&nbsp;</a>[#if a.haveCheckedTime lt newdays]<div class="news_new${a.haveCheckedTime}"></div>[/#if]<span>[@text_cut s=a.contentExt.releaseDate?string('yyyy-MM-dd') len=10 /]</span></li>
                             [/#list]

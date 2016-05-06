@@ -92,9 +92,9 @@ public class ContentMngImpl implements ContentMng, ChannelDeleteChecker {
 			// 由于网站的设置 allChannel一般都为true，所以一般走不到这个方法
 			// 原因待查
 			p = dao.getPageByRight(title, author, editor, approver, typeId,
-					inputUserId, topLevel, recommend, status, checkStep,
-					siteId, channelId, userId, selfData, orderBy, pageNo,
-					pageSize);
+					userId, inputUserId, inputDepartmentId, topLevel,
+					recommend, status, checkStep, siteId, channelId, userId,
+					selfData, orderBy, pageNo, pageSize, superAdmin);
 		}
 		return p;
 	}
@@ -416,7 +416,7 @@ public class ContentMngImpl implements ContentMng, ChannelDeleteChecker {
 		}
 		// 是否有标题图
 		bean.setHasTitleImg(!StringUtils.isBlank(ext.getTitleImg()));
-		
+
 		// 更新栏目
 		if (channelId != null) {
 			bean.setChannel(channelMng.findById(channelId));
@@ -679,11 +679,11 @@ public class ContentMngImpl implements ContentMng, ChannelDeleteChecker {
 		cmsCommentMng.deleteByContentId(id);
 		// 删除附件记录
 		fileMng.deleteByContentId(id);
-		//删除审核记录 add by niexiao
+		// 删除审核记录 add by niexiao
 		contentCheckRecordMng.deleteByContentId(id);
 		bean.clear();
 		bean = dao.deleteById(id);
-		
+
 		// 执行监听器
 		afterDelete(bean);
 		return bean;

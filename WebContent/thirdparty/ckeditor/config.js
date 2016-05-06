@@ -57,4 +57,5 @@ CKEDITOR.on( 'instanceReady', function( ev ) { with (ev.editor.dataProcessor.wri
 	setRules("div", {indent : true, breakBeforeOpen : true, breakAfterOpen : false,breakBeforeClose : false,  breakAfterClose : true} );
 	}
 }); 
+//config.image_previewText='';
 
