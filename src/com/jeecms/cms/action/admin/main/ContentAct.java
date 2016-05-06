@@ -24,6 +24,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -548,8 +550,10 @@ public class ContentAct {
 		if(StringUtils.isBlank(ext.getTitleImg())){
 			ext.setTitleImg(HtmlParseUtil.getFirstImg(txt.getTxt()));
 		}
-		//默认修改图片宽度为600px
-		createThumImage(txt.getTxt(),request);
+		//获取内容中图片的path和width
+		Map<String,Integer> imgMap = HtmlParseUtil.getAllImgAndWidth(txt.getTxt());
+		//默认修改图片宽度为设置宽度，默认为600px
+		txt.setTxt(createThumImage(imgMap,request,txt.getTxt())); 
 		
 		// 加上模板前缀
 		CmsSite site = CmsUtils.getSite(request);
@@ -639,8 +643,10 @@ public class ContentAct {
 		if(StringUtils.isBlank(ext.getTitleImg())){
 			ext.setTitleImg(HtmlParseUtil.getFirstImg(txt.getTxt()));
 		}
-		//默认修改图片宽度为600px
-		createThumImage(txt.getTxt(),request);
+		//获取内容中图片的path和width
+		Map<String,Integer> imgMap = HtmlParseUtil.getAllImgAndWidth(txt.getTxt());
+		//默认修改图片宽度为设置宽度，默认为600px
+		txt.setTxt(createThumImage(imgMap,request,txt.getTxt())); 
 		bean = manager.update(bean, ext, txt, tagArr, channelIds, topicIds,
 				viewGroupIds, attachmentPaths, attachmentNames,
 				attachmentFilenames, picPaths, picDescs, attr, channelId,
@@ -1198,21 +1204,34 @@ public class ContentAct {
 	}
 
 	//生成缩略图（把图片宽度大于600的变成600）
-	private void createThumImage(String txt,HttpServletRequest request){
-		List<String> imgList = HtmlParseUtil.getAllImg(txt);
-		for(int i=0;i<imgList.size();i++){
-			String imgPath = realPathResolver.get(imgList.get(i).substring(request.getContextPath().length()));
+	private String createThumImage(Map<String,Integer> imgMap,HttpServletRequest request,String txt){
+		Document document = Jsoup.parse(txt);
+		for(String path:imgMap.keySet()){
+			String imgPath = realPathResolver.get(path.substring(request.getContextPath().length()));
 			try {
 				BufferedImage buffImage = ImageIO.read(new File(imgPath));
 				int orWidth = buffImage.getWidth();
-				System.out.println("orWidth:"+orWidth);
-				if(orWidth>CONTENT_IMG_WIDTH){
+				Integer setWidth = imgMap.get(path);
+				//如果设置大小跟原图大小一样，就说明没有设置，自动设置裁剪为宽度600
+				if(orWidth == setWidth){
 					Thumbnails.of(imgPath).width(CONTENT_IMG_WIDTH).toFile(imgPath);
+					document.getElementsByAttributeValue("src", path).attr("style", "width:"+CONTENT_IMG_WIDTH+"px;");
 				}
+				//如果设置宽度大于图片原始宽度，会失真，所以把图片宽度设置为600
+				if(setWidth>orWidth){
+					document.getElementsByAttributeValue("src", path).attr("style", "width:"+CONTENT_IMG_WIDTH+"px;");
+				}
+				//原始宽度>设置宽度>600，则设置为设置的宽度，前提是图片原始宽度必须大于设置的
+				if(orWidth>CONTENT_IMG_WIDTH&&setWidth>CONTENT_IMG_WIDTH&&orWidth>setWidth){
+					Thumbnails.of(imgPath).width(setWidth).toFile(imgPath);
+					document.getElementsByAttributeValue("src", path).attr("style", "width:"+setWidth+"px;");
+				}
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			};
 		}
+		return document.toString();
 	}
 	private WebErrors validateExit(String[] contentIds,
 			HttpServletRequest request) {

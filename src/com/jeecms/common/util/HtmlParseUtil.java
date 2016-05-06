@@ -1,6 +1,8 @@
 package com.jeecms.common.util;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -214,5 +216,20 @@ public class HtmlParseUtil {
 			
 		}
 		return imgList;
+	}
+	//获取所有图片和图片宽度
+	public static Map<String,Integer> getAllImgAndWidth(String txt){
+		Map<String,Integer> imgWidth = new HashMap<String,Integer>();
+		if(!StringUtil.isBlank(txt)){
+			Document document = Jsoup.parse(txt);
+			Elements elements = document.getElementsByTag("img");
+			for (int i = 0; i < elements.size(); i++) {
+				String style = elements.get(i).attr("style");
+				style = style.substring(style.indexOf("width:")+7);
+				String width = style.substring(0, style.indexOf("px"));
+				imgWidth.put(elements.get(i).attr("src"), Integer.parseInt(width));
+			}
+		}
+		return imgWidth;
 	}
 }
