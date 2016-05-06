@@ -37,7 +37,7 @@
     
     <table  border="0" cellpadding="0" cellspacing="0" class="report_table">
     	<tr>
-    		<td nowrap="nowrap">月份</td>
+    		<td nowrap="nowrap" rowspan="2">部门名称</td>
     		<td colspan="2">1月</td>
     		<td colspan="2">2月</td>
     		<td colspan="2">3月</td>
@@ -53,12 +53,12 @@
     		<td colspan="2">年度</td>
     	</tr>
     	<tr>
-    		<td >部门名称</td>
+    		
     		<td >投稿</td>
     		<td >排名</td>
     		<td >投稿</td>
     		<td >排名</td>
-    		<td >总投稿</td>
+    		<td >投稿</td>
     		<td >排名</td>
     		<td >投稿</td>
     		<td >排名</td>
@@ -85,7 +85,7 @@
     	<tr>
     	[#if pattern='bu,xi']
   
-    		<td>${list.departmentName!}</td>
+    		<td style="max-width:200px;">${list.departmentName!}</td>
     		<td>${list.januaryTotal !}</td>
 			<td>${list.januaryPerRank   !}</td>
 			<td>${list.februaryTotal!}</td>
