@@ -553,7 +553,7 @@ public class ContentAct {
 		//获取内容中图片的path和width
 		Map<String,Integer> imgMap = HtmlParseUtil.getAllImgAndWidth(txt.getTxt());
 		//默认修改图片宽度为设置宽度，默认为600px
-		txt.setTxt(createThumImage(imgMap,request,txt.getTxt())); 
+		txt.setTxt(createThumImage(imgMap,request,txt.getTxt(),"save")); 
 		
 		// 加上模板前缀
 		CmsSite site = CmsUtils.getSite(request);
@@ -646,7 +646,7 @@ public class ContentAct {
 		//获取内容中图片的path和width
 		Map<String,Integer> imgMap = HtmlParseUtil.getAllImgAndWidth(txt.getTxt());
 		//默认修改图片宽度为设置宽度，默认为600px
-		txt.setTxt(createThumImage(imgMap,request,txt.getTxt())); 
+		txt.setTxt(createThumImage(imgMap,request,txt.getTxt(),"update")); 
 		bean = manager.update(bean, ext, txt, tagArr, channelIds, topicIds,
 				viewGroupIds, attachmentPaths, attachmentNames,
 				attachmentFilenames, picPaths, picDescs, attr, channelId,
@@ -1204,7 +1204,7 @@ public class ContentAct {
 	}
 
 	//生成缩略图（把图片宽度大于600的变成600）
-	private String createThumImage(Map<String,Integer> imgMap,HttpServletRequest request,String txt){
+	private String createThumImage(Map<String,Integer> imgMap,HttpServletRequest request,String txt,String flag){
 		Document document = Jsoup.parse(txt);
 		for(String path:imgMap.keySet()){
 			String imgPath = realPathResolver.get(path.substring(request.getContextPath().length()));
@@ -1213,7 +1213,7 @@ public class ContentAct {
 				int orWidth = buffImage.getWidth();
 				Integer setWidth = imgMap.get(path);
 				//如果设置大小跟原图大小一样，就说明没有设置，自动设置裁剪为宽度600
-				if(orWidth == setWidth){
+				if("save".equals(flag)&&orWidth == setWidth){
 					Thumbnails.of(imgPath).width(CONTENT_IMG_WIDTH).toFile(imgPath);
 					document.getElementsByAttributeValue("src", path).attr("style", "width:"+CONTENT_IMG_WIDTH+"px;");
 				}
