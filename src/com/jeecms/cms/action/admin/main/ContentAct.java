@@ -546,15 +546,13 @@ public class ContentAct {
 		CmsSite site = CmsUtils.getSite(request);
 		CmsUser user = CmsUtils.getUser(request);
 		//保存部门
-		if(user.isSuper()){
-			if(departmentId!=null){
-				bean.setDepartment(cmsDepartmentMng.findById(departmentId));
-				
-			}
-			
+		
+		if(departmentId!=null){
+			bean.setDepartment(cmsDepartmentMng.findById(departmentId));
 		}else{
 			bean.setDepartment(user.getDepartment());
 		}
+		
 		
 		String tplPath = site.getTplPath();
 		if (!StringUtils.isBlank(ext.getTplContent())) {
@@ -618,15 +616,15 @@ public class ContentAct {
 			txt = copyContentTxtImg(txt, site);
 		}
 		// 保存部门
-		if (user.isSuper()) {
-			if (departmentId != null) {
-				bean.setDepartment(cmsDepartmentMng.findById(departmentId));
-
-			}
-
-		} else {
+		
+		if(departmentId!=null){
+			bean.setDepartment(cmsDepartmentMng.findById(departmentId));
+				
+		}else{
 			bean.setDepartment(user.getDepartment());
 		}
+			
+		
 		
 		//判断contentImg图片是否为空，为空则设置内容中的第一张图片
 		if(StringUtils.isBlank(ext.getTitleImg())){
