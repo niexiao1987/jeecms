@@ -143,10 +143,15 @@ public class ContentAct {
 		response.setContentType("text/json;charset=UTF-8");
 		return "content/tree";
 	}
-	@RequiresPermissions("content:d_tree")
+	
 	@RequestMapping(value = "/content/d_tree.do")
 	public String DepartmentTree(String root, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model){
+		CmsUser user = CmsUtils.getUser(request);
+		root = user.getDepartmentId()+"";
+		if(user.isSuper()){
+			root = "source";
+		}
 		boolean isRoot;
 		// jquery treeview的根请求为root=source
 		if (StringUtils.isBlank(root) || "source".equals(root)) {
@@ -366,10 +371,7 @@ public class ContentAct {
 		if (c != null) {
 			model.addAttribute("channel", c);
 		}
-		//如果是超级管理员，前台显示选择content部门
-		if(user.isSuper()){
-			model.addAttribute("isSuper", "Y");
-		}
+		
 		return "content/add";
 	}
 
@@ -559,10 +561,9 @@ public class ContentAct {
 		CmsSite site = CmsUtils.getSite(request);
 		CmsUser user = CmsUtils.getUser(request);
 		//保存部门
-		if(user.isSuper()){
-			if(departmentId!=null){
-				bean.setDepartment(cmsDepartmentMng.findById(departmentId));
-			}
+		
+		if(departmentId!=null){
+			bean.setDepartment(cmsDepartmentMng.findById(departmentId));
 		}else{
 			bean.setDepartment(user.getDepartment());
 		}
@@ -629,13 +630,9 @@ public class ContentAct {
 			txt = copyContentTxtImg(txt, site);
 		}
 		// 保存部门
-		if (user.isSuper()) {
-			if (departmentId != null) {
-				bean.setDepartment(cmsDepartmentMng.findById(departmentId));
-
-			}
-
-		} else {
+		if(departmentId!=null){
+			bean.setDepartment(cmsDepartmentMng.findById(departmentId));
+		}else{
 			bean.setDepartment(user.getDepartment());
 		}
 		
