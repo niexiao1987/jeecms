@@ -8,7 +8,6 @@
 <script src="${base}/thirdparty/swfupload/swfupload.queue.js" type="text/javascript"></script>
 <script src="${base}/thirdparty/swfupload/fileprogress.js" type="text/javascript"></script>
 <script src="${base}/thirdparty/swfupload/handlers.js" type="text/javascript"></script>
-<script src="department_tree.js" type="text/javascript"></script>
 <link href="${base}/thirdparty/swfupload/process.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript">
 var types = [];
@@ -476,18 +475,18 @@ function validate() {
 <label><input type="checkbox" onclick="$('#linkDiv').toggle(this.checked);if(!this.checked){$('#link').val('');}"/><@s.m "content.link"/></label>
 <div id="linkDiv" style="display:none">url: <input type="text" id="link" name="link"  title="<@s.m 'contentLink.tip.title'/>" size="35" maxlength="255"/></div>
 </@p.td>
-<#if isSuper??&&isSuper=="Y">
+
 <tr id="tr-departmentId">
 <td width="10%" class="pn-flabel pn-flabel-h">选择部门:</td><td colspan="3" width="90%" class="pn-fcontent">
 <input id="inputDepartmentName" name="departmentName" value="" readonly="readonly" style="width:100px" class="valid">
 <input id="departmentSelect" class="browse" type="button" value="部门">
-<input id="inputDepartmentId" name="departmentId" value="2287" readonly="readonly" type="hidden">
+<input id="inputDepartmentId" name="departmentId" value="" readonly="readonly" type="hidden">
 </td></tr>
 <!-- 部门选择对话框 -->
 <div id="departmentDialog" title="<@s.m "cmsUser.department"/>" style="display:none;">
 	<ul id="browser" class="filetree"></ul>
 </div>
-</#if>
+
 <#elseif item.field=="shortTitle">
 <#assign h><#if item.help??>${item.help}<#else><@s.m "content."+item.field+".help"/></#if></#assign>
 <@p.text value="${item.defValue!}" class="pn-fruler" maxlength="150" size="${item.size!35}" help="${h}" helpPosition="${item.helpPosition!3}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>

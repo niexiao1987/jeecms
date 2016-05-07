@@ -419,7 +419,6 @@ initDepartment = function initDepartment() {
 		$('#departmentDialog').dialog('open');
 		return false;
 	});
-
 	// 生成树
 	$("#browser").treeview({
 		url : "d_tree.do"
@@ -520,7 +519,6 @@ function validate() {
 <label><input type="checkbox" onclick="$('#linkDiv').toggle(this.checked);if(!this.checked){$('#link').val('');}"<#if content.link??> checked="checked"</#if>/><@s.m "content.link"/></label>
 <div id="linkDiv"<#if !content.link??> style="display:none"</#if>>url: <input type="text" id="link" name="link" title="<@s.m 'contentLink.tip.title'/>" value="${content.link!}" size="35" maxlength="255"/></div>
 </@p.td>
-<#if isSuper??&&isSuper=="Y">
 <tr id="tr-departmentId">
 <td width="10%" class="pn-flabel pn-flabel-h">选择部门:</td><td colspan="3" width="90%" class="pn-fcontent">
 <input id="inputDepartmentName" name="departmentName" value="${(content.department.departmentExt.name)!}" readonly="readonly" style="width:100px" class="valid">
@@ -531,7 +529,6 @@ function validate() {
 <div id="departmentDialog" title="<@s.m "cmsUser.department"/>" style="display:none;">
 	<ul id="browser" class="filetree"></ul>
 </div>
-</#if>
 <#elseif item.field=="shortTitle">
 <#assign h><#if item.help??>${item.help}<#else><@s.m "content."+item.field+".help"/></#if></#assign>
 <@p.text value=content.shortTitle class="pn-fruler" maxlength="150" size="${item.size!35}" help="${h}" helpPosition="${item.helpPosition!3}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>
