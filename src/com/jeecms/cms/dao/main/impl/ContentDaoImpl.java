@@ -154,12 +154,30 @@ public class ContentDaoImpl extends HibernateBaseDao<Content, Integer>
 	}
 
 	public Pagination getPageByRight(String title, String author,
-			String editor, String approver, Integer typeId,
-			Integer inputUserId, boolean topLevel, boolean recommend,
-			ContentStatus status, Byte checkStep, Integer siteId,
-			Integer channelId, Integer userId, boolean selfData, int orderBy,
-			int pageNo, int pageSize) {
-		Finder f = Finder.create("select  bean from Content bean ");
+			String editor, String approver, Integer typeId, Integer currUserId,
+			Integer inputUserId, Integer inputDepartment, boolean topLevel,
+			boolean recommend, ContentStatus status, Byte checkStep,
+			Integer siteId, Integer channelId, Integer userId,
+			boolean selfData, int orderBy, int pageNo, int pageSize,
+			Boolean superAdmin) {
+
+		// 获得当前用户所在的部门id
+		String hql = "select user.department.id from CmsUser user where user.id=:userId";
+
+		Object o = getSession().createQuery(hql)
+				.setParameter("userId", currUserId).uniqueResult();
+		if (o == null) {
+			// 如果o为null 那么说明用户是会员，没有对应的部门，目前没有会员，暂时先不改
+			return null;
+		}
+		Integer currDepartmentId = ((Number) o).intValue();
+
+		//Finder f = Finder.create("select  bean from Content bean ");
+		Finder f = Finder
+				.create("select bean from Content bean,CmsDepartment dParent");
+
+		f.append(" join bean.user.department department");
+		
 		if (prepared == status || passed == status || rejected == status) {
 			f.append(" join bean.contentCheckSet check");
 		}
@@ -181,10 +199,12 @@ public class ContentDaoImpl extends HibernateBaseDao<Content, Integer>
 			f.append(" where user.id=:userId");
 			f.setParam("userId", userId);
 		}
+		appendDepartmentQuery(f, currDepartmentId, inputDepartment, superAdmin);
 		if (selfData) {
 			// userId前面已赋值
 			f.append(" and bean.user.id=:userId");
 		}
+
 		if (prepared == status) {
 			f.append(" and check.checkStep<:checkStep");
 			f.append(" and check.rejected=false");
@@ -199,6 +219,7 @@ public class ContentDaoImpl extends HibernateBaseDao<Content, Integer>
 			f.setParam("checkStep", checkStep);
 		}
 
+		System.out.println(f.getOrigHql());
 		appendQuery(f, title, author, editor, approver, typeId, inputUserId,
 				status, topLevel, recommend);
 		if (prepared == status) {

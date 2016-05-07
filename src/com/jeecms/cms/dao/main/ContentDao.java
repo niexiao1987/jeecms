@@ -39,29 +39,45 @@ import com.jeecms.common.page.Pagination;
  */
 public interface ContentDao {
 
-
 	/**
 	 * 获得内容列表
 	 * 
-	 * @param title 标题。支持模糊搜索，可以为null。
-	 * @param author 作者 支持模糊搜索，可以为null。
-	 * @param editor 編輯 支持模糊搜索，可以为null。
-	 * @param approver 审批  支持模糊搜索，可以为null。
-	 * @param typeId 内容类型ID。可以为null。
+	 * @param title
+	 *            标题。支持模糊搜索，可以为null。
+	 * @param author
+	 *            作者 支持模糊搜索，可以为null。
+	 * @param editor
+	 *            編輯 支持模糊搜索，可以为null。
+	 * @param approver
+	 *            审批 支持模糊搜索，可以为null。
+	 * @param typeId
+	 *            内容类型ID。可以为null。
 	 * @param currUserId
-	 * @param inputUserId 内容录入员。可以为null。
-	 * @param inputDepartment 内容录入员的单位。可以为null
-	 * @param topLevel 是否固顶。
-	 * @param recommend 是否推荐。
-	 * @param status 状态。
-	 * @param checkStep 审核步骤。当状态为prepared、passed、rejected时，不能为null。
-	 * @param siteId 站点ID。可以为null。
+	 * @param inputUserId
+	 *            内容录入员。可以为null。
+	 * @param inputDepartment
+	 *            内容录入员的单位。可以为null
+	 * @param topLevel
+	 *            是否固顶。
+	 * @param recommend
+	 *            是否推荐。
+	 * @param status
+	 *            状态。
+	 * @param checkStep
+	 *            审核步骤。当状态为prepared、passed、rejected时，不能为null。
+	 * @param siteId
+	 *            站点ID。可以为null。
 	 * @param modelId
-	 * @param channelId 栏目ID。可以为null。
-	 * @param orderBy 排序方式
-	 * @param pageNo 页码
-	 * @param pageSize 页容量
-	 * @param superAdmin 是否是超级管理员
+	 * @param channelId
+	 *            栏目ID。可以为null。
+	 * @param orderBy
+	 *            排序方式
+	 * @param pageNo
+	 *            页码
+	 * @param pageSize
+	 *            页容量
+	 * @param superAdmin
+	 *            是否是超级管理员
 	 * @return author:聂箫 date：2016年1月14日
 	 */
 	public Pagination getPage(String title, String author, String editor,
@@ -71,65 +87,94 @@ public interface ContentDao {
 			Integer siteId, Integer modelId, Integer channelId, int orderBy,
 			int pageNo, int pageSize, Boolean superAdmin);
 
-	
 	/**
 	 * 获得自己的内容
 	 * 
-	 * @param title 标题。支持模糊搜索，可以为null。
-	 * @param author 作者。支持模糊搜索，可以为null。
-	 * @param editor 编辑。支持模糊搜索，可以为null。
-	 * @param approver 审批。支持模糊搜索，可以为null。
-	 * @param typeId 内容类型ID。可以为null。
-	 * @param inputUserId 内容录入员。可以为null。
-	 * @param topLevel 是否固顶。
-	 * @param recommend 是否推荐。
-	 * @param status 状态。
-	 * @param checkStep 审核步骤。当状态为prepared、passed、rejected时，不能为null。
-	 * @param siteId 站点ID。可以为null
-	 * @param channelId 站点ID。可以为null。
-	 * @param userId 用户ID
-	 * @param orderBy 排序方式
-	 * @param pageNo 页码
-	 * @param pageSize 页容量
-	 * @return
-	 * author:聂箫
-	 * date：2016年1月14日
+	 * @param title
+	 *            标题。支持模糊搜索，可以为null。
+	 * @param author
+	 *            作者。支持模糊搜索，可以为null。
+	 * @param editor
+	 *            编辑。支持模糊搜索，可以为null。
+	 * @param approver
+	 *            审批。支持模糊搜索，可以为null。
+	 * @param typeId
+	 *            内容类型ID。可以为null。
+	 * @param inputUserId
+	 *            内容录入员。可以为null。
+	 * @param topLevel
+	 *            是否固顶。
+	 * @param recommend
+	 *            是否推荐。
+	 * @param status
+	 *            状态。
+	 * @param checkStep
+	 *            审核步骤。当状态为prepared、passed、rejected时，不能为null。
+	 * @param siteId
+	 *            站点ID。可以为null
+	 * @param channelId
+	 *            站点ID。可以为null。
+	 * @param userId
+	 *            用户ID
+	 * @param orderBy
+	 *            排序方式
+	 * @param pageNo
+	 *            页码
+	 * @param pageSize
+	 *            页容量
+	 * @return author:聂箫 date：2016年1月14日
 	 */
 	public Pagination getPageBySelf(String title, String author, String editor,
 			String approver, Integer typeId, Integer inputUserId,
 			boolean topLevel, boolean recommend, ContentStatus status,
 			Byte checkStep, Integer siteId, Integer channelId, Integer userId,
 			int orderBy, int pageNo, int pageSize);
+
 	/**
 	 * 
 	 * 
-	 * @param title 标题。支持模糊搜索，可以为null。
-	 * @param author 作者。支持模糊搜索，可以为null。
-	 * @param editor 编辑。支持模糊搜索，可以为null。
-	 * @param approver 审批。支持模糊搜索，可以为null。
-	 * @param typeId 内容类型ID。可以为null。
-	 * @param inputUserId 内容录入员。可以为null。
-	 * @param topLevel 是否固顶。
-	 * @param recommend 是否推荐。
-	 * @param status 状态。
-	 * @param checkStep 审核步骤。当状态为prepared、passed、rejected时，不能为null。
-	 * @param siteId 站点ID。可以为null
-	 * @param channelId 站点ID。可以为null。
-	 * @param userId 用户ID
-	 * @param selfData 是否只获取自己发表的数据。
-	 * @param orderBy 排序方式
-	 * @param pageNo 页码
-	 * @param pageSize 页容量
-	 * @return
-	 * author:聂箫
-	 * date：2016年1月14日
+	 * @param title
+	 *            标题。支持模糊搜索，可以为null。
+	 * @param author
+	 *            作者。支持模糊搜索，可以为null。
+	 * @param editor
+	 *            编辑。支持模糊搜索，可以为null。
+	 * @param approver
+	 *            审批。支持模糊搜索，可以为null。
+	 * @param typeId
+	 *            内容类型ID。可以为null。
+	 * @param inputUserId
+	 *            内容录入员。可以为null。
+	 * @param topLevel
+	 *            是否固顶。
+	 * @param recommend
+	 *            是否推荐。
+	 * @param status
+	 *            状态。
+	 * @param checkStep
+	 *            审核步骤。当状态为prepared、passed、rejected时，不能为null。
+	 * @param siteId
+	 *            站点ID。可以为null
+	 * @param channelId
+	 *            站点ID。可以为null。
+	 * @param userId
+	 *            用户ID
+	 * @param selfData
+	 *            是否只获取自己发表的数据。
+	 * @param orderBy
+	 *            排序方式
+	 * @param pageNo
+	 *            页码
+	 * @param pageSize
+	 *            页容量
+	 * @return author:聂箫 date：2016年1月14日
 	 */
 	public Pagination getPageByRight(String title, String author,
-			String editor, String approver, Integer typeId,
-			Integer inputUserId, boolean topLevel, boolean recommend,
-			ContentStatus status, Byte checkStep, Integer siteId,
-			Integer channelId, Integer userId, boolean selfData, int orderBy,
-			int pageNo, int pageSize);
+			String editor, String approver, Integer typeId, Integer currUserId,
+			Integer inputUserId, Integer inputDepartment, boolean topLevel,
+			boolean recommend, ContentStatus status, Byte checkStep,
+			Integer siteId, Integer channelId, Integer userId,
+			boolean selfData, int orderBy, int pageNo, int pageSize,Boolean superAdmin);
 
 	/**
 	 * 获得一篇内容的上一篇或下一篇内容
