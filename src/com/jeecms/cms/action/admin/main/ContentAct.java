@@ -146,7 +146,8 @@ public class ContentAct {
 	
 	@RequestMapping(value = "/content/d_tree.do")
 	public String DepartmentTree(String root, HttpServletRequest request,
-			HttpServletResponse response, ModelMap model){
+			HttpServletResponse response, ModelMap model,String getcount){
+		
 		boolean isRoot;
 		// jquery treeview的根请求为root=source
 		if (StringUtils.isBlank(root) || "source".equals(root)) {
