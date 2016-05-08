@@ -90,7 +90,8 @@ public class ContentMngImpl implements ContentMng, ChannelDeleteChecker {
 					pageNo, pageSize, superAdmin);
 		} else {
 			// 由于网站的设置 allChannel一般都为true，所以一般走不到这个方法
-			// 原因待查
+			// 原因待查，原因是默认情况下所有用户的栏目权限都是allChannel
+			// 当用户的栏目权限不是allChannel的时候走这个方法
 			p = dao.getPageByRight(title, author, editor, approver, typeId,
 					userId, inputUserId, inputDepartmentId, topLevel,
 					recommend, status, checkStep, siteId, channelId, userId,

@@ -199,6 +199,7 @@ public class ContentDaoImpl extends HibernateBaseDao<Content, Integer>
 			f.append(" where user.id=:userId");
 			f.setParam("userId", userId);
 		}
+		//添加部门相关的查询条件
 		appendDepartmentQuery(f, currDepartmentId, inputDepartment, superAdmin);
 		if (selfData) {
 			// userId前面已赋值
