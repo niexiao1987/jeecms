@@ -147,11 +147,16 @@ public class ContentAct {
 	@RequestMapping(value = "/content/d_tree.do")
 	public String DepartmentTree(String root, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model,String getcount){
-		
+		CmsUser user = CmsUtils.getUser(request);
 		boolean isRoot;
 		// jquery treeview的根请求为root=source
 		if (StringUtils.isBlank(root) || "source".equals(root)) {
-			isRoot = true;
+			if(user.isSuper()){
+				isRoot = true;
+			}else{
+				isRoot = false;
+				root = user.getDepartmentId()+"";
+			}
 		} else {
 			isRoot = false;
 		}
