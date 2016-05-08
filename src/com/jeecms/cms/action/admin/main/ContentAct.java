@@ -147,16 +147,10 @@ public class ContentAct {
 	@RequestMapping(value = "/content/d_tree.do")
 	public String DepartmentTree(String root, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model,String getcount){
-		CmsUser user = CmsUtils.getUser(request);
 		boolean isRoot;
 		// jquery treeview的根请求为root=source
 		if (StringUtils.isBlank(root) || "source".equals(root)) {
-			if(user.isSuper()){
-				isRoot = true;
-			}else{
-				isRoot = false;
-				root = user.getDepartmentId()+"";
-			}
+			isRoot = true;
 		} else {
 			isRoot = false;
 		}
@@ -1220,7 +1214,7 @@ public class ContentAct {
 					document.getElementsByAttributeValue("src", path).attr("style", "width:"+CONTENT_IMG_WIDTH+"px;");
 				}
 				//原始宽度>设置宽度>600，则设置为设置的宽度，前提是图片原始宽度必须大于设置的
-				if(orWidth>CONTENT_IMG_WIDTH&&setWidth>CONTENT_IMG_WIDTH&&orWidth>setWidth){
+				if(orWidth>CONTENT_IMG_WIDTH&&setWidth>=CONTENT_IMG_WIDTH&&orWidth>setWidth){
 					Thumbnails.of(imgPath).width(setWidth).toFile(imgPath);
 					document.getElementsByAttributeValue("src", path).attr("style", "width:"+setWidth+"px;");
 				}
