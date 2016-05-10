@@ -223,10 +223,13 @@ public class HtmlParseUtil {
 		if(!StringUtil.isBlank(txt)){
 			Document document = Jsoup.parse(txt);
 			Elements elements = document.getElementsByTag("img");
+			String width = "600";
 			for (int i = 0; i < elements.size(); i++) {
 				String style = elements.get(i).attr("style");
-				style = style.substring(style.indexOf("width:")+7);
-				String width = style.substring(0, style.indexOf("px"));
+				if(style.contains("width")){
+					style = style.substring(style.indexOf("width:")+7);
+				    width = style.substring(0, style.indexOf("px"));
+				}
 				imgWidth.put(elements.get(i).attr("src"), Integer.parseInt(width));
 			}
 		}
