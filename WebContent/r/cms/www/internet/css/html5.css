@@ -116,9 +116,8 @@ img{ border:0; -ms-interpolation-mode:bicubic;}
 .bread_nav{width: 1200px; height: 35px; border-bottom: 1px solid #cfdde8; line-height: 34px; background: url("../img/news/bread_nav_icon.png") no-repeat; }
 .bread_nav div{padding-left: 35px;}
 .editorAndCheck{padding-bottom: 10px;padding-right: 20px;}
-.news_new0{width: 28px;height:28px;background: url(../img/index/new1.gif) no-repeat 0px 5px;float:left; }
-.news_new1{width: 28px;height:28px;background: url(../img/index/new2.gif) no-repeat 0px 5px;float:left; }
-.news_new2{width: 28px;height:28px;background: url(../img/index/new3.gif) no-repeat 0px 5px;float:left;}
+.news_new0{width: 28px;height:28px;background: url(../img/index/new1.gif) no-repeat 0px 6px;float:left; }
+.news_new1{width: 28px;height:28px;background: url(../img/index/new2.gif) no-repeat 0px 6px;float:left; }
 /*news_child 内容列表页*/
 .news_bar{height: 35px; line-height:35px; width:930px;background-image:url(../img/index/img_word_bg.png); background-repeat: repeat-x; margin-top: 10px; margin-left: 10px;}
 .news_bar_icon{width:35px; height:35px; background: url(../img/index/subject_icon.png) no-repeat 10px 10px;float: left;}
