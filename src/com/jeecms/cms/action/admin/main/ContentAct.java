@@ -1202,7 +1202,10 @@ public class ContentAct {
 			String imgPath = realPathResolver.get(path.substring(request.getContextPath().length()));
 			try {
 				BufferedImage buffImage = ImageIO.read(new File(imgPath));
-				int orWidth = buffImage.getWidth();
+				int orWidth = 0;
+				if(buffImage!=null){
+					orWidth = buffImage.getWidth();
+				}
 				Integer setWidth = imgMap.get(path);
 				//如果设置大小跟原图大小一样，就说明没有设置，自动设置裁剪为宽度600
 				if("save".equals(flag)&&orWidth == setWidth){
