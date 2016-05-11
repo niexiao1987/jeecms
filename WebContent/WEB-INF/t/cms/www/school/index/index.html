@@ -251,9 +251,11 @@ $(".rank_content").eq(0).show();
                             <li style="border-bottom: none; background: none;">
                             	<div class="star_content">
                             		<img src="${a.contentExt.titleImg!site.defImg}" alt="${a.title}" width="190px" height="190px">
-                            		
-                            		<a href="${a.url}" title="${a.title}" target="_blank" style="padding-left: 0px;">[@text_cut s=a.title len=titLen /]</a>
-                            		
+                            		<div class="star_text">
+                            			<a href="${a.url}" title="${a.title}" target="_blank" style="padding-left: 0px;">[@text_cut s=a.title len=titLen /]</a>
+                            			<p>[@text_cut s=a.description len=140 /][#if a.description??&&a.description?length gt 140]······[/#if]</p>
+                            		</div>
+                            		<div class="clear"></div>
                             	</div>
                             </li>
                             [/#list]

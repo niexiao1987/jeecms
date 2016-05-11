@@ -545,7 +545,7 @@ function validate() {
 <@p.text value=content.tagStr maxlength="50" size="${item.size!35}" help="${h}" helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>
 
 <#elseif item.field=="description">
-<@p.textarea value=content.description cols="${item.cols!70}" rows="${item.rows!3}" maxlength="255" help=item.help helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>
+<@p.textarea value=content.description cols="${item.cols!70}" rows="${item.rows!3}" maxlength="200" help=item.help helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>
 
 <#elseif item.field=="author">
 <@p.td help=item.help helpPosition="${item.helpPosition!2}" label=item.label colspan=item.single?string("2","1") width="${item.single?string(100,50)}">
