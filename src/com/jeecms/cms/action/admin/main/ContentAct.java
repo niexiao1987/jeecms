@@ -548,9 +548,9 @@ public class ContentAct {
 			ext.setTitleImg(HtmlParseUtil.getFirstImg(txt.getTxt()));
 		}
 		//获取内容中图片的path和width
-		Map<String,Integer> imgMap = HtmlParseUtil.getAllImgAndWidth(txt.getTxt());
-		//默认修改图片宽度为设置宽度，默认为600px
-		txt.setTxt(createThumImage(imgMap,request,txt.getTxt(),"save")); 
+//		Map<String,Integer> imgMap = HtmlParseUtil.getAllImgAndWidth(txt.getTxt());
+//		//默认修改图片宽度为设置宽度，默认为600px
+//		txt.setTxt(createThumImage(imgMap,request,txt.getTxt(),"save")); 
 		
 		// 加上模板前缀
 		CmsSite site = CmsUtils.getSite(request);
@@ -636,9 +636,9 @@ public class ContentAct {
 			ext.setTitleImg(HtmlParseUtil.getFirstImg(txt.getTxt()));
 		}
 		//获取内容中图片的path和width
-		Map<String,Integer> imgMap = HtmlParseUtil.getAllImgAndWidth(txt.getTxt());
-		//默认修改图片宽度为设置宽度，默认为600px
-		txt.setTxt(createThumImage(imgMap,request,txt.getTxt(),"update")); 
+//		Map<String,Integer> imgMap = HtmlParseUtil.getAllImgAndWidth(txt.getTxt());
+//		//默认修改图片宽度为设置宽度，默认为600px
+//		txt.setTxt(createThumImage(imgMap,request,txt.getTxt(),"update")); 
 		bean = manager.update(bean, ext, txt, tagArr, channelIds, topicIds,
 				viewGroupIds, attachmentPaths, attachmentNames,
 				attachmentFilenames, picPaths, picDescs, attr, channelId,
