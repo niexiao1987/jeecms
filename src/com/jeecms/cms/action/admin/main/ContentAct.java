@@ -93,6 +93,7 @@ import com.jeecms.extend.manager.ContentCheckRecordMng;
 public class ContentAct {
 	private static final Logger log = LoggerFactory.getLogger(ContentAct.class);
 	private static final int CONTENT_IMG_WIDTH = 600;
+
 	@RequiresPermissions("content:v_left")
 	@RequestMapping("/content/v_left.do")
 	public String left(String source, ModelMap model) {
@@ -143,10 +144,10 @@ public class ContentAct {
 		response.setContentType("text/json;charset=UTF-8");
 		return "content/tree";
 	}
-	
+
 	@RequestMapping(value = "/content/d_tree.do")
 	public String DepartmentTree(String root, HttpServletRequest request,
-			HttpServletResponse response, ModelMap model,String getcount){
+			HttpServletResponse response, ModelMap model, String getcount) {
 		boolean isRoot;
 		// jquery treeview的根请求为root=source
 		if (StringUtils.isBlank(root) || "source".equals(root)) {
@@ -366,7 +367,7 @@ public class ContentAct {
 		if (c != null) {
 			model.addAttribute("channel", c);
 		}
-		
+
 		return "content/add";
 	}
 
@@ -478,9 +479,9 @@ public class ContentAct {
 		if (cid != null) {
 			model.addAttribute("cid", cid);
 		}
-		
-		//如果是超级管理员，前台显示选择content部门
-		if(user.isSuper()){
+
+		// 如果是超级管理员，前台显示选择content部门
+		if (user.isSuper()) {
 			model.addAttribute("isSuper", "Y");
 		}
 
@@ -531,38 +532,40 @@ public class ContentAct {
 
 	@RequiresPermissions("content:o_save")
 	@RequestMapping("/content/o_save.do")
-	public String save(Content bean, ContentExt ext, ContentTxt txt,Integer departmentId,
-			Boolean copyimg, Integer sendType, Integer selectImg,
-			String weixinImg, Integer[] channelIds, Integer[] topicIds,
-			Integer[] viewGroupIds, String[] attachmentPaths,
-			String[] attachmentNames, String[] attachmentFilenames,
-			String[] picPaths, String[] picDescs, Integer channelId,
-			Integer typeId, String tagStr, Boolean draft, Integer cid,
-			Integer modelId, HttpServletRequest request, ModelMap model) {
+	public String save(Content bean, ContentExt ext, ContentTxt txt,
+			Integer departmentId, Boolean copyimg, Integer sendType,
+			Integer selectImg, String weixinImg, Integer[] channelIds,
+			Integer[] topicIds, Integer[] viewGroupIds,
+			String[] attachmentPaths, String[] attachmentNames,
+			String[] attachmentFilenames, String[] picPaths, String[] picDescs,
+			Integer channelId, Integer typeId, String tagStr, Boolean draft,
+			Integer cid, Integer modelId, HttpServletRequest request,
+			ModelMap model) {
 		WebErrors errors = validateSave(bean, channelId, request);
 		if (errors.hasErrors()) {
 			return errors.showErrorPage(model);
 		}
-		//判断contentImg图片是否为空，为空则设置内容中的第一张图片
-		if(StringUtils.isBlank(ext.getTitleImg())){
+		// 判断contentImg图片是否为空，为空则设置内容中的第一张图片
+		if (StringUtils.isBlank(ext.getTitleImg())) {
 			ext.setTitleImg(HtmlParseUtil.getFirstImg(txt.getTxt()));
 		}
-		//获取内容中图片的path和width
-//		Map<String,Integer> imgMap = HtmlParseUtil.getAllImgAndWidth(txt.getTxt());
-//		//默认修改图片宽度为设置宽度，默认为600px
-//		txt.setTxt(createThumImage(imgMap,request,txt.getTxt(),"save")); 
-		
+		// 获取内容中图片的path和width
+		// Map<String,Integer> imgMap =
+		// HtmlParseUtil.getAllImgAndWidth(txt.getTxt());
+		// //默认修改图片宽度为设置宽度，默认为600px
+		// txt.setTxt(createThumImage(imgMap,request,txt.getTxt(),"save"));
+
 		// 加上模板前缀
 		CmsSite site = CmsUtils.getSite(request);
 		CmsUser user = CmsUtils.getUser(request);
-		//保存部门
-		
-		if(departmentId!=null){
+		// 保存部门
+
+		if (departmentId != null) {
 			bean.setDepartment(cmsDepartmentMng.findById(departmentId));
-		}else{
+		} else {
 			bean.setDepartment(user.getDepartment());
 		}
-		
+
 		String tplPath = site.getTplPath();
 		if (!StringUtils.isBlank(ext.getTplContent())) {
 			ext.setTplContent(tplPath + ext.getTplContent());
@@ -595,16 +598,17 @@ public class ContentAct {
 
 	@RequiresPermissions("content:o_update")
 	@RequestMapping("/content/o_update.do")
-	public String update(String queryStatus, Integer queryTypeId,Integer departmentId,
-			Integer queryDepartmentId, Boolean queryTopLevel,
-			Boolean queryRecommend, Integer queryOrderBy, Content bean,
-			ContentExt ext, ContentTxt txt, Boolean copyimg, Integer sendType,
-			Integer selectImg, String weixinImg, Integer[] channelIds,
-			Integer[] topicIds, Integer[] viewGroupIds,
-			String[] attachmentPaths, String[] attachmentNames,
-			String[] attachmentFilenames, String[] picPaths, String[] picDescs,
-			Integer channelId, Integer typeId, String tagStr, Boolean draft,
-			Integer cid, String[] oldattachmentPaths, String[] oldpicPaths,
+	public String update(String queryStatus, Integer queryTypeId,
+			Integer departmentId, Integer queryDepartmentId,
+			Boolean queryTopLevel, Boolean queryRecommend,
+			Integer queryOrderBy, Content bean, ContentExt ext, ContentTxt txt,
+			Boolean copyimg, Integer sendType, Integer selectImg,
+			String weixinImg, Integer[] channelIds, Integer[] topicIds,
+			Integer[] viewGroupIds, String[] attachmentPaths,
+			String[] attachmentNames, String[] attachmentFilenames,
+			String[] picPaths, String[] picDescs, Integer channelId,
+			Integer typeId, String tagStr, Boolean draft, Integer cid,
+			String[] oldattachmentPaths, String[] oldpicPaths,
 			String oldTitleImg, String oldContentImg, String oldTypeImg,
 			Integer pageNo, HttpServletRequest request, ModelMap model) {
 		WebErrors errors = validateUpdate(bean.getId(), request);
@@ -625,20 +629,21 @@ public class ContentAct {
 			txt = copyContentTxtImg(txt, site);
 		}
 		// 保存部门
-		if(departmentId!=null){
+		if (departmentId != null) {
 			bean.setDepartment(cmsDepartmentMng.findById(departmentId));
-		}else{
+		} else {
 			bean.setDepartment(user.getDepartment());
 		}
-		
-		//判断contentImg图片是否为空，为空则设置内容中的第一张图片
-		if(StringUtils.isBlank(ext.getTitleImg())){
+
+		// 判断contentImg图片是否为空，为空则设置内容中的第一张图片
+		if (StringUtils.isBlank(ext.getTitleImg())) {
 			ext.setTitleImg(HtmlParseUtil.getFirstImg(txt.getTxt()));
 		}
-		//获取内容中图片的path和width
-//		Map<String,Integer> imgMap = HtmlParseUtil.getAllImgAndWidth(txt.getTxt());
-//		//默认修改图片宽度为设置宽度，默认为600px
-//		txt.setTxt(createThumImage(imgMap,request,txt.getTxt(),"update")); 
+		// 获取内容中图片的path和width
+		// Map<String,Integer> imgMap =
+		// HtmlParseUtil.getAllImgAndWidth(txt.getTxt());
+		// //默认修改图片宽度为设置宽度，默认为600px
+		// txt.setTxt(createThumImage(imgMap,request,txt.getTxt(),"update"));
 		bean = manager.update(bean, ext, txt, tagArr, channelIds, topicIds,
 				viewGroupIds, attachmentPaths, attachmentNames,
 				attachmentFilenames, picPaths, picDescs, attr, channelId,
@@ -655,6 +660,40 @@ public class ContentAct {
 		log.info("update Content id={}.", bean.getId());
 		cmsLogMng.operating(request, "content.log.update", "id=" + bean.getId()
 				+ ";title=" + bean.getTitle());
+		return list(queryStatus, queryTypeId, queryDepartmentId, queryTopLevel,
+				queryRecommend, queryOrderBy, cid, pageNo, request, model);
+	}
+
+	/**
+	 * 更新并审核  add by niexiao 20160514
+	 */
+	@RequiresPermissions("content:o_update,content:o_check")
+	@RequestMapping("/content/o_updateAndCheck.do")
+	public String updateAndCheck(String queryStatus, Integer queryTypeId,
+			Integer departmentId, Integer queryDepartmentId,
+			Boolean queryTopLevel, Boolean queryRecommend,
+			Integer queryOrderBy, Content bean, ContentExt ext, ContentTxt txt,
+			Boolean copyimg, Integer sendType, Integer selectImg,
+			String weixinImg, Integer[] channelIds, Integer[] topicIds,
+			Integer[] viewGroupIds, String[] attachmentPaths,
+			String[] attachmentNames, String[] attachmentFilenames,
+			String[] picPaths, String[] picDescs, Integer channelId,
+			Integer typeId, String tagStr, Boolean draft, Integer cid,
+			String[] oldattachmentPaths, String[] oldpicPaths,
+			String oldTitleImg, String oldContentImg, String oldTypeImg,
+			Integer pageNo, HttpServletRequest request, ModelMap model) {
+
+		//审核内容
+		CmsUser user = CmsUtils.getUser(request);
+		manager.check(bean.getId(), user, bean.getEditor(), bean.getApprover());
+		//更新内容
+		update(queryStatus, queryTypeId, departmentId, queryDepartmentId,
+				queryTopLevel, queryRecommend, queryOrderBy, bean, ext, txt,
+				copyimg, sendType, selectImg, weixinImg, channelIds, topicIds,
+				viewGroupIds, attachmentPaths, attachmentNames,
+				attachmentFilenames, picPaths, picDescs, channelId, typeId,
+				tagStr, draft, cid, oldattachmentPaths, oldpicPaths,
+				oldTitleImg, oldContentImg, oldTypeImg, pageNo, request, model);
 		return list(queryStatus, queryTypeId, queryDepartmentId, queryTopLevel,
 				queryRecommend, queryOrderBy, cid, pageNo, request, model);
 	}
@@ -1159,27 +1198,27 @@ public class ContentAct {
 		model.addAttribute("site", CmsUtils.getSite(request));
 		return "content/ranklist";
 	}
-	
+
 	@RequiresPermissions("content:export_xml")
 	@RequestMapping(value = "/content/export_xml.do")
 	public String contentXmlExport(String queryStatus, Integer queryTypeId,
 			Integer queryDepartmentId, Boolean queryTopLevel,
-			Boolean queryRecommend, Integer queryOrderBy,
-			Integer cid, Integer pageNo, HttpServletRequest request,
-			ModelMap model,String contentIds){
+			Boolean queryRecommend, Integer queryOrderBy, Integer cid,
+			Integer pageNo, HttpServletRequest request, ModelMap model,
+			String contentIds) {
 		String[] contentIdsArr = contentIds.split(",");
 		WebErrors errors = validateExit(contentIdsArr, request);
 		if (errors.hasErrors()) {
 			return errors.showErrorPage(model);
 		}
-		//用set去重
+		// 用set去重
 		Set<String> idsSet = new HashSet<String>();
-		for(int i = 0;i<contentIdsArr.length;i++){
+		for (int i = 0; i < contentIdsArr.length; i++) {
 			idsSet.add(contentIdsArr[i]);
 		}
-		
+
 		exportXML(idsSet);
-		
+
 		return list(queryStatus, queryTypeId, queryDepartmentId, queryTopLevel,
 				queryRecommend, queryOrderBy, cid, pageNo, request, model);
 	}
@@ -1187,7 +1226,7 @@ public class ContentAct {
 	private void exportXML(Set<String> idsSet) {
 		Iterator<String> it = idsSet.iterator();
 		List<Content> contentLsit = new ArrayList<Content>();
-		while(it.hasNext()){
+		while (it.hasNext()) {
 			Content content = manager.findById(Integer.valueOf(it.next()));
 			contentLsit.add(content);
 		}
@@ -1195,39 +1234,48 @@ public class ContentAct {
 		System.out.println(contentsXml);
 	}
 
-	//生成缩略图（把图片宽度大于600的变成600）
-	private String createThumImage(Map<String,Integer> imgMap,HttpServletRequest request,String txt,String flag){
+	// 生成缩略图（把图片宽度大于600的变成600）
+	private String createThumImage(Map<String, Integer> imgMap,
+			HttpServletRequest request, String txt, String flag) {
 		Document document = Jsoup.parse(txt);
-		for(String path:imgMap.keySet()){
-			String imgPath = realPathResolver.get(path.substring(request.getContextPath().length()));
+		for (String path : imgMap.keySet()) {
+			String imgPath = realPathResolver.get(path.substring(request
+					.getContextPath().length()));
 			try {
 				BufferedImage buffImage = ImageIO.read(new File(imgPath));
 				int orWidth = 0;
-				if(buffImage!=null){
+				if (buffImage != null) {
 					orWidth = buffImage.getWidth();
 				}
 				Integer setWidth = imgMap.get(path);
-				//如果设置大小跟原图大小一样，就说明没有设置，自动设置裁剪为宽度600
-				if("save".equals(flag)&&orWidth == setWidth){
-					Thumbnails.of(imgPath).width(CONTENT_IMG_WIDTH).toFile(imgPath);
-					document.getElementsByAttributeValue("src", path).attr("style", "width:"+CONTENT_IMG_WIDTH+"px;");
+				// 如果设置大小跟原图大小一样，就说明没有设置，自动设置裁剪为宽度600
+				if ("save".equals(flag) && orWidth == setWidth) {
+					Thumbnails.of(imgPath).width(CONTENT_IMG_WIDTH)
+							.toFile(imgPath);
+					document.getElementsByAttributeValue("src", path).attr(
+							"style", "width:" + CONTENT_IMG_WIDTH + "px;");
 				}
-				//如果设置宽度大于图片原始宽度，会失真，所以把图片宽度设置为600
-				if(setWidth>orWidth){
-					document.getElementsByAttributeValue("src", path).attr("style", "width:"+CONTENT_IMG_WIDTH+"px;");
+				// 如果设置宽度大于图片原始宽度，会失真，所以把图片宽度设置为600
+				if (setWidth > orWidth) {
+					document.getElementsByAttributeValue("src", path).attr(
+							"style", "width:" + CONTENT_IMG_WIDTH + "px;");
 				}
-				//原始宽度>设置宽度>=600，则设置为设置的宽度，前提是图片原始宽度必须大于设置的
-				if(orWidth>CONTENT_IMG_WIDTH&&setWidth>=CONTENT_IMG_WIDTH&&orWidth>setWidth){
+				// 原始宽度>设置宽度>=600，则设置为设置的宽度，前提是图片原始宽度必须大于设置的
+				if (orWidth > CONTENT_IMG_WIDTH
+						&& setWidth >= CONTENT_IMG_WIDTH && orWidth > setWidth) {
 					Thumbnails.of(imgPath).width(setWidth).toFile(imgPath);
-					document.getElementsByAttributeValue("src", path).attr("style", "width:"+setWidth+"px;");
+					document.getElementsByAttributeValue("src", path).attr(
+							"style", "width:" + setWidth + "px;");
 				}
-				
+
 			} catch (IOException e) {
 				e.printStackTrace();
-			};
+			}
+			;
 		}
 		return document.toString();
 	}
+
 	private WebErrors validateExit(String[] contentIds,
 			HttpServletRequest request) {
 		WebErrors errors = WebErrors.create(request);
@@ -1525,6 +1573,7 @@ public class ContentAct {
 		}
 		return txtHtml;
 	}
+
 	@Autowired
 	protected RealPathResolver realPathResolver;
 	@Autowired

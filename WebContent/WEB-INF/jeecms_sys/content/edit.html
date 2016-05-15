@@ -350,7 +350,21 @@ function uploadAttachSuccess(file,data) {
 		$("#attachmentNames"+index).val(attachName);
 	}
 }
-function submitContent(){
+
+//找到内容form
+function getJvForm() {
+	return document.getElementById('jvForm');
+}
+
+//提交修改前进行的操作
+function submitContent(isCheck){
+	var f = getJvForm();
+	//判断是否需要审核 add by niexiao 20160514
+	if(isCheck){
+		f.action="o_updateAndCheck.do";
+	}else{
+		f.action="o_update.do";
+	}
 	//选择发送微信消息
 	var t=$("#sendType").val();
 	if(t!=0){
@@ -845,7 +859,8 @@ function addPicLine() {
 </#list>
 <@p.td colspan="2">
 	<@p.hidden name="id" value=content.id/>
-	<@p.submit code="global.submit" onclick="return submitContent()"/> &nbsp; <@p.reset code="global.reset"/>
+	<@p.submit code="global.check" onclick="return submitContent(true)" /> &nbsp;
+	<@p.submit code="global.submit" onclick="return submitContent(false)"/> &nbsp; <@p.reset code="global.reset"/>
 		<input type="hidden" name="pageNo" value="${pageNo!}"/>
 		<input type="hidden" name="cid" value="${cid!}"/>
 		<#list .data_model?keys as pkey>
