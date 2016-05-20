@@ -694,7 +694,7 @@ public class ContentAct {
 			String oldTitleImg, String oldContentImg, String oldTypeImg,
 			Integer pageNo, HttpServletRequest request, ModelMap model) {
 
-		//审核内容
+		//审核内容11
 		CmsUser user = CmsUtils.getUser(request);
 		manager.check(bean.getId(), user, bean.getEditor(), bean.getApprover());
 		//更新内容
