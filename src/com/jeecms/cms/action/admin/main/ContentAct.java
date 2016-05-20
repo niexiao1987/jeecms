@@ -4,6 +4,7 @@ import static com.jeecms.common.page.SimplePage.cpn;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -1214,8 +1215,8 @@ public class ContentAct {
 	public String contentXmlExport(String queryStatus, Integer queryTypeId,
 			Integer queryDepartmentId, Boolean queryTopLevel,
 			Boolean queryRecommend, Integer queryOrderBy, Integer cid,
-			Integer pageNo, HttpServletRequest request, ModelMap model,
-			String contentIds) {
+			Integer pageNo, HttpServletRequest request, HttpServletResponse response, ModelMap model,
+			String contentIds) throws IOException {
 		String[] contentIdsArr = contentIds.split(",");
 		WebErrors errors = validateExit(contentIdsArr, request);
 		if (errors.hasErrors()) {
@@ -1226,6 +1227,7 @@ public class ContentAct {
 		for (int i = 0; i < contentIdsArr.length; i++) {
 			idsSet.add(contentIdsArr[i]);
 		}
+		
 
 		String folderPath = exportXML(idsSet,request);
 		String zipPath = exportZip(idsSet,request,folderPath);
@@ -1236,7 +1238,7 @@ public class ContentAct {
 		List<FileEntry> fileEntrys = new ArrayList<FileEntry>();
 		fileEntrys.add(fileEntry);
 		Zipper.zip(out, fileEntrys);
-		
+
 		response.sendRedirect(zipPath+".zip");
 		return null;
 	}
@@ -1287,13 +1289,14 @@ public class ContentAct {
 		}
 
 		return zipFolderPath;
+
 	}
 
 	@RequiresPermissions("content:toImportXml")
 	@RequestMapping(value = "/content/toImportXml.do")
 	public String toImportXml(HttpServletRequest request,HttpServletResponse response,
 			ModelMap model) throws IOException{
-		
+
 		return "content/xml_import";
 	}
 	
