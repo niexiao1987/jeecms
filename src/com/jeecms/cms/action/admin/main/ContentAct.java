@@ -4,14 +4,19 @@ import static com.jeecms.common.page.SimplePage.cpn;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.zip.ZipOutputStream;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +27,8 @@ import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -42,6 +49,7 @@ import com.jeecms.cms.entity.main.CmsModelItem;
 import com.jeecms.cms.entity.main.CmsTopic;
 import com.jeecms.cms.entity.main.Content;
 import com.jeecms.cms.entity.main.Content.ContentStatus;
+import com.jeecms.cms.entity.main.ContentAttachment;
 import com.jeecms.cms.entity.main.ContentCheck;
 import com.jeecms.cms.entity.main.ContentExt;
 import com.jeecms.cms.entity.main.ContentTxt;
@@ -65,6 +73,8 @@ import com.jeecms.common.page.Pagination;
 import com.jeecms.common.upload.FileRepository;
 import com.jeecms.common.util.HtmlParseUtil;
 import com.jeecms.common.util.StrUtils;
+import com.jeecms.common.util.Zipper;
+import com.jeecms.common.util.Zipper.FileEntry;
 import com.jeecms.common.web.CookieUtils;
 import com.jeecms.common.web.RequestUtils;
 import com.jeecms.common.web.ResponseUtils;
@@ -93,6 +103,7 @@ import com.jeecms.extend.manager.ContentCheckRecordMng;
 public class ContentAct {
 	private static final Logger log = LoggerFactory.getLogger(ContentAct.class);
 	private static final int CONTENT_IMG_WIDTH = 600;
+
 	@RequiresPermissions("content:v_left")
 	@RequestMapping("/content/v_left.do")
 	public String left(String source, ModelMap model) {
@@ -143,10 +154,10 @@ public class ContentAct {
 		response.setContentType("text/json;charset=UTF-8");
 		return "content/tree";
 	}
-	
+
 	@RequestMapping(value = "/content/d_tree.do")
 	public String DepartmentTree(String root, HttpServletRequest request,
-			HttpServletResponse response, ModelMap model,String getcount){
+			HttpServletResponse response, ModelMap model, String getcount) {
 		boolean isRoot;
 		// jquery treeview的根请求为root=source
 		if (StringUtils.isBlank(root) || "source".equals(root)) {
@@ -366,7 +377,7 @@ public class ContentAct {
 		if (c != null) {
 			model.addAttribute("channel", c);
 		}
-		
+
 		return "content/add";
 	}
 
@@ -478,9 +489,9 @@ public class ContentAct {
 		if (cid != null) {
 			model.addAttribute("cid", cid);
 		}
-		
-		//如果是超级管理员，前台显示选择content部门
-		if(user.isSuper()){
+
+		// 如果是超级管理员，前台显示选择content部门
+		if (user.isSuper()) {
 			model.addAttribute("isSuper", "Y");
 		}
 
@@ -531,38 +542,40 @@ public class ContentAct {
 
 	@RequiresPermissions("content:o_save")
 	@RequestMapping("/content/o_save.do")
-	public String save(Content bean, ContentExt ext, ContentTxt txt,Integer departmentId,
-			Boolean copyimg, Integer sendType, Integer selectImg,
-			String weixinImg, Integer[] channelIds, Integer[] topicIds,
-			Integer[] viewGroupIds, String[] attachmentPaths,
-			String[] attachmentNames, String[] attachmentFilenames,
-			String[] picPaths, String[] picDescs, Integer channelId,
-			Integer typeId, String tagStr, Boolean draft, Integer cid,
-			Integer modelId, HttpServletRequest request, ModelMap model) {
+	public String save(Content bean, ContentExt ext, ContentTxt txt,
+			Integer departmentId, Boolean copyimg, Integer sendType,
+			Integer selectImg, String weixinImg, Integer[] channelIds,
+			Integer[] topicIds, Integer[] viewGroupIds,
+			String[] attachmentPaths, String[] attachmentNames,
+			String[] attachmentFilenames, String[] picPaths, String[] picDescs,
+			Integer channelId, Integer typeId, String tagStr, Boolean draft,
+			Integer cid, Integer modelId, HttpServletRequest request,
+			ModelMap model) {
 		WebErrors errors = validateSave(bean, channelId, request);
 		if (errors.hasErrors()) {
 			return errors.showErrorPage(model);
 		}
-		//判断contentImg图片是否为空，为空则设置内容中的第一张图片
-		if(StringUtils.isBlank(ext.getTitleImg())){
+		// 判断contentImg图片是否为空，为空则设置内容中的第一张图片
+		if (StringUtils.isBlank(ext.getTitleImg())) {
 			ext.setTitleImg(HtmlParseUtil.getFirstImg(txt.getTxt()));
 		}
-		//获取内容中图片的path和width
-//		Map<String,Integer> imgMap = HtmlParseUtil.getAllImgAndWidth(txt.getTxt());
-//		//默认修改图片宽度为设置宽度，默认为600px
-//		txt.setTxt(createThumImage(imgMap,request,txt.getTxt(),"save")); 
-		
+		// 获取内容中图片的path和width
+		// Map<String,Integer> imgMap =
+		// HtmlParseUtil.getAllImgAndWidth(txt.getTxt());
+		// //默认修改图片宽度为设置宽度，默认为600px
+		// txt.setTxt(createThumImage(imgMap,request,txt.getTxt(),"save"));
+
 		// 加上模板前缀
 		CmsSite site = CmsUtils.getSite(request);
 		CmsUser user = CmsUtils.getUser(request);
-		//保存部门
-		
-		if(departmentId!=null){
+		// 保存部门
+
+		if (departmentId != null) {
 			bean.setDepartment(cmsDepartmentMng.findById(departmentId));
-		}else{
+		} else {
 			bean.setDepartment(user.getDepartment());
 		}
-		
+
 		String tplPath = site.getTplPath();
 		if (!StringUtils.isBlank(ext.getTplContent())) {
 			ext.setTplContent(tplPath + ext.getTplContent());
@@ -595,16 +608,17 @@ public class ContentAct {
 
 	@RequiresPermissions("content:o_update")
 	@RequestMapping("/content/o_update.do")
-	public String update(String queryStatus, Integer queryTypeId,Integer departmentId,
-			Integer queryDepartmentId, Boolean queryTopLevel,
-			Boolean queryRecommend, Integer queryOrderBy, Content bean,
-			ContentExt ext, ContentTxt txt, Boolean copyimg, Integer sendType,
-			Integer selectImg, String weixinImg, Integer[] channelIds,
-			Integer[] topicIds, Integer[] viewGroupIds,
-			String[] attachmentPaths, String[] attachmentNames,
-			String[] attachmentFilenames, String[] picPaths, String[] picDescs,
-			Integer channelId, Integer typeId, String tagStr, Boolean draft,
-			Integer cid, String[] oldattachmentPaths, String[] oldpicPaths,
+	public String update(String queryStatus, Integer queryTypeId,
+			Integer departmentId, Integer queryDepartmentId,
+			Boolean queryTopLevel, Boolean queryRecommend,
+			Integer queryOrderBy, Content bean, ContentExt ext, ContentTxt txt,
+			Boolean copyimg, Integer sendType, Integer selectImg,
+			String weixinImg, Integer[] channelIds, Integer[] topicIds,
+			Integer[] viewGroupIds, String[] attachmentPaths,
+			String[] attachmentNames, String[] attachmentFilenames,
+			String[] picPaths, String[] picDescs, Integer channelId,
+			Integer typeId, String tagStr, Boolean draft, Integer cid,
+			String[] oldattachmentPaths, String[] oldpicPaths,
 			String oldTitleImg, String oldContentImg, String oldTypeImg,
 			Integer pageNo, HttpServletRequest request, ModelMap model) {
 		WebErrors errors = validateUpdate(bean.getId(), request);
@@ -625,20 +639,21 @@ public class ContentAct {
 			txt = copyContentTxtImg(txt, site);
 		}
 		// 保存部门
-		if(departmentId!=null){
+		if (departmentId != null) {
 			bean.setDepartment(cmsDepartmentMng.findById(departmentId));
-		}else{
+		} else {
 			bean.setDepartment(user.getDepartment());
 		}
-		
-		//判断contentImg图片是否为空，为空则设置内容中的第一张图片
-		if(StringUtils.isBlank(ext.getTitleImg())){
+
+		// 判断contentImg图片是否为空，为空则设置内容中的第一张图片
+		if (StringUtils.isBlank(ext.getTitleImg())) {
 			ext.setTitleImg(HtmlParseUtil.getFirstImg(txt.getTxt()));
 		}
-		//获取内容中图片的path和width
-//		Map<String,Integer> imgMap = HtmlParseUtil.getAllImgAndWidth(txt.getTxt());
-//		//默认修改图片宽度为设置宽度，默认为600px
-//		txt.setTxt(createThumImage(imgMap,request,txt.getTxt(),"update")); 
+		// 获取内容中图片的path和width
+		// Map<String,Integer> imgMap =
+		// HtmlParseUtil.getAllImgAndWidth(txt.getTxt());
+		// //默认修改图片宽度为设置宽度，默认为600px
+		// txt.setTxt(createThumImage(imgMap,request,txt.getTxt(),"update"));
 		bean = manager.update(bean, ext, txt, tagArr, channelIds, topicIds,
 				viewGroupIds, attachmentPaths, attachmentNames,
 				attachmentFilenames, picPaths, picDescs, attr, channelId,
@@ -655,6 +670,40 @@ public class ContentAct {
 		log.info("update Content id={}.", bean.getId());
 		cmsLogMng.operating(request, "content.log.update", "id=" + bean.getId()
 				+ ";title=" + bean.getTitle());
+		return list(queryStatus, queryTypeId, queryDepartmentId, queryTopLevel,
+				queryRecommend, queryOrderBy, cid, pageNo, request, model);
+	}
+
+	/**
+	 * 更新并审核  add by niexiao 20160514
+	 */
+	@RequiresPermissions("content:o_update,content:o_check")
+	@RequestMapping("/content/o_updateAndCheck.do")
+	public String updateAndCheck(String queryStatus, Integer queryTypeId,
+			Integer departmentId, Integer queryDepartmentId,
+			Boolean queryTopLevel, Boolean queryRecommend,
+			Integer queryOrderBy, Content bean, ContentExt ext, ContentTxt txt,
+			Boolean copyimg, Integer sendType, Integer selectImg,
+			String weixinImg, Integer[] channelIds, Integer[] topicIds,
+			Integer[] viewGroupIds, String[] attachmentPaths,
+			String[] attachmentNames, String[] attachmentFilenames,
+			String[] picPaths, String[] picDescs, Integer channelId,
+			Integer typeId, String tagStr, Boolean draft, Integer cid,
+			String[] oldattachmentPaths, String[] oldpicPaths,
+			String oldTitleImg, String oldContentImg, String oldTypeImg,
+			Integer pageNo, HttpServletRequest request, ModelMap model) {
+
+		//审核内容
+		CmsUser user = CmsUtils.getUser(request);
+		manager.check(bean.getId(), user, bean.getEditor(), bean.getApprover());
+		//更新内容
+		update(queryStatus, queryTypeId, departmentId, queryDepartmentId,
+				queryTopLevel, queryRecommend, queryOrderBy, bean, ext, txt,
+				copyimg, sendType, selectImg, weixinImg, channelIds, topicIds,
+				viewGroupIds, attachmentPaths, attachmentNames,
+				attachmentFilenames, picPaths, picDescs, channelId, typeId,
+				tagStr, draft, cid, oldattachmentPaths, oldpicPaths,
+				oldTitleImg, oldContentImg, oldTypeImg, pageNo, request, model);
 		return list(queryStatus, queryTypeId, queryDepartmentId, queryTopLevel,
 				queryRecommend, queryOrderBy, cid, pageNo, request, model);
 	}
@@ -1159,75 +1208,241 @@ public class ContentAct {
 		model.addAttribute("site", CmsUtils.getSite(request));
 		return "content/ranklist";
 	}
-	
+
 	@RequiresPermissions("content:export_xml")
 	@RequestMapping(value = "/content/export_xml.do")
 	public String contentXmlExport(String queryStatus, Integer queryTypeId,
 			Integer queryDepartmentId, Boolean queryTopLevel,
-			Boolean queryRecommend, Integer queryOrderBy,
-			Integer cid, Integer pageNo, HttpServletRequest request,
-			ModelMap model,String contentIds){
+			Boolean queryRecommend, Integer queryOrderBy, Integer cid,
+			Integer pageNo, HttpServletRequest request, ModelMap model,
+			String contentIds) {
 		String[] contentIdsArr = contentIds.split(",");
 		WebErrors errors = validateExit(contentIdsArr, request);
 		if (errors.hasErrors()) {
 			return errors.showErrorPage(model);
 		}
-		//用set去重
+		// 用set去重
 		Set<String> idsSet = new HashSet<String>();
-		for(int i = 0;i<contentIdsArr.length;i++){
+		for (int i = 0; i < contentIdsArr.length; i++) {
 			idsSet.add(contentIdsArr[i]);
 		}
+
+		String folderPath = exportXML(idsSet,request);
+		String zipPath = exportZip(idsSet,request,folderPath);
+		String zipFileName = zipPath+".zip";
+		OutputStream out = new ZipOutputStream(new FileOutputStream(  
+                zipFileName));  
+		FileEntry fileEntry = new FileEntry(zipPath, new File(zipFileName));
+		List<FileEntry> fileEntrys = new ArrayList<FileEntry>();
+		fileEntrys.add(fileEntry);
+		Zipper.zip(out, fileEntrys);
 		
-		exportXML(idsSet);
-		
-		return list(queryStatus, queryTypeId, queryDepartmentId, queryTopLevel,
-				queryRecommend, queryOrderBy, cid, pageNo, request, model);
+		response.sendRedirect(zipPath+".zip");
+		return null;
+	}
+	/**
+	 * 将图片，附件等添加到文件夹导出
+	 * @param idsSet
+	 * @param request
+	 * @param xmlPath
+	 * @return 需要压缩的文件路径
+	 */
+	private String exportZip(Set<String> idsSet, HttpServletRequest request,
+			String zipFolder) {
+		String zipFolderPath = realPathResolver.get(XMLUtil.EXPORTPATH+"/"+zipFolder);
+		Iterator<String> it = idsSet.iterator();
+		while(it.hasNext()){
+			Content content = manager.findById(Integer.valueOf(it.next()));
+			String titleImgPath = content.getTitleImg();
+			if(titleImgPath!=null&&!"".equals(titleImgPath)){
+				String realPath = realPathResolver.get(titleImgPath.substring(request.getContextPath().length()));
+				File titleImgFile = new File(realPath);
+				if(titleImgFile.exists()){
+					String titleImgFolder = (realPath.substring(realPath.indexOf(XMLUtil.ATTACHMENTPATH)+XMLUtil.ATTACHMENTPATH.length())).substring(0,6);
+					XMLUtil.copyImg(titleImgFile,zipFolderPath+"/"+titleImgFolder);
+				}
+			}
+			List<String> txtImgList = HtmlParseUtil.getAllImg(content.getContentTxt().getTxt());
+			if(txtImgList!=null&&txtImgList.size()>0){
+				for(int i=0;i<txtImgList.size();i++){
+					String realPath = realPathResolver.get(txtImgList.get(i).substring(request.getContextPath().length()));
+					File imgFile = new File(realPath);
+					if(imgFile.exists()){
+						String titleImgFolder = realPath.substring(realPath.indexOf(XMLUtil.ATTACHMENTPATH)+XMLUtil.ATTACHMENTPATH.length()).substring(0,6);
+						XMLUtil.copyImg(imgFile,zipFolderPath+"/"+titleImgFolder);
+					}
+				}
+			}
+			List<ContentAttachment> attachmentList = content.getAttachments();
+			if(attachmentList!=null&&attachmentList.size()>0){
+				for(int i=0;i<attachmentList.size();i++){
+					String realPath = realPathResolver.get(attachmentList.get(i).getPath().substring(request.getContextPath().length()));
+					File attachmentFile = new File(realPath);
+					if(attachmentFile.exists()){
+						String attachmentFolder = realPath.substring(realPath.indexOf(XMLUtil.ATTACHMENTPATH)+XMLUtil.ATTACHMENTPATH.length()).substring(0,6);
+						XMLUtil.copyImg(attachmentFile,zipFolderPath+"/"+attachmentFolder);
+					}
+				}
+			}
+		}
+
+		return zipFolderPath;
 	}
 
-	private void exportXML(Set<String> idsSet) {
+	@RequiresPermissions("content:toImportXml")
+	@RequestMapping(value = "/content/toImportXml.do")
+	public String toImportXml(HttpServletRequest request,HttpServletResponse response,
+			ModelMap model) throws IOException{
+		
+		return "content/xml_import";
+	}
+	
+	@RequiresPermissions("content:import_xml")
+	@RequestMapping(value = "/content/import_xml.do")
+	public String contentXmlImport(@RequestParam(value = "xmlFile", required = false) 
+			MultipartFile xmlFile,String filename,HttpServletRequest request,HttpServletResponse response,
+			ModelMap model) throws IOException{
+		CmsSite site = CmsUtils.getSite(request);
+		CmsUser user = CmsUtils.getUser(request);
+		String origName = xmlFile.getOriginalFilename();
+		String ext = FilenameUtils.getExtension(origName).toLowerCase(
+				Locale.ENGLISH);
+		WebErrors errors = validateUpload(xmlFile, request);
+		if (errors.hasErrors()) {
+			model.addAttribute("error", errors.getErrors().get(0));
+			return "content/xml_import";
+		}
+		// TODO 检查允许上传的后缀
+		try {
+			String fileUrl;
+			if (site.getConfig().getUploadToDb()) {
+				String dbFilePath = site.getConfig().getDbFileUri();
+				fileUrl = dbFileMng.storeByExt(site.getUploadPath(), ext,
+						xmlFile.getInputStream());
+				// 加上访问地址
+				fileUrl = request.getContextPath() + dbFilePath + fileUrl;
+			} else if (site.getUploadFtp() != null) {
+				Ftp ftp = site.getUploadFtp();
+				String ftpUrl = ftp.getUrl();
+				fileUrl = ftp.storeByExt(site.getUploadPath(), ext,
+						xmlFile.getInputStream());
+				// 加上url前缀
+				fileUrl = ftpUrl + fileUrl;
+			} else {
+				String ctx = request.getContextPath();
+				fileUrl = fileRepository.storeByExt(site.getUploadPath(), ext,
+						xmlFile);
+				// 加上部署路径
+				fileUrl = ctx + fileUrl;
+			}
+			cmsUserMng.updateUploadSize(user.getId(),
+					Integer.parseInt(String.valueOf(xmlFile.getSize() / 1024)));
+			fileMng.saveFileByPath(fileUrl, origName, false);
+			
+			XMLUtil.xmlToContent(realPathResolver.get(fileUrl.substring(request.getContextPath().length())),cmsUserMng,cmsModelMng,siteMng,cmsDepartmentMng,manager);
+		} catch (IllegalStateException e) {
+			model.addAttribute("error", e.getMessage());
+			log.error("upload file error!", e);
+		} catch (IOException e) {
+			model.addAttribute("error", e.getMessage());
+			log.error("upload file error!", e);
+		}
+		return "content/xml_import";
+	}
+	//创建xml文件并返回要压缩的文件夹名称
+	private String exportXML(Set<String> idsSet,HttpServletRequest request) {
 		Iterator<String> it = idsSet.iterator();
 		List<Content> contentLsit = new ArrayList<Content>();
-		while(it.hasNext()){
+		while (it.hasNext()) {
 			Content content = manager.findById(Integer.valueOf(it.next()));
 			contentLsit.add(content);
 		}
-		String contentsXml = XMLUtil.ContentListToXml(contentLsit);
-		System.out.println(contentsXml);
+		org.dom4j.Document document = XMLUtil.ContentListToXml(contentLsit);
+		FileOutputStream fileOutputStream = null;
+		XMLWriter xmlWriter = null;
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmssSSS");
+		String zipDirection = format.format(new Date());//既作为文件夹名，也作为xml文件名
+		//路径，export下存放导出文件，以时间命名，该文件夹下存放xml文件，和图片附件对应的文件
+		String xmlFilePath = request.getContextPath()+XMLUtil.EXPORTPATH+"/"+zipDirection+"/xml"; 
+		String xmlRealPath = realPathResolver.get(xmlFilePath.substring(request.getContextPath().length())+"/"+zipDirection+".xml");
+		File xmlFile = new File(xmlRealPath);
+		File dir = new File(realPathResolver.get(xmlFilePath.substring(request.getContextPath().length())));
+		try{
+			if(!dir.exists()){
+				dir.mkdirs();
+			}
+			if(!xmlFile.exists()){
+				xmlFile.createNewFile();
+			}
+			OutputFormat xmlFormat = new OutputFormat(); 
+			xmlFormat.setEncoding("utf-8");
+			// 设置换行 
+	        xmlFormat.setNewlines(true); 
+	        // 生成缩进 
+	        xmlFormat.setIndent(true); 
+	        // 使用4个空格进行缩进, 可以兼容文本编辑器 
+	        xmlFormat.setIndent("    "); 
+			
+	        fileOutputStream = new FileOutputStream(xmlFile);
+			xmlWriter = new XMLWriter(fileOutputStream,xmlFormat);
+			xmlWriter.write(document);
+			xmlWriter.close();
+			
+		}catch(IOException e){
+			e.printStackTrace();
+		}finally{
+			try {
+				fileOutputStream.close();
+				xmlWriter.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return zipDirection;  
 	}
 
-	//生成缩略图（把图片宽度大于600的变成600）
-	private String createThumImage(Map<String,Integer> imgMap,HttpServletRequest request,String txt,String flag){
+	// 生成缩略图（把图片宽度大于600的变成600）
+	private String createThumImage(Map<String, Integer> imgMap,
+			HttpServletRequest request, String txt, String flag) {
 		Document document = Jsoup.parse(txt);
-		for(String path:imgMap.keySet()){
-			String imgPath = realPathResolver.get(path.substring(request.getContextPath().length()));
+		for (String path : imgMap.keySet()) {
+			String imgPath = realPathResolver.get(path.substring(request
+					.getContextPath().length()));
 			try {
 				BufferedImage buffImage = ImageIO.read(new File(imgPath));
 				int orWidth = 0;
-				if(buffImage!=null){
+				if (buffImage != null) {
 					orWidth = buffImage.getWidth();
 				}
 				Integer setWidth = imgMap.get(path);
-				//如果设置大小跟原图大小一样，就说明没有设置，自动设置裁剪为宽度600
-				if("save".equals(flag)&&orWidth == setWidth){
-					Thumbnails.of(imgPath).width(CONTENT_IMG_WIDTH).toFile(imgPath);
-					document.getElementsByAttributeValue("src", path).attr("style", "width:"+CONTENT_IMG_WIDTH+"px;");
+				// 如果设置大小跟原图大小一样，就说明没有设置，自动设置裁剪为宽度600
+				if ("save".equals(flag) && orWidth == setWidth) {
+					Thumbnails.of(imgPath).width(CONTENT_IMG_WIDTH)
+							.toFile(imgPath);
+					document.getElementsByAttributeValue("src", path).attr(
+							"style", "width:" + CONTENT_IMG_WIDTH + "px;");
 				}
-				//如果设置宽度大于图片原始宽度，会失真，所以把图片宽度设置为600
-				if(setWidth>orWidth){
-					document.getElementsByAttributeValue("src", path).attr("style", "width:"+CONTENT_IMG_WIDTH+"px;");
+				// 如果设置宽度大于图片原始宽度，会失真，所以把图片宽度设置为600
+				if (setWidth > orWidth) {
+					document.getElementsByAttributeValue("src", path).attr(
+							"style", "width:" + CONTENT_IMG_WIDTH + "px;");
 				}
-				//原始宽度>设置宽度>=600，则设置为设置的宽度，前提是图片原始宽度必须大于设置的
-				if(orWidth>CONTENT_IMG_WIDTH&&setWidth>=CONTENT_IMG_WIDTH&&orWidth>setWidth){
+				// 原始宽度>设置宽度>=600，则设置为设置的宽度，前提是图片原始宽度必须大于设置的
+				if (orWidth > CONTENT_IMG_WIDTH
+						&& setWidth >= CONTENT_IMG_WIDTH && orWidth > setWidth) {
 					Thumbnails.of(imgPath).width(setWidth).toFile(imgPath);
-					document.getElementsByAttributeValue("src", path).attr("style", "width:"+setWidth+"px;");
+					document.getElementsByAttributeValue("src", path).attr(
+							"style", "width:" + setWidth + "px;");
 				}
-				
+
 			} catch (IOException e) {
 				e.printStackTrace();
-			};
+			}
+			;
 		}
 		return document.toString();
 	}
+
 	private WebErrors validateExit(String[] contentIds,
 			HttpServletRequest request) {
 		WebErrors errors = WebErrors.create(request);
@@ -1525,6 +1740,7 @@ public class ContentAct {
 		}
 		return txtHtml;
 	}
+
 	@Autowired
 	protected RealPathResolver realPathResolver;
 	@Autowired

@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+	function uploaXml(){
+		var mf = $("#xmlFile");
+		//妫�煡鏄惁閫夋嫨浜嗘枃浠�
+		if(mf.val()=="") {
+			$.alert("<@s.m 'global.prompt'/>","<@s.m 'content.error.noFileSelected'/>");
+			return;
+		}
+		$("#xmlUploadForm").submit();
+	}
+</script>
+</head>
+<body>
+	<div class="body-box">
+		<form action="import_xml.do" id="xmlUploadForm" method="post"  enctype="multipart/form-data" style="margin-top:30px;margin-left:50px;">
+			<span id="ufc0" style="position:relative">
+			<input type='text' id='uploadFileText0' size="14"/>  
+			<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+			<input onchange="$('#uploadFileText0').val(this.value)" size="14" type="file" id="xmlFile" name="xmlFile"  class="file-button"/>
+			</span>
+			<input type="button" value="<@s.m "imageupload.upload"/>" onclick="uploaXml();" class="upload-button"/>
+		</form>
+	</div>
+</body>
+</html>

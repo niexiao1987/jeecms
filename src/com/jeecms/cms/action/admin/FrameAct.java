@@ -100,6 +100,11 @@ public class FrameAct {
 	public String expandMain(ModelMap model) {
 		return "frame/expand_main";
 	}
+	@RequiresPermissions("frame:import_content")
+	@RequestMapping("/frame/import_content.do")
+	public String ImportContent(ModelMap model) {
+		return "frame/import_content";
+	}
 	
 	@RequiresPermissions("frame:expand_left")
 	@RequestMapping("/frame/expand_left.do")

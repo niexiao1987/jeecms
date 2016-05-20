@@ -54,7 +54,7 @@
 			hibernate.query.substitutions=true 1, false 0
 			hibernate.jdbc.batch_size=20
 			hibernate.cache.use_query_cache=true
-     		hibernate.hbm2ddl.auto=update
+<!--      		hibernate.hbm2ddl.auto=update -->
 			</value>
 		</property>
 		<property name="entityInterceptor">   
