@@ -1441,7 +1441,7 @@ public class ContentAct {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			;
+			
 		}
 		return document.toString();
 	}
