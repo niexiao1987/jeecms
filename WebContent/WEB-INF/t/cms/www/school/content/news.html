@@ -54,7 +54,7 @@ $(".frindlink_ctg").change(function(){
 	        
 	        <div class="newsTex">
 	        	<h1 style="color:#0d459f;font-size: 24px; font-weight: bold;">${content.title}</h1>
-	            <div class="msgbar">发布时间： ${content.releaseDate} &nbsp; 作者：${content.author!'本站编辑'} &nbsp; 来源： ${content.origin!'本站原创'} &nbsp; 浏览次数：<span id="views"></span>
+	            <div class="msgbar">发布时间： ${content.releaseDate?string("yyyy-MM-dd")} &nbsp; 作者：${content.author!'本站编辑'} &nbsp; 来源： ${content.origin!'本站原创'} &nbsp; 浏览次数：<span id="views"></span>
 	            <span id="cancelSpan" style="display:none; cursor: pointer;">取消收藏</span>
 	            <span id="comfirmSpan" style="display:none;cursor: pointer;">收藏</span>
 	            [#if user??]

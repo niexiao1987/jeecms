@@ -590,12 +590,12 @@ function validate() {
 <#elseif item.field=="topLevel">
 <@p.td help=item.help helpPosition="${item.helpPosition!2}" label=item.label colspan=item.single?string("2","1") width="${item.single?string(100,50)}">
 <input type="text" name="topLevel" value="${content.topLevel!}" required="true" class="required digits" maxlength="2" style="width:20px"/>
-&nbsp;<@s.m "content.sortDate"/>: <@p.text name="sortDate" value=content.sortDate style="width:140px" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"/>
+&nbsp;<@s.m "content.sortDate"/>: <@p.text name="sortDate" value=(content.sortDate)?string("yyyy-MM-dd") style="width:140px" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"/>
 </@p.td>
 
 <#elseif item.field=="releaseDate">
 <#assign h><#if item.help??>${item.help}<#else><@s.m "content."+item.field+".help"/></#if></#assign>
-<@p.text value=content.releaseDate style="width:140px" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" help="${h!}" helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>
+<@p.text value=(content.releaseDate)?string("yyyy-MM-dd") style="width:140px" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" help="${h!}" helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>
 
 <#elseif item.field=="typeId">
 <@p.td help=item.help helpPosition="${item.helpPosition!2}" label=item.label colspan=item.single?string("2","1") width="${item.single?string(100,50)}">

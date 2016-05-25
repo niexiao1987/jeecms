@@ -198,20 +198,21 @@ public class XMLUtil {
 				Integer typeId = null;
 				CmsUser user = null;
 				Integer[] channelIds=null;
-				String topicIdsStr = "";
+				String topicIdsStr = null;
 				Integer[] topicIds = null;
+				String viewGroupIdsStr = null;
 				Integer[] viewGroupIds = null;
-				
+				String tagArrStr = null;
 				String[] tagArr = null;
-				
+				String attachmentPathsStr = null;
 				String[] attachmentPaths = null;
-				
+				String attachmentNamesStr = null;
 				String[] attachmentNames = null;
-				
+				String attachmentFilenamesStr = null;
 				String[] attachmentFilenames = null;
-				
+				String picPathsStr = null;
 				String[] picPaths = null;
-				
+				String picDescsStr = null;
 				String[] picDescs = null;
 				
 				Boolean draft = null;
@@ -293,7 +294,7 @@ public class XMLUtil {
 						}
 					}
 					
-					if(!"".equals(channelIdsStr)){
+					if(isNotNull(channelIdsStr)){
 						channelIds = StringToIntArr(channelIdsStr.substring(1));
 					}
 					//获取专题
@@ -306,11 +307,87 @@ public class XMLUtil {
 						}
 					}
 					
-					if(!"".equals(topicIdsStr)){
+					if(isNotNull(topicIdsStr)){
 						topicIds = StringToIntArr(topicIdsStr);
 					}
+					// 保存浏览会员组
+					if("viewGroupIds".equals(baseContent.getName())){
+						Iterator<Element> contentFieldList =  baseContent.elementIterator();
+						while(contentFieldList.hasNext()){
+							Element fieldName = contentFieldList.next();
+							viewGroupIdsStr = ","+fieldName.getText();
+						}
+					}
+					if(isNotNull(viewGroupIdsStr)){
+						viewGroupIds = StringToIntArr(viewGroupIdsStr);
+					}
 					
+					// 保存标签
+					if("tags".equals(baseContent.getName())){
+						Iterator<Element> contentFieldList =  baseContent.elementIterator();
+						while(contentFieldList.hasNext()){
+							Element fieldName = contentFieldList.next();
+							tagArrStr = "," + fieldName.getText();
+						}
+					}
+					if(isNotNull(tagArrStr)){
+						tagArr = tagArrStr.split(",");
+					}
+					// 保存附件
+					if("attachmentPaths".equals(baseContent.getName())){
+						Iterator<Element> contentFieldList =  baseContent.elementIterator();
+						while(contentFieldList.hasNext()){
+							Element fieldName = contentFieldList.next();
+							attachmentPathsStr = "," + fieldName.getText();
+						}
+					}
+					if(isNotNull(attachmentPathsStr)){
+						attachmentPaths = attachmentPathsStr.split(",");
+					}
 					
+					if("attachmentNames".equals(baseContent.getName())){
+						Iterator<Element> contentFieldList =  baseContent.elementIterator();
+						while(contentFieldList.hasNext()){
+							Element fieldName = contentFieldList.next();
+							attachmentNamesStr = "," + fieldName.getText();
+						}
+					}
+					if(isNotNull(attachmentNamesStr)){
+						attachmentNames = attachmentNamesStr.split(",");
+					}
+					
+					if("attachmentFilenames".equals(baseContent.getName())){
+						Iterator<Element> contentFieldList =  baseContent.elementIterator();
+						while(contentFieldList.hasNext()){
+							Element fieldName = contentFieldList.next();
+							attachmentFilenamesStr = "," + fieldName.getText();
+						}
+					}
+					if(isNotNull(attachmentFilenamesStr)){
+						attachmentFilenames = attachmentFilenamesStr.split(",");
+					}
+					// 保存图片集
+					if("picPaths".equals(baseContent.getName())){
+						Iterator<Element> contentFieldList =  baseContent.elementIterator();
+						while(contentFieldList.hasNext()){
+							Element fieldName = contentFieldList.next();
+							picPathsStr = "," + fieldName.getText();
+						}
+					}
+					if(isNotNull(picPathsStr)){
+						picPaths = picPathsStr.split(",");
+					}
+					
+					if("picDescs".equals(baseContent.getName())){
+						Iterator<Element> contentFieldList =  baseContent.elementIterator();
+						while(contentFieldList.hasNext()){
+							Element fieldName = contentFieldList.next();
+							picDescsStr = "," + fieldName.getText();
+						}
+					}
+					if(isNotNull(picDescsStr)){
+						picDescs = picDescsStr.split(",");
+					}
 					
 				}
 				content = manager.save(content, contentExt, contentTxt, channelIds, topicIds, viewGroupIds,
@@ -323,7 +400,7 @@ public class XMLUtil {
 		}
 		return "";
 	}
-	//String[] 转 Integer[]
+	//String 转 Integer[]
 	public static Integer[] StringToIntArr(String str){
 		String[] strArr = str.split(",");
 		Integer[] intArr = new Integer[strArr.length];
@@ -332,6 +409,7 @@ public class XMLUtil {
 		}
 		return intArr;
 	}
+	
 	
 	//如果String类型为null，设置为空白
 	public static String covertNull(String str){
@@ -342,7 +420,12 @@ public class XMLUtil {
 		}
 	}
 
-	
+	public static boolean isNotNull(String str){
+		if(str!=null&&!"".equals(str)){
+			return true;
+		}
+		return false;
+	}
 	
 
 }
