@@ -35,8 +35,8 @@ import com.jeecms.extend.manager.CmsDepartmentMng;
 import com.jeecms.extend.manager.ContentCheckRecordMng;
 
 public class XMLUtil {
-	public static final String EXPORTPATH = "/u/cms/www/export";
-	public static final String ATTACHMENTPATH = "\\u\\cms\\www\\";
+	public static final String EXPORTPATH =File.separator+"u"+File.separator+"cms"+File.separator+"www"+File.separator+"export";
+	public static final String ATTACHMENTPATH = File.separator+"u"+File.separator+"cms"+File.separator+"www";
 	public static  Document ContentListToXml(List<Content> contentList){
 		Document document = DocumentHelper.createDocument();
 		Element root = document.addElement("contentXmlExport"); 
@@ -65,36 +65,41 @@ public class XMLUtil {
 			//设置contentExt
 			Element contentExt = contentXmlElement.addElement("contentExt");
 			ContentExt contentExtBase = content.getContentExt();
-			contentExt.setAttributeValue("id", String.valueOf(contentExtBase.getId()));
-			contentExt.addElement("id").addText(String.valueOf(contentExtBase.getId()));
-			contentExt.addElement("title").addText(String.valueOf(contentExtBase.getTitle()));
-			contentExt.addElement("shortTitle").addText(String.valueOf(contentExtBase.getShortTitle()));
-			contentExt.addElement("description").addText(String.valueOf(contentExtBase.getDescription()));
-			contentExt.addElement("author").addText(String.valueOf(contentExtBase.getAuthor()));
-			contentExt.addElement("origin").addText(String.valueOf(contentExtBase.getOrigin()));
-			contentExt.addElement("originUrl").addText(String.valueOf(contentExtBase.getOriginUrl()));
-			contentExt.addElement("releaseDate").addText(String.valueOf(contentExtBase.getReleaseDate().getTime()));
-			contentExt.addElement("mediaPath").addText(String.valueOf(contentExtBase.getMediaPath()));
-			contentExt.addElement("mediaType").addText(String.valueOf(contentExtBase.getMediaType()));
-			contentExt.addElement("titleColor").addText(String.valueOf(contentExtBase.getTitleColor()));
-			contentExt.addElement("bold").addText(String.valueOf(contentExtBase.getBold()));
-			contentExt.addElement("titleImg").addText(String.valueOf(contentExtBase.getTitleImg()));
-			contentExt.addElement("contentImg").addText(String.valueOf(contentExtBase.getContentImg()));
-			contentExt.addElement("typeImg").addText(String.valueOf(contentExtBase.getTypeImg()));
-			contentExt.addElement("link").addText(String.valueOf(contentExtBase.getLink()));
-			contentExt.addElement("tplContent").addText(String.valueOf(contentExtBase.getTplContent()));
-			contentExt.addElement("needRegenerate").addText(String.valueOf(contentExtBase.getNeedRegenerate()));
-			contentExt.addElement("editor").addText(String.valueOf(contentExtBase.getEditor()));
-			contentExt.addElement("approver").addText(String.valueOf(contentExtBase.getApprover()));
+			if(contentExtBase!=null){
+				contentExt.setAttributeValue("id", String.valueOf(contentExtBase.getId()));
+				contentExt.addElement("id").addText(String.valueOf(contentExtBase.getId()));
+				contentExt.addElement("title").addText(String.valueOf(contentExtBase.getTitle()));
+				contentExt.addElement("shortTitle").addText(String.valueOf(contentExtBase.getShortTitle()));
+				contentExt.addElement("description").addText(String.valueOf(contentExtBase.getDescription()));
+				contentExt.addElement("author").addText(String.valueOf(contentExtBase.getAuthor()));
+				contentExt.addElement("origin").addText(String.valueOf(contentExtBase.getOrigin()));
+				contentExt.addElement("originUrl").addText(String.valueOf(contentExtBase.getOriginUrl()));
+				contentExt.addElement("releaseDate").addText(String.valueOf(contentExtBase.getReleaseDate().getTime()));
+				contentExt.addElement("mediaPath").addText(String.valueOf(contentExtBase.getMediaPath()));
+				contentExt.addElement("mediaType").addText(String.valueOf(contentExtBase.getMediaType()));
+				contentExt.addElement("titleColor").addText(String.valueOf(contentExtBase.getTitleColor()));
+				contentExt.addElement("bold").addText(String.valueOf(contentExtBase.getBold()));
+				contentExt.addElement("titleImg").addText(String.valueOf(contentExtBase.getTitleImg()));
+				contentExt.addElement("contentImg").addText(String.valueOf(contentExtBase.getContentImg()));
+				contentExt.addElement("typeImg").addText(String.valueOf(contentExtBase.getTypeImg()));
+				contentExt.addElement("link").addText(String.valueOf(contentExtBase.getLink()));
+				contentExt.addElement("tplContent").addText(String.valueOf(contentExtBase.getTplContent()));
+				contentExt.addElement("needRegenerate").addText(String.valueOf(contentExtBase.getNeedRegenerate()));
+				contentExt.addElement("editor").addText(String.valueOf(contentExtBase.getEditor()));
+				contentExt.addElement("approver").addText(String.valueOf(contentExtBase.getApprover()));
+			}
 			
 			Element contentTxt = contentXmlElement.addElement("contentTxt");
 			ContentTxt contentTxtBase = content.getContentTxt();
-			contentTxt.setAttributeValue("id", String.valueOf(contentTxtBase.getId()));
-			contentTxt.addElement("id").addText(String.valueOf(contentTxtBase.getId()));
-			contentTxt.addElement("txt").addText(String.valueOf(contentTxtBase.getTxt()));
-			contentTxt.addElement("txt1").addText(String.valueOf(contentTxtBase.getTxt1()));
-			contentTxt.addElement("txt2").addText(String.valueOf(contentTxtBase.getTxt2()));
-			contentTxt.addElement("txt3").addText(String.valueOf(contentTxtBase.getTxt3()));
+			if(contentTxtBase!=null){
+				contentTxt.setAttributeValue("id", String.valueOf(contentTxtBase.getId()));
+				contentTxt.addElement("id").addText(String.valueOf(contentTxtBase.getId()));
+				contentTxt.addElement("txt").addText(String.valueOf(contentTxtBase.getTxt()));
+				contentTxt.addElement("txt1").addText(String.valueOf(contentTxtBase.getTxt1()));
+				contentTxt.addElement("txt2").addText(String.valueOf(contentTxtBase.getTxt2()));
+				contentTxt.addElement("txt3").addText(String.valueOf(contentTxtBase.getTxt3()));
+			}
+			
 			//副栏目
 			Element channelIdsElement = contentXmlElement.addElement("channelIds");
 			Integer[] channelIds = content.getChannelIds();
@@ -337,29 +342,6 @@ public class XMLUtil {
 		}
 	}
 
-	/**
-	 * copy图片
-	 * @param titleImgFile
-	 * @param string
-	 */
-	public static void copyImg(File from, String targetPath) {
-		File targetFolder = new File(targetPath);
-		if(!targetFolder.exists()){
-			targetFolder.mkdir();
-		}
-		String targetName = from.getName();
-		try{
-			FileInputStream input=new FileInputStream(from);
-			FileOutputStream output=new FileOutputStream(targetPath+"/"+targetName);
-			int in=input.read();
-			while(in!=-1){
-			output.write(in);
-			in=input.read();
-			}
-			}catch (IOException e){
-			System.out.println(e.toString());
-			}
-	}
 	
 	
 

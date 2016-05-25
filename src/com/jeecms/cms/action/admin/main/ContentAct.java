@@ -72,8 +72,10 @@ import com.jeecms.cms.staticpage.exception.TemplateParseException;
 import com.jeecms.common.image.ImageUtils;
 import com.jeecms.common.page.Pagination;
 import com.jeecms.common.upload.FileRepository;
+import com.jeecms.common.util.FileUtil;
 import com.jeecms.common.util.HtmlParseUtil;
 import com.jeecms.common.util.StrUtils;
+import com.jeecms.common.util.ZipUtil;
 import com.jeecms.common.util.Zipper;
 import com.jeecms.common.util.Zipper.FileEntry;
 import com.jeecms.common.web.CookieUtils;
@@ -1228,18 +1230,22 @@ public class ContentAct {
 			idsSet.add(contentIdsArr[i]);
 		}
 		
-
+		//要压缩的文件夹名称,系统根据时间生成
 		String folderPath = exportXML(idsSet,request);
-		String zipPath = exportZip(idsSet,request,folderPath);
-		String zipFileName = zipPath+".zip";
-		OutputStream out = new ZipOutputStream(new FileOutputStream(  
-                zipFileName));  
-		FileEntry fileEntry = new FileEntry(zipPath, new File(zipFileName));
-		List<FileEntry> fileEntrys = new ArrayList<FileEntry>();
-		fileEntrys.add(fileEntry);
-		Zipper.zip(out, fileEntrys);
-
-		response.sendRedirect(zipPath+".zip");
+		String exportPath = exportZip(idsSet,request,folderPath);
+		File exportFile = new File(exportPath);
+		File zipFile = new File(exportPath+".zip");
+		ZipOutputStream zioOut = new ZipOutputStream(new FileOutputStream(zipFile));
+		ZipUtil.compress(exportFile,zioOut);
+		zioOut.close();
+		//删除文件及文件夹
+		if(exportFile.exists()){
+			FileUtil.deleteFile(exportFile);
+		}
+		String zipName = folderPath+".zip";
+		response.sendRedirect(request.getContextPath()+XMLUtil.EXPORTPATH+File.separator+zipName);
+		//ZipUtil.downloadZipFile(response, exportPath+".zip",zipName);
+		
 		return null;
 	}
 	/**
@@ -1251,7 +1257,7 @@ public class ContentAct {
 	 */
 	private String exportZip(Set<String> idsSet, HttpServletRequest request,
 			String zipFolder) {
-		String zipFolderPath = realPathResolver.get(XMLUtil.EXPORTPATH+"/"+zipFolder);
+		String zipFolderPath = realPathResolver.get(XMLUtil.EXPORTPATH+File.separator+zipFolder);
 		Iterator<String> it = idsSet.iterator();
 		while(it.hasNext()){
 			Content content = manager.findById(Integer.valueOf(it.next()));
@@ -1260,18 +1266,18 @@ public class ContentAct {
 				String realPath = realPathResolver.get(titleImgPath.substring(request.getContextPath().length()));
 				File titleImgFile = new File(realPath);
 				if(titleImgFile.exists()){
-					String titleImgFolder = (realPath.substring(realPath.indexOf(XMLUtil.ATTACHMENTPATH)+XMLUtil.ATTACHMENTPATH.length())).substring(0,6);
-					XMLUtil.copyImg(titleImgFile,zipFolderPath+"/"+titleImgFolder);
+					String titleImgFolder = (realPath.substring(realPath.indexOf(XMLUtil.ATTACHMENTPATH)+XMLUtil.ATTACHMENTPATH.length()+1)).substring(0,6);
+					FileUtil.copyImg(titleImgFile,zipFolderPath,titleImgFolder);
 				}
 			}
-			List<String> txtImgList = HtmlParseUtil.getAllImg(content.getContentTxt().getTxt());
+			List<String> txtImgList = HtmlParseUtil.getAllImg(content.getTxt());
 			if(txtImgList!=null&&txtImgList.size()>0){
 				for(int i=0;i<txtImgList.size();i++){
 					String realPath = realPathResolver.get(txtImgList.get(i).substring(request.getContextPath().length()));
 					File imgFile = new File(realPath);
 					if(imgFile.exists()){
-						String titleImgFolder = realPath.substring(realPath.indexOf(XMLUtil.ATTACHMENTPATH)+XMLUtil.ATTACHMENTPATH.length()).substring(0,6);
-						XMLUtil.copyImg(imgFile,zipFolderPath+"/"+titleImgFolder);
+						String titleImgFolder = realPath.substring(realPath.indexOf(XMLUtil.ATTACHMENTPATH)+XMLUtil.ATTACHMENTPATH.length()+1).substring(0,6);
+						FileUtil.copyImg(imgFile,zipFolderPath,titleImgFolder);
 					}
 				}
 			}
@@ -1281,9 +1287,18 @@ public class ContentAct {
 					String realPath = realPathResolver.get(attachmentList.get(i).getPath().substring(request.getContextPath().length()));
 					File attachmentFile = new File(realPath);
 					if(attachmentFile.exists()){
-						String attachmentFolder = realPath.substring(realPath.indexOf(XMLUtil.ATTACHMENTPATH)+XMLUtil.ATTACHMENTPATH.length()).substring(0,6);
-						XMLUtil.copyImg(attachmentFile,zipFolderPath+"/"+attachmentFolder);
+						String attachmentFolder = realPath.substring(realPath.indexOf(XMLUtil.ATTACHMENTPATH)+XMLUtil.ATTACHMENTPATH.length()+1).substring(0,6);
+						FileUtil.copyImg(attachmentFile,zipFolderPath,attachmentFolder);
 					}
+				}
+			}
+			String mediaPath = content.getMediaPath();
+			if(mediaPath!=null&&!"".equals(mediaPath)){
+				String realPath = realPathResolver.get(mediaPath.substring(request.getContextPath().length()));
+				File mediaImgFile = new File(realPath);
+				if(mediaImgFile.exists()){
+					String mediaImgFolder = (realPath.substring(realPath.indexOf(XMLUtil.ATTACHMENTPATH)+XMLUtil.ATTACHMENTPATH.length()+1)).substring(0,6);
+					FileUtil.copyImg(mediaImgFile,zipFolderPath,mediaImgFolder);
 				}
 			}
 		}
@@ -1318,22 +1333,23 @@ public class ContentAct {
 		// TODO 检查允许上传的后缀
 		try {
 			String fileUrl;
+			String zipPath = File.separator+"u"+File.separator+"cms"+File.separator+"www"+File.separator+"export";
 			if (site.getConfig().getUploadToDb()) {
 				String dbFilePath = site.getConfig().getDbFileUri();
-				fileUrl = dbFileMng.storeByExt(site.getUploadPath(), ext,
+				fileUrl = dbFileMng.storeByExt(zipPath, ext,
 						xmlFile.getInputStream());
 				// 加上访问地址
 				fileUrl = request.getContextPath() + dbFilePath + fileUrl;
 			} else if (site.getUploadFtp() != null) {
 				Ftp ftp = site.getUploadFtp();
 				String ftpUrl = ftp.getUrl();
-				fileUrl = ftp.storeByExt(site.getUploadPath(), ext,
+				fileUrl = ftp.storeByExt(zipPath, ext,
 						xmlFile.getInputStream());
 				// 加上url前缀
 				fileUrl = ftpUrl + fileUrl;
 			} else {
 				String ctx = request.getContextPath();
-				fileUrl = fileRepository.storeByExt(site.getUploadPath(), ext,
+				fileUrl = fileRepository.storeByExt(zipPath, ext,
 						xmlFile);
 				// 加上部署路径
 				fileUrl = ctx + fileUrl;
@@ -1341,7 +1357,9 @@ public class ContentAct {
 			cmsUserMng.updateUploadSize(user.getId(),
 					Integer.parseInt(String.valueOf(xmlFile.getSize() / 1024)));
 			fileMng.saveFileByPath(fileUrl, origName, false);
-			
+			String zipPathReal = realPathResolver.get(fileUrl.substring(request.getContextPath().length()));
+			String compressPath = realPathResolver.get(zipPath);
+			ZipUtil.unCompress(zipPathReal, compressPath);
 			XMLUtil.xmlToContent(realPathResolver.get(fileUrl.substring(request.getContextPath().length())),cmsUserMng,cmsModelMng,siteMng,cmsDepartmentMng,manager);
 		} catch (IllegalStateException e) {
 			model.addAttribute("error", e.getMessage());
@@ -1366,8 +1384,8 @@ public class ContentAct {
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmssSSS");
 		String zipDirection = format.format(new Date());//既作为文件夹名，也作为xml文件名
 		//路径，export下存放导出文件，以时间命名，该文件夹下存放xml文件，和图片附件对应的文件
-		String xmlFilePath = request.getContextPath()+XMLUtil.EXPORTPATH+"/"+zipDirection+"/xml"; 
-		String xmlRealPath = realPathResolver.get(xmlFilePath.substring(request.getContextPath().length())+"/"+zipDirection+".xml");
+		String xmlFilePath = request.getContextPath()+XMLUtil.EXPORTPATH+File.separator+zipDirection+File.separator+"xml"; 
+		String xmlRealPath = realPathResolver.get(xmlFilePath.substring(request.getContextPath().length())+File.separator+zipDirection+".xml");
 		File xmlFile = new File(xmlRealPath);
 		File dir = new File(realPathResolver.get(xmlFilePath.substring(request.getContextPath().length())));
 		try{
