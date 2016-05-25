@@ -50,7 +50,8 @@ public class ZipUtil {
 	 * @param zipPath
 	 * @throws IOException
 	 */
-	public static void unCompress(String zipPath,String compressPath) throws IOException {
+	public static String unCompress(String zipPath,String compressPath,String wwwPath) throws IOException {
+		String xmlPath = null;
 		File file = new File(zipPath);
 		File outFile = null;
 		ZipFile zipFile = new ZipFile(file);
@@ -60,7 +61,22 @@ public class ZipUtil {
 		OutputStream output = null;
 		while ((entry = zipInput.getNextEntry()) != null) {
 			System.out.println("解压缩" + entry.getName() + "文件");
-			outFile = new File(compressPath);
+			//要解压的文件名
+			String zipFileName = entry.getName();
+			//文件要归属的文件夹名
+			String folderName = zipFileName.substring(0, 6);
+			//文件本来的名字
+			String fileName = zipFileName.substring(6);
+			
+			File folderFile = new File(wwwPath+File.separator+folderName);
+			if(!folderFile.exists()){
+				folderFile.mkdir();
+			}
+			
+			String outFilePath = wwwPath+File.separator+folderName+File.separator+fileName;
+			outFile = new File(outFilePath);
+			
+			System.out.println(outFilePath);
 			if (!outFile.getParentFile().exists()) {
 				outFile.getParentFile().mkdir();
 			}
@@ -69,13 +85,20 @@ public class ZipUtil {
 			}
 			input = zipFile.getInputStream(entry);
 			output = new FileOutputStream(outFile);
-			int temp = 0;
-			while ((temp = input.read()) != -1) {
-				output.write(temp);
+			byte[] buffer = new byte[1024*8];
+			int length = -1;
+			while ((length = input.read(buffer)) != -1) {
+				output.write(buffer,0,length);
 			}
 			input.close();
 			output.close();
+			
+			if(zipFileName.endsWith(".xml")){
+				xmlPath = outFilePath;
+			}
 		}
+		
+		return xmlPath;
 	}
 	
     /**

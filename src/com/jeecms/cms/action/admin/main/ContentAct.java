@@ -1333,7 +1333,7 @@ public class ContentAct {
 		// TODO 检查允许上传的后缀
 		try {
 			String fileUrl;
-			String zipPath = File.separator+"u"+File.separator+"cms"+File.separator+"www"+File.separator+"export";
+			String zipPath = File.separator+"u"+File.separator+"cms"+File.separator+"www"+File.separator+"import";
 			if (site.getConfig().getUploadToDb()) {
 				String dbFilePath = site.getConfig().getDbFileUri();
 				fileUrl = dbFileMng.storeByExt(zipPath, ext,
@@ -1359,8 +1359,11 @@ public class ContentAct {
 			fileMng.saveFileByPath(fileUrl, origName, false);
 			String zipPathReal = realPathResolver.get(fileUrl.substring(request.getContextPath().length()));
 			String compressPath = realPathResolver.get(zipPath);
-			ZipUtil.unCompress(zipPathReal, compressPath);
-			XMLUtil.xmlToContent(realPathResolver.get(fileUrl.substring(request.getContextPath().length())),cmsUserMng,cmsModelMng,siteMng,cmsDepartmentMng,manager);
+			String wwwPath = realPathResolver.get(XMLUtil.ATTACHMENTPATH);
+			String xmlPath = ZipUtil.unCompress(zipPathReal, compressPath,wwwPath);
+			if(xmlPath!=null){
+				XMLUtil.xmlToContent(xmlPath,cmsUserMng,cmsModelMng,siteMng,cmsDepartmentMng,manager);
+			}
 		} catch (IllegalStateException e) {
 			model.addAttribute("error", e.getMessage());
 			log.error("upload file error!", e);
