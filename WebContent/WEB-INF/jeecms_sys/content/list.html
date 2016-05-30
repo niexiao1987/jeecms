@@ -294,11 +294,19 @@ function optPriority() {
 	f.submit();
 }
 //从导出列表删除
-function exportListDel(contentId){
+function exportListDel(contentId,input){
 	if(contentId!=null){
 		CookieUtil.del("contentIds",contentId);
-		alert(CookieUtil.get("contentIds"));
 	}
+	$("input[name='exportContentIds']").val(CookieUtil.get("contentIds"));
+	//如果全部清空了，把导出列表隐藏，并设置隐藏域
+	if(CookieUtil.get("contentIds")==""||CookieUtil.get("contentIds")==null){
+		$("#div_exportContentList").hide();
+		$("input[name='addexportlist']").val("");
+	}
+	//隐藏tr
+	$(input).parent().parent().hide();
+	
 }
 //添加到xml导出cookie
 function optAddXmlList(){
@@ -309,12 +317,11 @@ function optAddXmlList(){
 	var cookieName = CookieUtil.get("contentIds");
 	var contentIds = getContentIds();
 	var contentIdStr=contentIds.toString();
-	if(cookieName==null){
+	if(cookieName==null||""==cookieName){
 		CookieUtil.set("contentIds",contentIdStr);
 	}else{
 		CookieUtil.set("contentIds",cookieName+","+contentIdStr);
 	}
-	alert(CookieUtil.get("contentIds"));
 	$("input[name='addexportlist']").val("yes");
 	$("input[name='exportContentIds']").val(CookieUtil.get("contentIds"));
 	$("#contentListForm").submit();
@@ -322,7 +329,7 @@ function optAddXmlList(){
 //导出xml
 function optExportXml(){
 	var contentIds = CookieUtil.get("contentIds");
-	if(contentIds==null){
+	if(contentIds==null||""==contentIds){
 		alert("请先添加导出列表！");
 		return;
 	}
@@ -336,19 +343,27 @@ function optExportXml(){
 function optClearXmlList(){
 	CookieUtil.unset("contentIds");
 	alert("操作成功！");
+	$("input[name='addexportlist']").val("");
+	$("#contentListForm").submit();
 }
 var CookieUtil = {
+		//del是删除cookie name中的字符
 		del:function(name,value){
 			var cookieValue = CookieUtil.get(name);
 			var index = cookieValue.indexOf(value);
-			if(index!=-1){
-				console.log(cookieValue);
-				console.log(cookieValue.substring(0,index)+"------"+cookieValue.substring(index+value.length+1));
-				var delValue = cookieValue.substring(0,index)+cookieValue.substring(index+value.length+1);
-				console.log(delValue);
-				CookieUtil.unset(name);
-				CookieUtil.set(name,delValue);
+			var length = value.toString().length;
+			while(index!=-1){
+				cookieValue = cookieValue.substring(0,index)+cookieValue.substring(index+length+1);
+				index = cookieValue.indexOf(value);
 			}
+			if(cookieValue.charAt(cookieValue.length-1)==","){
+				cookieValue = cookieValue.substring(0,cookieValue.length-1);
+			}
+			if(cookieValue.charAt(0)==","){
+				cookieValue = cookieValue.substring(1,cookieValue.length);
+			}
+			CookieUtil.unset(name);
+			CookieUtil.set(name,cookieValue);
 		},
 		get:function(name){
 			var cookieName = encodeURIComponent(name) + "=",
@@ -651,25 +666,25 @@ var CookieUtil = {
 </div>
 <#include "/common/alert_message.html"/>
 <#if addexportlist??&&addexportlist=='yes'>
-<div style="width:360px;height:600px;position: absolute;right: 20px;top: 60px; background: white;padding:20px; overflow: auto;">
-<#if exportContentList?size gt 0>
+<div id="div_exportContentList" style="width:360px;height:600px;position: absolute;right: 20px;top: 60px; background: white;padding:20px; overflow: auto;">
+<#if exportContentList??&&exportContentList?size gt 0>
 <table>
  		<thead>
  			<tr>
- 				<td colspan="2" align="center">导出列表</td>
+ 				<td colspan="3" align="center">导出列表</td>
  			</tr>
  		</thead>
  		<tbody>
  			<tr>
- 				<td>ID</td> 
- 				<td>标题</td>
-<!--  				<td>操作</td> -->
+ 				<td width="40px">ID</td> 
+ 				<td width="200px">标题</td>
+ 				<td width="80px">操作</td>
  			</tr>
  <#list exportContentList as c>	
  			<tr>
  				<td>${c.id}</td> 
  				<td>${c.title}</td>
-<!--  				<td><input type="button" value="<@s.m "global.delete"/>" onclick="exportListDel(${c.id});" class="check"/ style="float:left; border-right:1px solid #ffffff;"></td> -->
+ 				<td><input type="button" value="<@s.m "global.delete"/>" onclick="exportListDel(${c.id},this);" class="check"/ style="float:left; border-right:1px solid #ffffff;"></td>
  			</tr>
  </#list>
  </tbody>
