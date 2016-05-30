@@ -92,6 +92,10 @@ img{ border:0; -ms-interpolation-mode:bicubic;}
 .imgAndword_list_box li{width: 140px;height: 110px;margin-left: 1.5%;float: left;overflow: hidden;position: relative;margin-top: 10px;display: inline;}
 .main_right_content_bar{width:240px; height: 35px;background-image:url(../img/index/img_word_bg.png); background-repeat: repeat-x;}
 .main_right_content_list{width: 240px; margin: 10px 0;}
+.content_list_notif{overflow:hidden;
+border: 1px;
+height: 100px;
+}
 .notification_icon{background: url(../img/index/notification_icon.png) no-repeat 10px 10px;}
 .subject_icon{background: url(../img/index/subject_icon.png) no-repeat 10px 10px;}
 .rankview_icon{background: url(../img/index/rankview_icon.png) no-repeat 10px 10px;}

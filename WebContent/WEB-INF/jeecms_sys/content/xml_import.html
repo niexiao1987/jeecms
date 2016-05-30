@@ -5,6 +5,8 @@
 <title></title>
 <#include "/jeecms_sys/head.html"/>
 <script type="text/javascript">
+
+
 	function uploaXml(){
 		var mf = $("#xmlFile");
 		//妫�煡鏄惁閫夋嫨浜嗘枃浠�
@@ -27,5 +29,13 @@
 			<input type="button" value="<@s.m "imageupload.upload"/>" onclick="uploaXml();" class="upload-button"/>
 		</form>
 	</div>
+	
+	<#if error??>
+		<span style="color:red; margin-left: 50px;"><@s.m '${error}'/></span>
+	</#if>
+	
+	<#if success??>
+		<span style="color:red; margin-left: 50px;"><@s.m '${success}'/></span>
+	</#if>
 </body>
 </html>

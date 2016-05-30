@@ -13,7 +13,8 @@
 	    		<div class="main_right_content_bar">
 	    			<div class="notification_icon main_right_content_bar_icon"><span>通知公告</span></div>
 	    		</div>
-	    		<div class="main_right_content_list content_list content_list_notif">
+	    		<div class="main_right_content_list content_list content_list_notif" id="content_list_notif">
+	    			<div id="marqueeBox1">
 	    				<ul>
                             [@cms_content_list count='6' orderBy='4' titLen='24' channelId='4422'  channelOption='1']
                             [#list tag_list as a]
@@ -25,6 +26,9 @@
                             [/#list]
                             [/@cms_content_list]
                         </ul>	
+                     </div>
+                     <div id="marqueeBox2">
+                     </div>
 	    		</div>
 	    	</div>
 	    	
@@ -181,3 +185,21 @@
 	    		</div>
 	    	</div>
     </div>
+    
+    <script type="text/javascript">
+    var speed=50; //数字越大速度越慢
+    var tab=document.getElementById("content_list_notif");
+    var tab1=document.getElementById("marqueeBox1");
+    var tab2=document.getElementById("marqueeBox2");
+    tab2.innerHTML=tab1.innerHTML; //克隆demo1为demo2
+    function Marquee(){
+    if(tab2.offsetTop-tab.scrollTop<=0)//当滚动至demo1与demo2交界时
+    tab.scrollTop-=tab1.offsetHeight //demo跳到最顶端
+    else{
+    tab.scrollTop++
+    }
+    }
+    var MyMar=setInterval(Marquee,speed);
+    tab.onmouseover=function() {clearInterval(MyMar)};//鼠标移上时清除定时器达到滚动停止的目的
+    tab.onmouseout=function() {MyMar=setInterval(Marquee,speed)};//鼠标移开时重设定时器
+    </script>

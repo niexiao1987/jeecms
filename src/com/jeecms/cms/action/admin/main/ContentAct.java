@@ -205,7 +205,6 @@ public class ContentAct {
 			Integer queryDepartmentId, Boolean queryTopLevel,
 			Boolean queryRecommend, Integer queryOrderBy, Integer cid,
 			Integer pageNo, HttpServletRequest request, ModelMap model) {
-		long time = System.currentTimeMillis();
 		String queryTitle = RequestUtils.getQueryParam(request, "queryTitle");
 		queryTitle = StringUtils.trim(queryTitle);
 
@@ -284,6 +283,33 @@ public class ContentAct {
 			Channel c = channelMng.findById(cid);
 			models = c.getModels(models);
 		}
+		if("yes".equals(request.getParameter("addexportlist"))){
+			model.addAttribute("addexportlist", "yes");
+		}
+		//导出列表
+		String contentIds = request.getParameter("exportContentIds");
+		model.addAttribute("exportContentIds", contentIds);
+		if(contentIds!=null&&!"".equals(contentIds)){
+			
+			String[] contentIdsArr = contentIds.split(",");
+			WebErrors errors = validateExit(contentIdsArr, request);
+			if (errors.hasErrors()) {
+				return errors.showErrorPage(model);
+			}
+			// 用set去重
+			Set<String> idsSet = new HashSet<String>();
+			for (int i = 0; i < contentIdsArr.length; i++) {
+				idsSet.add(contentIdsArr[i]);
+			}
+			List<Content> exportContents = new ArrayList<Content>();
+			Iterator<String> it = idsSet.iterator();
+			while(it.hasNext()){
+				exportContents.add(manager.findById(Integer.parseInt(it.next())));
+			}
+			model.addAttribute("exportContentList", exportContents);
+		}
+		
+		model.addAttribute("isSuper", user.isSuper());
 		model.addAttribute("pagination", p);
 		model.addAttribute("cid", cid);
 		model.addAttribute("typeList", typeList);
@@ -295,7 +321,6 @@ public class ContentAct {
 				queryApprover, queryInputUsername, queryStatus, queryTypeId,
 				queryDepartmentId, queryTopLevel, queryRecommend, queryOrderBy,
 				pageNo);
-		time = System.currentTimeMillis() - time;
 		return "content/list";
 	}
 
@@ -1325,6 +1350,10 @@ public class ContentAct {
 		String origName = xmlFile.getOriginalFilename();
 		String ext = FilenameUtils.getExtension(origName).toLowerCase(
 				Locale.ENGLISH);
+		if(!"zip".equals(ext)){
+			model.addAttribute("error", "upzip.filemodeerror");
+			return "content/xml_import";
+		}
 		WebErrors errors = validateUpload(xmlFile, request);
 		if (errors.hasErrors()) {
 			model.addAttribute("error", errors.getErrors().get(0));
@@ -1371,6 +1400,7 @@ public class ContentAct {
 			model.addAttribute("error", e.getMessage());
 			log.error("upload file error!", e);
 		}
+		model.addAttribute("success", "import.success");
 		return "content/xml_import";
 	}
 	//创建xml文件并返回要压缩的文件夹名称

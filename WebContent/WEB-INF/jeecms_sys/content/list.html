@@ -293,6 +293,13 @@ function optPriority() {
 	f.action="o_priority.do";
 	f.submit();
 }
+//从导出列表删除
+function exportListDel(contentId){
+	if(contentId!=null){
+		CookieUtil.del("contentIds",contentId);
+		alert(CookieUtil.get("contentIds"));
+	}
+}
 //添加到xml导出cookie
 function optAddXmlList(){
 	if(Pn.checkedCount('ids')<=0) {
@@ -308,7 +315,9 @@ function optAddXmlList(){
 		CookieUtil.set("contentIds",cookieName+","+contentIdStr);
 	}
 	alert(CookieUtil.get("contentIds"));
-	
+	$("input[name='addexportlist']").val("yes");
+	$("input[name='exportContentIds']").val(CookieUtil.get("contentIds"));
+	$("#contentListForm").submit();
 }
 //导出xml
 function optExportXml(){
@@ -329,6 +338,18 @@ function optClearXmlList(){
 	alert("操作成功！");
 }
 var CookieUtil = {
+		del:function(name,value){
+			var cookieValue = CookieUtil.get(name);
+			var index = cookieValue.indexOf(value);
+			if(index!=-1){
+				console.log(cookieValue);
+				console.log(cookieValue.substring(0,index)+"------"+cookieValue.substring(index+value.length+1));
+				var delValue = cookieValue.substring(0,index)+cookieValue.substring(index+value.length+1);
+				console.log(delValue);
+				CookieUtil.unset(name);
+				CookieUtil.set(name,delValue);
+			}
+		},
 		get:function(name){
 			var cookieName = encodeURIComponent(name) + "=",
 			cookieStart = document.cookie.indexOf(cookieName),
@@ -399,11 +420,13 @@ var CookieUtil = {
 
 
 <div class="body-box">
-<form action="v_list.do" method="post">
+<form id="contentListForm" action="v_list.do" method="post">
+<input type="hidden" name="exportContentIds"/>
+
 <div style="padding-top:5px; padding-bottom:5px; text-indent:10px; border-bottom:1px solid #fff; border-top:1px solid #fff;">
 <@s.m "content.title"/>: <input type="text" name="queryTitle" value="${queryTitle!}" style="width:100px"/>
 <@s.m "content.user"/>: <input type="text" name="queryInputUsername" value="${queryInputUsername!}" style="width:60px"/>
-
+<input type="hidden" name="addexportlist" value="${addexportlist!}"/>
 <!-- 加入作者 编辑 审批 查询条件 by 聂箫 20160114 -->
 <@s.m "content.author"/>: <input type="text" name="queryAuthor" value="${queryAuthor!}" style="width:60px"/>
 <@s.m "content.editor"/>: <input type="text" name="queryEditor" value="${queryEditor!}" style="width:60px"/>
@@ -430,6 +453,8 @@ var CookieUtil = {
 </div>
 </form>
 <form id="tableForm" method="post">
+<input type="hidden" name="exportContentIds" value="${exportContentIds!}"/>
+<input type="hidden" name="addexportlist" value="${addexportlist!}"/>
 <input type="hidden" name="pageNo" value="${pageNo!}"/>
 <input type="hidden" name="cid" value="${cid!}"/>
 <#list .data_model?keys as pkey>
@@ -581,8 +606,9 @@ var CookieUtil = {
 	<@cms_perm url="/content/o_send_topic.do">
         <input style="background:url(${base}/res/common/img/theme/tuisongzhizhuanti.gif); border:0; width:90px; color:#666666; height:20px; float:left; border-right:1px solid #ffffff; cursor:pointer;" type="button" id="sendtotopic" value="<@s.m "content.opt.sendtotopic"/>" class="content_sendtopic"/>
     </@cms_perm>
+    <#if isSuper??&&isSuper==true>
     <@cms_perm url="/content/export_xml.do">
-        <input onclick="optAddXmlList();" style="background:url(${base}/res/common/img/theme/tuisongzhizhuanti.gif); border:0; width:90px; color:#666666; height:20px; float:left; border-right:1px solid #ffffff; cursor:pointer;" type="button" id="exportxml" value="<@s.m "content.opt.addxmlexport"/>" class="content_addexportxml"/>
+        <input onclick="optAddXmlList();" style="background:url(${base}/res/common/img/theme/tuisongzhizhuanti.gif); border:0; width:95px; color:#666666; height:20px; float:left; border-right:1px solid #ffffff; cursor:pointer;" type="button" id="exportxml" value="<@s.m "content.opt.addxmlexport"/>" class="content_addexportxml"/>
     </@cms_perm>
     <@cms_perm url="/content/export_xml.do">
         <input onclick="optExportXml();" style="background:url(${base}/res/common/img/theme/tuisongzhizhuanti.gif); border:0; width:90px; color:#666666; height:20px; float:left; border-right:1px solid #ffffff; cursor:pointer;" type="button" id="exportxml" value="<@s.m "content.opt.exportxml"/>" class="content_exportxml"/>
@@ -590,6 +616,7 @@ var CookieUtil = {
     <@cms_perm url="/content/export_xml.do">
         <input onclick="optClearXmlList();" style="background:url(${base}/res/common/img/theme/tuisongzhizhuanti.gif); border:0; width:90px; color:#666666; height:20px; float:left; border-right:1px solid #ffffff; cursor:pointer;" type="button" id="exportxml" value="<@s.m "content.opt.clearxmlexport"/>" class="content_exportxml"/>
     </@cms_perm>
+    </#if>
 </div>
 </form>
 </div>
@@ -623,5 +650,32 @@ var CookieUtil = {
     <ul id="topics"></ul>
 </div>
 <#include "/common/alert_message.html"/>
+<#if addexportlist??&&addexportlist=='yes'>
+<div style="width:360px;height:600px;position: absolute;right: 20px;top: 60px; background: white;padding:20px; overflow: auto;">
+<#if exportContentList?size gt 0>
+<table>
+ 		<thead>
+ 			<tr>
+ 				<td colspan="2" align="center">导出列表</td>
+ 			</tr>
+ 		</thead>
+ 		<tbody>
+ 			<tr>
+ 				<td>ID</td> 
+ 				<td>标题</td>
+<!--  				<td>操作</td> -->
+ 			</tr>
+ <#list exportContentList as c>	
+ 			<tr>
+ 				<td>${c.id}</td> 
+ 				<td>${c.title}</td>
+<!--  				<td><input type="button" value="<@s.m "global.delete"/>" onclick="exportListDel(${c.id});" class="check"/ style="float:left; border-right:1px solid #ffffff;"></td> -->
+ 			</tr>
+ </#list>
+ </tbody>
+</table>
+</#if> 
+</div>
+</#if>
 </body>
 </html>
