@@ -589,10 +589,10 @@ public class ContentAct {
 			ext.setTitleImg(HtmlParseUtil.getFirstImg(txt.getTxt()));
 		}
 		// 获取内容中图片的path和width
-		// Map<String,Integer> imgMap =
-		// HtmlParseUtil.getAllImgAndWidth(txt.getTxt());
-		// //默认修改图片宽度为设置宽度，默认为600px
-		// txt.setTxt(createThumImage(imgMap,request,txt.getTxt(),"save"));
+		 Map<String,Integer> imgMap =
+		 HtmlParseUtil.getAllImgAndWidth(txt.getTxt());
+		 //默认修改图片宽度为设置宽度，默认为600px
+		 txt.setTxt(createThumImage(imgMap,request,txt.getTxt(),"save"));
 
 		// 加上模板前缀
 		CmsSite site = CmsUtils.getSite(request);
@@ -679,10 +679,10 @@ public class ContentAct {
 			ext.setTitleImg(HtmlParseUtil.getFirstImg(txt.getTxt()));
 		}
 		// 获取内容中图片的path和width
-		// Map<String,Integer> imgMap =
-		// HtmlParseUtil.getAllImgAndWidth(txt.getTxt());
-		// //默认修改图片宽度为设置宽度，默认为600px
-		// txt.setTxt(createThumImage(imgMap,request,txt.getTxt(),"update"));
+		Map<String,Integer> imgMap =
+		HtmlParseUtil.getAllImgAndWidth(txt.getTxt());
+		//默认修改图片宽度为设置宽度，默认为600px
+		txt.setTxt(createThumImage(imgMap,request,txt.getTxt(),"update"));
 		bean = manager.update(bean, ext, txt, tagArr, channelIds, topicIds,
 				viewGroupIds, attachmentPaths, attachmentNames,
 				attachmentFilenames, picPaths, picDescs, attr, channelId,
@@ -1291,7 +1291,7 @@ public class ContentAct {
 				File titleImgFile = new File(realPath);
 				if(titleImgFile.exists()){
 					String titleImgFolder = (realPath.substring(realPath.indexOf(XMLUtil.ATTACHMENTPATH)+XMLUtil.ATTACHMENTPATH.length()+1)).substring(0,6);
-					FileUtil.copyImg(titleImgFile,zipFolderPath,titleImgFolder);
+					FileUtil.fileChannelCopy(titleImgFile,zipFolderPath,titleImgFolder);
 				}
 			}
 			List<String> txtImgList = HtmlParseUtil.getAllImg(content.getTxt());
@@ -1301,7 +1301,7 @@ public class ContentAct {
 					File imgFile = new File(realPath);
 					if(imgFile.exists()){
 						String titleImgFolder = realPath.substring(realPath.indexOf(XMLUtil.ATTACHMENTPATH)+XMLUtil.ATTACHMENTPATH.length()+1).substring(0,6);
-						FileUtil.copyImg(imgFile,zipFolderPath,titleImgFolder);
+						FileUtil.fileChannelCopy(imgFile,zipFolderPath,titleImgFolder);
 					}
 				}
 			}
@@ -1312,7 +1312,7 @@ public class ContentAct {
 					File attachmentFile = new File(realPath);
 					if(attachmentFile.exists()){
 						String attachmentFolder = realPath.substring(realPath.indexOf(XMLUtil.ATTACHMENTPATH)+XMLUtil.ATTACHMENTPATH.length()+1).substring(0,6);
-						FileUtil.copyImg(attachmentFile,zipFolderPath,attachmentFolder);
+						FileUtil.fileChannelCopy(attachmentFile,zipFolderPath,attachmentFolder);
 					}
 				}
 			}
@@ -1322,7 +1322,7 @@ public class ContentAct {
 				File mediaImgFile = new File(realPath);
 				if(mediaImgFile.exists()){
 					String mediaImgFolder = (realPath.substring(realPath.indexOf(XMLUtil.ATTACHMENTPATH)+XMLUtil.ATTACHMENTPATH.length()+1)).substring(0,6);
-					FileUtil.copyImg(mediaImgFile,zipFolderPath,mediaImgFolder);
+					FileUtil.fileChannelCopy(mediaImgFile,zipFolderPath,mediaImgFolder);
 				}
 			}
 		}
