@@ -1269,9 +1269,7 @@ public class ContentAct {
 			FileUtil.deleteFile(exportFile);
 		}
 		String zipName = folderPath+".zip";
-		response.sendRedirect(configMng.get().getContextPath()+XMLUtil.EXPORTPATH+File.separator+zipName);
-		//ZipUtil.downloadZipFile(response, exportPath+".zip",zipName);
-		
+		ZipUtil.downloadZipFile(response, realPathResolver.get(XMLUtil.EXPORTPATH+File.separator+zipName),zipName);
 		return null;
 	}
 	/**
