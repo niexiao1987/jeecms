@@ -39,7 +39,7 @@ public class ZipUtil {
 			zipOut.putNextEntry(new ZipEntry(file.getName()));
 			byte[] buffer = new byte[1024*10];
 			int length;
-			while((length=input.read(buffer))>0){
+			while((length=input.read(buffer))!=-1){
 				zipOut.write(buffer, 0, length);
 			}
 			input.close();
