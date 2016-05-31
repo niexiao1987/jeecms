@@ -33,13 +33,6 @@ $(function() {
 <div class="left">
 	<#include "/jeecms_sys/date.html"/>
      <ul class="w-lful">
-     		 <@cms_perm url="/content/toImportXml.do">
-            <div id="div_0">导出xml</div>
-            <div style="margin:0; padding:0;" >
-	         <div class="leftmenuBG"><a href="../content/toImportXml.do" target="rightFrame"><@s.m "statistic.function.importXml"/></a></div>
-	     	</div>
-        	 </@cms_perm>
-     
         	<div id="div_1">排名统计</div>
             <div style="margin:0; padding:0;" >
                 <@cms_perm url="/statistic/rank/v_list.do">
@@ -108,14 +101,22 @@ $(function() {
                 </@cms_perm>
                 </#list>
             </div>
-            
+            <@cms_perm url="content:import">
+            <div id="div_1">
+	            <div style="margin:0; padding:0;" >
+	            	<a href="../content/toImportXml.do" target="rightFrame"><@s.m "statistic.function.importXml"/></a>
+	            </div>
+            </div>
+        	 </@cms_perm>
+        	 <!--  
              <@cms_perm url="/statistic/member/v_list.do">
             <div  id="div_6">
 	         <li><a href="../statistic/member/v_list.do" target="rightFrame"><@s.m "statistic.function.member"/></a></li>
 	     	</div>
         	 </@cms_perm>
+        	 -->
         	 
-        	
+        	 
      </ul>
 </div>
 </body>

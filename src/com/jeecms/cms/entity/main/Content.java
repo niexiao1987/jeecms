@@ -28,6 +28,7 @@ import com.jeecms.core.entity.CmsGroup;
 import com.jeecms.core.entity.CmsSite;
 import com.jeecms.core.entity.CmsUser;
 import com.jeecms.core.web.ContentInterface;
+import com.jeecms.extend.entity.CmsDepartment;
 
 public class Content extends BaseContent implements ContentInterface {
 	private static final long serialVersionUID = 1L;
