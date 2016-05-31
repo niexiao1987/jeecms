@@ -88,6 +88,7 @@ import com.jeecms.core.entity.CmsGroup;
 import com.jeecms.core.entity.CmsSite;
 import com.jeecms.core.entity.CmsUser;
 import com.jeecms.core.entity.Ftp;
+import com.jeecms.core.manager.CmsConfigMng;
 import com.jeecms.core.manager.CmsGroupMng;
 import com.jeecms.core.manager.CmsLogMng;
 import com.jeecms.core.manager.CmsSiteMng;
@@ -1268,7 +1269,7 @@ public class ContentAct {
 			FileUtil.deleteFile(exportFile);
 		}
 		String zipName = folderPath+".zip";
-		response.sendRedirect(request.getContextPath()+XMLUtil.EXPORTPATH+File.separator+zipName);
+		response.sendRedirect(configMng.get().getContextPath()+XMLUtil.EXPORTPATH+File.separator+zipName);
 		//ZipUtil.downloadZipFile(response, exportPath+".zip",zipName);
 		
 		return null;
@@ -1833,4 +1834,6 @@ public class ContentAct {
 	private WeiXinSvc weiXinSvc;
 	@Autowired
 	private ContentCheckRecordMng contentCheckRecordMng;
+	@Autowired
+	private CmsConfigMng configMng;
 }
