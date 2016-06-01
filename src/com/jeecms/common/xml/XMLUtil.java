@@ -356,7 +356,7 @@ public class XMLUtil {
 						attachmentNames = attachmentNamesStr.split(",");
 					}
 					
-					if("attachmentFilenames".equals(baseContent.getName())){
+					if("attachmentFileNames".equals(baseContent.getName())){
 						Iterator<Element> contentFieldList =  baseContent.elementIterator();
 						while(contentFieldList.hasNext()){
 							Element fieldName = contentFieldList.next();
