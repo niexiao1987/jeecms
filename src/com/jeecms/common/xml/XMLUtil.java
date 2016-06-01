@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -181,11 +182,11 @@ public class XMLUtil {
 	}
 	
 	
-	public static String xmlToContent(String xmlFileUrl,CmsUserMng userMng,CmsModelMng modelMng,CmsSiteMng siteMng,CmsDepartmentMng cmsDepartmentMng,ContentMng manager){
+	public static String xmlToContent(String xmlFileUrl,CmsUserMng userMng,CmsModelMng modelMng,CmsSiteMng siteMng,CmsDepartmentMng cmsDepartmentMng,ContentMng manager) throws UnsupportedEncodingException{
 		SAXReader read = new SAXReader();
 		
 		try {
-			Document doc = read.read(xmlFileUrl);
+			Document doc = read.read(new String(xmlFileUrl.getBytes("iso8859-1"), "UTF-8"));
 			Element root = doc.getRootElement();
 			Iterator<Element> contentXmlList = root.elementIterator();
 			while(contentXmlList.hasNext()){
@@ -342,6 +343,9 @@ public class XMLUtil {
 						}
 					}
 					if(isNotNull(attachmentPathsStr)){
+						if(attachmentPathsStr.startsWith(",")){
+							attachmentPathsStr = attachmentPathsStr.substring(1);
+						}
 						attachmentPaths = attachmentPathsStr.split(",");
 					}
 					
@@ -353,10 +357,13 @@ public class XMLUtil {
 						}
 					}
 					if(isNotNull(attachmentNamesStr)){
+						if(attachmentNamesStr.startsWith(",")){
+							attachmentNamesStr = attachmentNamesStr.substring(1);
+						}
 						attachmentNames = attachmentNamesStr.split(",");
 					}
 					
-					if("attachmentFilenames".equals(baseContent.getName())){
+					if("attachmentFileNames".equals(baseContent.getName())){
 						Iterator<Element> contentFieldList =  baseContent.elementIterator();
 						while(contentFieldList.hasNext()){
 							Element fieldName = contentFieldList.next();
@@ -364,6 +371,9 @@ public class XMLUtil {
 						}
 					}
 					if(isNotNull(attachmentFilenamesStr)){
+						if(attachmentFilenamesStr.startsWith(",")){
+							attachmentFilenamesStr = attachmentFilenamesStr.substring(1);
+						}
 						attachmentFilenames = attachmentFilenamesStr.split(",");
 					}
 					// 保存图片集
