@@ -410,7 +410,7 @@ public class XMLUtil {
 		}
 		return "";
 	}
-	//String 转 Integer[]
+	//String 转 Integer[]  
 	public static Integer[] StringToIntArr(String str){
 		String[] strArr = str.split(",");
 		Integer[] intArr = new Integer[strArr.length];
