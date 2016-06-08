@@ -1,9 +1,6 @@
 package com.jeecms.common.xml;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Iterator;
@@ -14,26 +11,16 @@ import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 
 import com.jeecms.cms.entity.main.Content;
 import com.jeecms.cms.entity.main.ContentExt;
 import com.jeecms.cms.entity.main.ContentTxt;
-import com.jeecms.cms.manager.assist.CmsFileMng;
-import com.jeecms.cms.manager.main.ChannelMng;
-import com.jeecms.cms.manager.main.CmsModelItemMng;
 import com.jeecms.cms.manager.main.CmsModelMng;
-import com.jeecms.cms.manager.main.CmsTopicMng;
 import com.jeecms.cms.manager.main.ContentMng;
-import com.jeecms.cms.manager.main.ContentTypeMng;
 import com.jeecms.core.entity.CmsUser;
-import com.jeecms.core.manager.CmsGroupMng;
 import com.jeecms.core.manager.CmsSiteMng;
 import com.jeecms.core.manager.CmsUserMng;
 import com.jeecms.extend.manager.CmsDepartmentMng;
-import com.jeecms.extend.manager.ContentCheckRecordMng;
 
 public class XMLUtil {
 	public static final String EXPORTPATH =File.separator+"u"+File.separator+"cms"+File.separator+"www"+File.separator+"export";
