@@ -36,6 +36,18 @@ img{ border:0; -ms-interpolation-mode:bicubic;}
 
 .searchMenu{ border:0; float:left; cursor:pointer; background-image:url(../img/index/searchMenu.jpg); width:22px; height:24px;}
 
+/* scrolltext */
+.scrolltext{padding:5px 0px 0 0px;width:220px;height:220px;overflow:hidden;margin:20px auto 0 auto;}
+.scrolltext ol li{background: url("../img/index/li_dot.png") no-repeat 8px center; line-height: 28px;border-bottom: 1px dotted #adadad;}
+.scrolltext ol li:after{display: block;content:"";clear: both;}
+.scrolltext ol li a{padding-left:20px;color:#000;float:left;}
+.scrolltext ol li a:hover{color:red;}
+.scrolltext ol li span{float: right;font-size: 13px;color: #3d3d3d;}
+.scrolltext .part{width:100%;padding-top:20px;}
+.scrolltext .part span{margin-left:26px;cursor:pointer;}
+#breakNews{padding:0 0 0px 2px;}
+#breakNews .list6{height:150px;overflow:hidden;width:100%;}
+
 /*导航栏*/
 #menu{ background-image:url(../img/index/daohanglanBg.png); height:48px; width:100%; font-size: 15px;}
 #topmenu{width:1200px; margin:0 auto; text-align:center;}
@@ -88,14 +100,13 @@ img{ border:0; -ms-interpolation-mode:bicubic;}
 .imgAndword_bar{width: 940px;height: 35px;background-image:url(../img/index/img_word_bg.png); background-repeat: repeat-x;clear:both;}
 .imgAndword_bar_icon{width: 100px;height: 24px;background:url(../img/index/img_word_icon.png) no-repeat 0px 10px; margin-left: 10px; }
 .imgAndword_bar_icon span{padding-left: 20px; padding-top: 10px;line-height: 34px;}
-.imgAndword_list{width: 940px; margin-bottom: 10px;}
-.imgAndword_list_box li{width: 140px;height: 110px;margin-left: 1.5%;float: left;overflow: hidden;position: relative;margin-top: 10px;display: inline;}
+.imgAndword_list{width: 940px; margin-bottom: 10px;overflow: hidden;position: relative;}
+.imgAndword_list_box{width: 940px;}
+.imgAndword_list_box li{width: 140px;height: 110px;float: left;overflow: hidden;position: relative;margin-top: 10px;display: inline;}
+.imgAndword_list_box li img{margin-left: 20px;}
 .main_right_content_bar{width:240px; height: 35px;background-image:url(../img/index/img_word_bg.png); background-repeat: repeat-x;}
 .main_right_content_list{width: 240px; margin: 10px 0;}
-.content_list_notif{overflow:hidden;
-border: 1px;
-height: 100px;
-}
+.content_list_notif{overflow:hidden;border: 1px;height: 100px;}
 .notification_icon{background: url(../img/index/notification_icon.png) no-repeat 10px 10px;}
 .subject_icon{background: url(../img/index/subject_icon.png) no-repeat 10px 10px;}
 .rankview_icon{background: url(../img/index/rankview_icon.png) no-repeat 10px 10px;}

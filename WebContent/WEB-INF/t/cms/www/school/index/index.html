@@ -16,6 +16,8 @@
 <link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
 <link href="${resSys}/jqueryUI/jquery.ui.css" rel="stylesheet" type="text/css"/>
 <script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/ScrollText.js" type="text/javascript"></script>
+<script src="${resSys}/jquery.imgscroll.min.js" type="text/javascript"></script>
 <script src="${resSys}/jqueryUI/jquery-ui.js" type="text/javascript"></script>
 <script src="${resSys}/front.js" type="text/javascript"></script>
 <script type="text/javascript" src="${resSys}/owl.carousel.js"></script>
@@ -72,6 +74,15 @@ $(".rank_content").eq(0).show();
 	if(liSize==0){
 		$(".content_list_notif").width(20).height(100);
 	}
+	
+	imgScroll.rolling({
+		name:'imgAndword_list',
+		width:'140px',
+		height:'110px',
+		direction:'left',
+		speed:10,
+		addcss:true
+	});
 	
 });
 </script>
@@ -195,18 +206,13 @@ $(".rank_content").eq(0).show();
 	    		<div style="float: right;height: 35px;line-height: 35px;padding-right: 10px;">[@cms_channel id='42']<a href="${tag_bean.url}">更多>></a>[/@cms_channel]</div>
 	    		</div>
 	    	<div class="imgAndword_list">
-	    			<ul class="box imgAndword_list_box">
-                        [@cms_content_list typeId='1,2,3' count='6' titLen='20' image='1' channelOption='1' channelId='11,12,13,69,14,40,41,42' orderBy='4' ]
+	    			<ul class="imgAndword_list_box">
+                        [@cms_content_list typeId='1,2,3' count='10' titLen='20' image='1' channelOption='1' channelId='11,12,13,69,14,40,41,42' orderBy='4' ]
                         [#list tag_list as a]
                         <li>
-                        <a href="${a.url}" title="${a.title}" target="_blank">
-                        	<div class="toll_img">
-                        		<img src="${a.titleImg!site.defImg}" alt="${a.title}" width="140" height="110" />
-                        	</div>
-                            <div class="toll_info">
-                            <p>[@text_cut s=a.stit len=titLen append=append/]</p>
-                            </div>
-                        </a>
+                       		<a href="${a.url}" title="${a.title}" target="_blank">
+                        	<img src="${a.titleImg!site.defImg}" alt="${a.title}" width="140" height="110" />
+                       		</a>
                         </li>
                         [/#list]
                         [/@cms_content_list]

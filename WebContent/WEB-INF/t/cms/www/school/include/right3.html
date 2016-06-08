@@ -1,3 +1,5 @@
+
+
 [#assign newdays=2]
   <div class="main_right">
 <!-- 	    	<div class="main_right_content"> -->
@@ -8,29 +10,23 @@
 
 <!-- 	    		</div> -->
 <!-- 	    	</div> -->
-	    
-	    	<div class="main_right_content">
-	    		<div class="main_right_content_bar">
-	    			<div class="notification_icon main_right_content_bar_icon"><span>通知公告</span></div>
-	    		</div>
-	    		<div class="main_right_content_list content_list content_list_notif" id="content_list_notif">
-	    			<div id="marqueeBox1">
-	    				<ul>
-                            [@cms_content_list count='6' orderBy='4' titLen='24' channelId='4422'  channelOption='1']
-                            [#list tag_list as a]
-                            [#if a.id==448]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank" style="color:#e66100;">[@text_cut s=a.title len=23 /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]</li>
-                            [#else]
-                            <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /]</a>[#if a.haveCheckedTime lt newdays]&nbsp;&nbsp;<img class="news_new"></img>[/#if]</li>
-                            [/#if]
-                            [/#list]
-                            [/@cms_content_list]
-                        </ul>	
-                     </div>
-                     <div id="marqueeBox2">
-                     </div>
-	    		</div>
-	    	</div>
+	    <div class="main_right_content_bar">
+	    	<div class="notification_icon main_right_content_bar_icon"><span>通知公告</span></div>
+	    </div>
+	    <div class="scrolltext" >
+			<div id="breakNews">
+				<ol id="breakNewsList" class="list6">
+					[@cms_content_list count='10' orderBy='4' titLen='24' channelId='4422'  channelOption='1']
+                       [#list tag_list as a]
+                          <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen /][#if a.title??&&a.title?length gt 50]...[/#if] [#if a.haveCheckedTime lt newdays]<div class="news_new${a.haveCheckedTime}"></div>[/#if]</a></li>
+                       [/#list]
+                    [/@cms_content_list]
+				</ol>
+			</div>
+			<div class="part">
+				<span id="pre2"><img src="${resSys}/h1-img03.gif" /></span><span id="next2"><img src="${resSys}/h1-img02.gif" /></span>
+			</div>
+		</div>
 	    	
 	    	<div class="main_right_content">
 	    		<div class="main_right_content_bar">
@@ -185,21 +181,7 @@
 	    		</div>
 	    	</div>
     </div>
-    
-    <script type="text/javascript">
-    var speed=50; //数字越大速度越慢
-    var tab=document.getElementById("content_list_notif");
-    var tab1=document.getElementById("marqueeBox1");
-    var tab2=document.getElementById("marqueeBox2");
-    tab2.innerHTML=tab1.innerHTML; //克隆demo1为demo2
-    function Marquee(){
-    if(tab2.offsetTop-tab.scrollTop<=0)//当滚动至demo1与demo2交界时
-    tab.scrollTop-=tab1.offsetHeight //demo跳到最顶端
-    else{
-    tab.scrollTop++
-    }
-    }
-    var MyMar=setInterval(Marquee,speed);
-    tab.onmouseover=function() {clearInterval(MyMar)};//鼠标移上时清除定时器达到滚动停止的目的
-    tab.onmouseout=function() {MyMar=setInterval(Marquee,speed)};//鼠标移开时重设定时器
-    </script>
+ <script type="text/javascript">
+var scroll2 = new ScrollText("breakNewsList","pre2","next2",true,50,true);
+scroll2.LineHeight = 30;
+</script> 
