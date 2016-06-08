@@ -1238,7 +1238,7 @@ public class ContentAct {
 		return "content/ranklist";
 	}
 
-	@RequiresPermissions("content:export_xml")
+	@RequiresPermissions("content:export")
 	@RequestMapping(value = "/content/export_xml.do")
 	public String contentXmlExport(String queryStatus, Integer queryTypeId,
 			Integer queryDepartmentId, Boolean queryTopLevel,
@@ -1331,7 +1331,7 @@ public class ContentAct {
 
 	}
 
-	@RequiresPermissions("content:toImportXml")
+	@RequiresPermissions("content:import")
 	@RequestMapping(value = "/content/toImportXml.do")
 	public String toImportXml(HttpServletRequest request,HttpServletResponse response,
 			ModelMap model) throws IOException{
@@ -1339,7 +1339,7 @@ public class ContentAct {
 		return "content/xml_import";
 	}
 	
-	@RequiresPermissions("content:import_xml")
+	@RequiresPermissions("content:import")
 	@RequestMapping(value = "/content/import_xml.do")
 	public String contentXmlImport(@RequestParam(value = "xmlFile", required = false) 
 			MultipartFile xmlFile,String filename,HttpServletRequest request,HttpServletResponse response,

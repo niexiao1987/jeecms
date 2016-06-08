@@ -621,17 +621,11 @@ var CookieUtil = {
 	<@cms_perm url="/content/o_send_topic.do">
         <input style="background:url(${base}/res/common/img/theme/tuisongzhizhuanti.gif); border:0; width:90px; color:#666666; height:20px; float:left; border-right:1px solid #ffffff; cursor:pointer;" type="button" id="sendtotopic" value="<@s.m "content.opt.sendtotopic"/>" class="content_sendtopic"/>
     </@cms_perm>
-    <#if isSuper??&&isSuper==true>
-    <@cms_perm url="/content/export_xml.do">
+    <@cms_perm url="content:export">
         <input onclick="optAddXmlList();" style="background:url(${base}/res/common/img/theme/tuisongzhizhuanti.gif); border:0; width:95px; color:#666666; height:20px; float:left; border-right:1px solid #ffffff; cursor:pointer;" type="button" id="exportxml" value="<@s.m "content.opt.addxmlexport"/>" class="content_addexportxml"/>
-    </@cms_perm>
-    <@cms_perm url="/content/export_xml.do">
         <input onclick="optExportXml();" style="background:url(${base}/res/common/img/theme/tuisongzhizhuanti.gif); border:0; width:90px; color:#666666; height:20px; float:left; border-right:1px solid #ffffff; cursor:pointer;" type="button" id="exportxml" value="<@s.m "content.opt.exportxml"/>" class="content_exportxml"/>
-    </@cms_perm>
-    <@cms_perm url="/content/export_xml.do">
         <input onclick="optClearXmlList();" style="background:url(${base}/res/common/img/theme/tuisongzhizhuanti.gif); border:0; width:90px; color:#666666; height:20px; float:left; border-right:1px solid #ffffff; cursor:pointer;" type="button" id="exportxml" value="<@s.m "content.opt.clearxmlexport"/>" class="content_exportxml"/>
     </@cms_perm>
-    </#if>
 </div>
 </form>
 </div>
